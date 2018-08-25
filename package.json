@@ -1,0 +1,46 @@
+{
+  "name": "standard-commit",
+  "version": "1.0.0",
+  "description": "conventional commit utils",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node src/cli.ts",
+    "build": "run-s build:*",
+    "build:clean": "rimraf dist",
+    "build:lib": "tsc -p tsconfig.json",
+    "test": "jest --runInBand",
+    "tdd": "jest --runInBand --watch",
+    "prettier": "prettier --write src/**/*",
+    "lint": "cross-env NODE_ENV=production tslint src/**/*.ts -t verbose",
+    "commit-lint": "commitlint",
+    "release": "standard-version"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@commitlint/cli": "^7.0.0",
+    "@commitlint/config-conventional": "^7.0.1",
+    "inquire": "^0.4.8",
+    "npm-run-all": "^4.1.3",
+    "standard-version": "^4.4.0"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ]
+  },
+  "gitHooks": {
+    "commit-msg": "commitlint -E GIT_PARAMS"
+  },
+  "dependencies": {
+    "@types/jest": "^23.3.1",
+    "jest": "^23.5.0",
+    "prettier": "^1.14.2",
+    "ts-jest": "^23.1.4",
+    "ts-node-dev": "^1.0.0-pre.26",
+    "tslint": "^5.11.0",
+    "tslint-config-prettier": "^1.15.0",
+    "tslint-plugin-prettier": "^1.3.0",
+    "typescript": "^3.0.1"
+  }
+}
