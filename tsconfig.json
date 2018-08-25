@@ -11,5 +11,5 @@
     "inlineSourceMap": true,
     "resolveJsonModule": true
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "cli.js"]
 }
