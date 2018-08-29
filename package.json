@@ -1,6 +1,6 @@
 {
   "name": "standard-commit",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "description": "conventional commit helper",
   "author": "Sebastien Tasson <sebastien.tasson@gmail.com>",
   "license": "MIT",
