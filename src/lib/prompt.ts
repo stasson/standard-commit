@@ -119,3 +119,16 @@ export async function promptCommitMessage(message: CommitMessage = {}) {
 
   return message
 }
+
+export async function promptConfirmCommit() {
+  const answer = (await prompt([
+    {
+      type: 'confirm',
+      name: 'commit',
+      message: 'commit ?',
+      default: true
+    }
+  ])) as { commit: boolean }
+
+  return answer.commit
+}
