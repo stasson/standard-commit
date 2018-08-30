@@ -1,4 +1,4 @@
-import { CommitMessage } from './commit'
+import { CommitMessage } from './commitmsg'
 
 const headerPattern = /^(feat|fix)(\((\w+)\))?:\s(.*)$/
 

@@ -1,8 +1,8 @@
 import * as inquirer from 'inquirer'
 import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
-import { CommitMessage, CommitTypes } from './commit'
-import { formatHeader } from './format'
+import { CommitMessage, CommitTypes } from './commitmsg'
+import { formatHeader } from './formatmsg'
 
 export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)

@@ -1,7 +1,7 @@
 {
   "name": "standard-commit",
   "version": "0.1.0",
-  "description": "conventional commit helper",
+  "description": "conventional commit",
   "author": "Sebastien Tasson <sebastien.tasson@gmail.com>",
   "license": "MIT",
   "repository": {
@@ -13,10 +13,11 @@
   },
   "main": "index.js",
   "bin": {
-    "standard-commit": "cli.js"
+    "standard-commit": "commit.js",
+    "git-cc": "commit.js"
   },
   "scripts": {
-    "start": "ts-node src/cli.ts",
+    "start": "ts-node src/cli/commit.ts",
     "build": "run-s build:*",
     "build:clean": "rimraf dist",
     "build:lib": "tsc -p tsconfig.json",
@@ -56,12 +57,13 @@
   },
   "dependencies": {
     "@types/inquirer": "0.0.43",
+    "@types/meow": "^4.0.1",
     "execa": "^1.0.0",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "linewrap": "^0.2.1",
-    "listr": "^0.14.1",
+    "meow": "^5.0.0",
     "minimist": "^1.2.0"
   }
 }
