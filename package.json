@@ -12,6 +12,9 @@
     "url": "https://github.com/stasson/standard-commit/issues"
   },
   "main": "index.js",
+  "files": [
+    "dist"
+  ],
   "bin": {
     "standard-commit": "commit.js",
     "git-cc": "commit.js"
