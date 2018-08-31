@@ -35,10 +35,6 @@ const cli = meow(
         type: 'boolean',
         alias: 's'
       },
-      // -n
-      // --no-verify
-      // This option bypasses the pre-commit and commit-msg hooks.
-      // See also githooks(5).
       noVerify: {
         type: 'boolean',
         alias: 'n'
@@ -47,14 +43,12 @@ const cli = meow(
         type: 'boolean',
         default: 'true'
       },
-      // -e
-      // --edit
-      // The message taken from file with -F, command line with -m, and from commit object with -C are usually used as the commit log message unmodified. This option lets you further edit the message taken from these sources.
-      // --no-edit
-      // Use the selected commit message without launching an editor. For example, git commit --amend --no-edit amends a commit without changing its commit message.
       edit: {
         type: 'boolean',
         alias: 'e'
+      },
+      dryRun: {
+        type: 'boolean',
       }
     }
   }
@@ -87,6 +81,7 @@ async function main(cli: meow.Result) {
       if (flags.signoff) args.push('-s')
       if (flags.noVerify || !flags.verify) args.push('-n')
       if (flags.edit) args.push('-e')
+      if (flags.dryRun) args.push('--dry-run')
 
       const message = formatMessage(commitmsg)
       const code = await commit(message, ...args)

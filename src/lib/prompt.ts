@@ -8,10 +8,12 @@ export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)
 
 export async function promptHeader(message: CommitMessage = {}) {
+
   const answers = await prompt([
     {
       type: 'autocomplete',
       name: 'type',
+      message: 'type:  ',
       suggestOnly: false,
       source: async (answers, input) => {
         input = input || message.type || ''
@@ -23,6 +25,7 @@ export async function promptHeader(message: CommitMessage = {}) {
     {
       type: 'input',
       name: 'scope',
+      message: 'scope: ',
       default: message.scope || undefined,
       filter: input => input.toLowerCase().trim(),
       transformer: input => input.toLowerCase()
@@ -30,6 +33,7 @@ export async function promptHeader(message: CommitMessage = {}) {
     {
       type: 'input',
       name: 'description',
+      message: 'desc:  ',
       default: message.description || undefined,
       filter: input => input.toLowerCase().trim(),
       transformer: input => input.toLowerCase(),
@@ -57,6 +61,7 @@ export async function promptBody(lines: string[] = []) {
       {
         type: 'input',
         name: 'body',
+        message: 'body:  ',
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
@@ -75,6 +80,7 @@ export async function promptBreakingChanges(lines: string[] = []) {
       {
         type: 'input',
         name: 'breaking',
+        message: 'break: ',
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
@@ -93,6 +99,7 @@ export async function promptIssues(lines: string[] = []) {
       {
         type: 'input',
         name: 'issue',
+        message: 'issue: ',
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
