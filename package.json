@@ -11,6 +11,13 @@
   "bugs": {
     "url": "https://github.com/stasson/standard-commit/issues"
   },
+  "keywords": [
+    "commit",
+    "conventional",
+    "conventional-changelog",
+    "standard-version",
+    "commitizen"
+  ],
   "main": "index.js",
   "files": [
     "commit.js",

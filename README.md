@@ -27,7 +27,7 @@ git sc <option>
 | -n    | --no-verify | Bypasses the pre-commit and commit-msg hooks.                          |
 | -e    | --edit      | further edit the message.                                              |
 
-## Recommendations
+## Other packages
 
 ### commitlint
 
@@ -65,3 +65,7 @@ npm install --save-dev standard-version
   }
 }
 ```
+
+### commitizen
+
+standard-commit is inspired by The [commitizen](https://github.com/commitizen/cz-cli) command line utility, which is configurable.
