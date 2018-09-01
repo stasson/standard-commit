@@ -1,5 +1,7 @@
 # standard-commit
 
+[![npm version](https://badge.fury.io/js/standard-commit.svg)](https://badge.fury.io/js/standard-commit)
+
 A friendly zero-config [conventional commit](https://conventionalcommits.org/) cli. Formats commit according to [standard-version](https://www.npmjs.com/package/standard-version).
 
 > under dev...
