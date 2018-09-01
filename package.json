@@ -37,6 +37,7 @@
     "prettier": "prettier --write src/**/*",
     "lint": "cross-env NODE_ENV=production tslint src/**/*.ts -t verbose",
     "commit-lint": "commitlint",
+    "prepublish": "run-s build:*",
     "release": "standard-version"
   },
   "commitlint": {
