@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/stasson/standard-commit/compare/v0.2.3...v0.3.0) (2018-09-01)
+
+
+### Bug Fixes
+
+* set alias to git-sc instead of git-cc ([0d858ef](https://github.com/stasson/standard-commit/commit/0d858ef))
+
+
+### Features
+
+* add commit message parsing ([af6cb56](https://github.com/stasson/standard-commit/commit/af6cb56))
+
+
+
 <a name="0.2.3"></a>
 ## [0.2.3](https://github.com/stasson/standard-commit/compare/v0.2.2...v0.2.3) (2018-08-31)
 
