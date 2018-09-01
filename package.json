@@ -60,6 +60,11 @@
       "jsx",
       "json",
       "node"
+    ],
+    "coverageReporters": [
+      "text",
+      "html",
+      "lcov"
     ]
   },
   "devDependencies": {
