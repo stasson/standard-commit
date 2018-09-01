@@ -16,5 +16,6 @@ export const CommitTypes = [
   'perf',
   'build',
   'ci',
+  'test',
   'chore'
 ]
