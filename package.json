@@ -24,7 +24,7 @@
     "start": "ts-node src/cli/commit.ts",
     "build": "run-s build:*",
     "build:clean": "rimraf dist",
-    "build:lib": "tsc -p tsconfig.json",
+    "build:lib": "tsc -p tsconfig.dist.json",
     "test": "jest --runInBand",
     "tdd": "jest --runInBand --watch",
     "prettier": "prettier --write src/**/*",
@@ -40,13 +40,27 @@
   "gitHooks": {
     "commit-msg": "commitlint -E GIT_PARAMS"
   },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
+    },
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
   "devDependencies": {
     "@commitlint/cli": "^7.0.0",
     "@commitlint/config-conventional": "^7.0.1",
     "@types/execa": "^0.9.0",
     "@types/jest": "^23.3.1",
     "@types/listr": "^0.13.0",
-    "@types/node": "^10.9.2",
+    "@types/node": "^10.8.0",
     "jest": "^23.5.0",
     "npm-run-all": "^4.1.3",
     "prettier": "^1.14.2",

@@ -32,25 +32,25 @@ export async function promptHeader(message: CommitMessage = {}) {
     },
     {
       type: 'input',
-      name: 'description',
-      message: 'desc:  ',
-      default: message.description || undefined,
+      name: 'subject',
+      message: 'subject: ',
+      default: message.subject || undefined,
       filter: input => input.toLowerCase().trim(),
       transformer: input => input.toLowerCase(),
       validate: (input, answers) => {
         if (!input) {
-          return 'description can not be empty'
+          return 'subject can not be empty'
         }
         const header = formatHeader(answers.type, answers.scope, input)
         if (header.length >= 72) {
-          return 'description is too long'
+          return 'subject is too long'
         }
         return true
       }
     }
   ])
-  const { type, scope, description } = answers
-  message = Object.assign(message, { type, scope, description })
+  const { type, scope, subject } = answers
+  message = Object.assign(message, { type, scope, subject })
   return message
 }
 
@@ -73,23 +73,17 @@ export async function promptBody(lines: string[] = []) {
   return result
 }
 
-export async function promptBreakingChanges(lines: string[] = []) {
-  const result: string[] = []
-  for (let i = 0; i < 20; i++) {
-    const answer = (await prompt([
-      {
-        type: 'input',
-        name: 'breaking',
-        message: 'break: ',
-        default: (lines && lines[i]) || undefined,
-        filter: input => input.trim()
-      }
-    ])) as { breaking: string }
-    const line = answer.breaking
-    if (!line) break
-    result.push(line)
-  }
-  return result
+export async function promptBreakingChanges(line: string) {
+  const answer = (await prompt([
+    {
+      type: 'input',
+      name: 'breaking',
+      message: 'break: ',
+      default: line,
+      filter: input => input.trim()
+    }
+  ])) as { breaking: string }
+  return answer.breaking
 }
 
 export async function promptIssues(lines: string[] = []) {
@@ -118,7 +112,7 @@ export async function promptCommitMessage(message: CommitMessage = {}) {
   const body = await promptBody(message.body)
   message = Object.assign(message, { body })
 
-  const breakingChanges = await promptBreakingChanges(message.breakingChanges)
+  const breakingChanges = await promptBreakingChanges(message.breaking)
   message = Object.assign(message, { breakingChanges })
 
   const issues = await promptIssues(message.issues)

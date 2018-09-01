@@ -1,9 +1,9 @@
 export interface CommitMessage {
   type?: string
   scope?: string
-  description?: string
+  subject?: string
   body?: string[]
-  breakingChanges?: string[]
+  breaking?: string
   issues?: string[]
 }
 

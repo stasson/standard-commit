@@ -12,22 +12,15 @@ function formatLines(lines: string[]) {
   return wrapLines(lines.map(line => line.trim()).join(EOL))
 }
 
-export function formatHeader(type, scope, description) {
+export function formatHeader(type, scope, subject) {
   type = type || ''
-  description = description || ''
+  subject = subject || ''
   scope = scope ? `(${scope})` : ''
-  return `${type}${scope}: ${description}`
+  return `${type}${scope}: ${subject}`
 }
 
-export function formatBreaking(breakingChanges: string[]) {
-  return wrapLines(
-    breakingChanges
-      .map(line => {
-        return 'BREAKING CHANGE: ' + line.trim() + EOL
-      })
-      .join(EOL)
-      .trim()
-  )
+export function formatBreaking(breakingChanges: string) {
+  return 'BREAKING CHANGE: ' + breakingChanges.trim() + EOL
 }
 
 export function formatIssues(issues: string[], prefix = 'closes') {
@@ -39,15 +32,15 @@ export function formatBody(body: string[]) {
 }
 
 export function formatMessage(commit: CommitMessage): string {
-  let message = formatHeader(commit.type, commit.scope, commit.description)
+  let message = formatHeader(commit.type, commit.scope, commit.subject)
 
   if (commit.body) {
     const block = formatBody(commit.body)
     message = appendBlock(message, block)
   }
 
-  if (commit.breakingChanges) {
-    const block = formatBreaking(commit.breakingChanges)
+  if (commit.breaking) {
+    const block = formatBreaking(commit.breaking)
     message = appendBlock(message, block)
   }
 
