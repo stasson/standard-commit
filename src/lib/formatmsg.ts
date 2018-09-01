@@ -19,8 +19,8 @@ export function formatHeader(type, scope, subject) {
   return `${type}${scope}: ${subject}`
 }
 
-export function formatBreaking(breakingChanges: string) {
-  return 'BREAKING CHANGE: ' + breakingChanges.trim() + EOL
+export function formatBreaking(change: string) {
+  return 'BREAKING CHANGE: ' + change.trim()
 }
 
 export function formatIssues(issues: string[], prefix = 'closes') {
