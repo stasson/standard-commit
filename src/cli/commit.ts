@@ -1,6 +1,11 @@
 import * as meow from 'meow'
 
-import { formatMessage, promptCommitMessage, promptConfirmCommit } from '../lib'
+import {
+  formatMessage,
+  promptCommitMessage,
+  promptConfirmCommit,
+  loadConfig
+} from '../lib'
 import * as execa from 'execa'
 
 const cli = meow(
@@ -48,7 +53,7 @@ const cli = meow(
         alias: 'e'
       },
       dryRun: {
-        type: 'boolean',
+        type: 'boolean'
       }
     }
   }
@@ -68,9 +73,12 @@ async function commit(message: string, ...args) {
 
 async function main(cli: meow.Result) {
   try {
+    // load config
+    const config = await loadConfig()
+
     // prompt for commit message
-    const commitmsg = await promptCommitMessage()
-    const confirm = await promptConfirmCommit()
+    const commitmsg = await promptCommitMessage({}, config)
+    const confirm = await promptConfirmCommit(config)
 
     if (confirm) {
       const { flags } = cli

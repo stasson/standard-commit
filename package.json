@@ -40,6 +40,9 @@
     "prepublish": "run-s build:*",
     "release": "standard-version"
   },
+  "standard-commit":{
+    "scope": "none"
+  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
@@ -89,6 +92,7 @@
   "dependencies": {
     "@types/inquirer": "0.0.43",
     "@types/meow": "^4.0.1",
+    "cosmiconfig": "^5.0.6",
     "execa": "^1.0.0",
     "fuzzy": "^0.1.3",
     "inquirer": "^6.2.0",

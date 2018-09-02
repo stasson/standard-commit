@@ -3,12 +3,15 @@ import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
 import { CommitMessage, CommitTypes } from './commitmsg'
 import { formatHeader } from './formatmsg'
+import { Config } from './config'
 
 export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)
 
-export async function promptHeader(message: CommitMessage = {}) {
-
+export async function promptHeader(
+  message: CommitMessage = {},
+  config?: Config
+) {
   const answers = await prompt([
     {
       type: 'autocomplete',
@@ -28,7 +31,17 @@ export async function promptHeader(message: CommitMessage = {}) {
       message: 'scope: ',
       default: message.scope || undefined,
       filter: input => input.toLowerCase().trim(),
-      transformer: input => input.toLowerCase()
+      transformer: input => input.toLowerCase(),
+      validate: (input, answers) => {
+        const isRequired = config && config.scope === 'required'
+        if (isRequired && !input) {
+          return 'scope is required'
+        } 
+        return true
+      },
+      when: () => {
+        return !(config && config.scope === 'none')
+      }
     },
     {
       type: 'input',
@@ -54,7 +67,7 @@ export async function promptHeader(message: CommitMessage = {}) {
   return message
 }
 
-export async function promptBody(lines: string[] = []) {
+export async function promptBody(lines: string[] = [], config?: Config) {
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
     const answer = (await prompt([
@@ -73,7 +86,7 @@ export async function promptBody(lines: string[] = []) {
   return result
 }
 
-export async function promptBreakingChanges(line: string) {
+export async function promptBreakingChanges(line: string, config?: Config) {
   const answer = (await prompt([
     {
       type: 'input',
@@ -86,7 +99,7 @@ export async function promptBreakingChanges(line: string) {
   return answer.breaking
 }
 
-export async function promptIssues(lines: string[] = []) {
+export async function promptIssues(lines: string[] = [], config?: Config) {
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
     const answer = (await prompt([
@@ -105,23 +118,26 @@ export async function promptIssues(lines: string[] = []) {
   return result.filter(issue => !!issue)
 }
 
-export async function promptCommitMessage(message: CommitMessage = {}) {
-  const header = await promptHeader(message)
+export async function promptCommitMessage(
+  message: CommitMessage = {},
+  config?: Config
+) {
+  const header = await promptHeader(message, config)
   message = Object.assign(message, header)
 
-  const body = await promptBody(message.body)
+  const body = await promptBody(message.body, config)
   message = Object.assign(message, { body })
 
-  const breakingChanges = await promptBreakingChanges(message.breaking)
+  const breakingChanges = await promptBreakingChanges(message.breaking, config)
   message = Object.assign(message, { breakingChanges })
 
-  const issues = await promptIssues(message.issues)
+  const issues = await promptIssues(message.issues, config)
   message = Object.assign(message, { issues })
 
   return message
 }
 
-export async function promptConfirmCommit() {
+export async function promptConfirmCommit(config?: Config) {
   const answer = (await prompt([
     {
       type: 'confirm',
