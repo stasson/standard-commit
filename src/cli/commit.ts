@@ -1,8 +1,13 @@
 import * as meow from 'meow'
 
-import { formatMessage, loadConfig } from '../lib'
-import { promptCommitMessage, promptConfirmCommit } from './prompt'
-import * as execa from 'execa'
+import {
+  formatMessage,
+  loadConfig,
+  promptCommitMessage,
+  promptConfirmCommit,
+  gitCommit,
+  gitUnstagedFiles
+} from '../lib'
 
 const cli = meow(
   `
@@ -55,18 +60,6 @@ const cli = meow(
   }
 )
 
-async function commit(message: string, ...args) {
-  const commitArgs = ['commit', ...args, '--file', '-']
-
-  const git = execa('git', commitArgs)
-  git.stdout.pipe(process.stdout)
-  git.stderr.pipe(process.stderr)
-  git.stdin.write(message)
-  git.stdin.end()
-
-  return (await git).code
-}
-
 async function main(cli: meow.Result) {
   try {
     // load config
@@ -88,7 +81,7 @@ async function main(cli: meow.Result) {
       if (flags.dryRun) args.push('--dry-run')
 
       const message = formatMessage(commitmsg)
-      const code = await commit(message, ...args)
+      const code = await gitCommit(message, ...args)
       process.exit(code)
     }
   } catch (err) {
