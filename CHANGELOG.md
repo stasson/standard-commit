@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.4.0"></a>
+# [0.4.0](https://github.com/stasson/standard-commit/compare/v0.3.1...v0.4.0) (2018-09-02)
+
+
+### Bug Fixes
+
+* add missing test commit type ([80bbfcf](https://github.com/stasson/standard-commit/commit/80bbfcf))
+* align prompts ([af04c59](https://github.com/stasson/standard-commit/commit/af04c59))
+
+
+### Features
+
+* add config support ([4739a1f](https://github.com/stasson/standard-commit/commit/4739a1f))
+* scope suggestion ([1f35455](https://github.com/stasson/standard-commit/commit/1f35455))
+
+
+
 <a name="0.3.1"></a>
 ## [0.3.1](https://github.com/stasson/standard-commit/compare/v0.3.0...v0.3.1) (2018-09-01)
 
