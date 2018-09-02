@@ -1,6 +1,6 @@
 import * as execa from 'execa'
 
-export async function gitUnstagedFiles() {
+export async function gitUnstagedPaths() {
   try {
     const git = await execa.stdout('git', ['diff', '--cached', '--name-only'])
     return git

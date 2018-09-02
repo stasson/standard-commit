@@ -6,7 +6,7 @@ import {
   promptCommitMessage,
   promptConfirmCommit,
   gitCommit,
-  gitUnstagedFiles
+  suggestScopes
 } from '../lib'
 
 const cli = meow(

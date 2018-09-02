@@ -4,6 +4,7 @@ import * as fuzzy from 'fuzzy'
 import { CommitMessage, CommitTypes } from './commitmsg'
 import { formatHeader } from './formatmsg'
 import { Config } from './config'
+import { suggestScopes } from './scopes'
 
 export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)
@@ -23,7 +24,13 @@ export async function promptHeader(
   message: CommitMessage = {},
   config?: Config
 ) {
-  const answers = await prompt([
+  let scope, scopeSuggestion
+  const hasScope = !(config && config.scope === 'none')
+  if (hasScope) {
+    scopeSuggestion = suggestScopes()
+  }
+
+  const { type } = await prompt([
     {
       type: 'autocomplete',
       name: 'type',
@@ -35,25 +42,37 @@ export async function promptHeader(
         const matches = results.map(el => el.original)
         return matches
       }
-    } as inquirer.Question,
-    {
-      type: 'input',
-      name: 'scope',
-      message: PromptMessage.SCOPE,
-      default: message.scope || undefined,
-      filter: input => input.toLowerCase().trim(),
-      transformer: input => input.toLowerCase(),
-      validate: (input, answers) => {
-        const isRequired = config && config.scope === 'required'
-        if (isRequired && !input) {
-          return 'scope is required'
+    } as inquirer.Question
+  ])
+
+  if (hasScope) {
+    const suggestedScopes = await scopeSuggestion
+    scope = await prompt([
+      {
+        type: 'autocomplete',
+        name: 'scope',
+        message: PromptMessage.SCOPE,
+        suggestOnly: !(config && config.scope === 'required'),
+        // filter: input => input.toLowerCase().trim(),
+        // transformer: input => input.toLowerCase(),
+        validate: (input, answers) => {
+          const isRequired = config && config.scope === 'required'
+          if (isRequired && !input) {
+            return 'scope is required'
+          }
+          return true
+        },
+        source: async (answers, input) => {
+          input = input || message.scope || ''
+          const results = fuzzy.filter(input, suggestedScopes)
+          const matches = results.map(el => el.original)
+          return matches
         }
-        return true
-      },
-      when: () => {
-        return !(config && config.scope === 'none')
-      }
-    },
+      } as inquirer.Question
+    ])
+  }
+
+  const { subject } = (await prompt([
     {
       type: 'input',
       name: 'subject',
@@ -65,15 +84,15 @@ export async function promptHeader(
         if (!input) {
           return 'subject can not be empty'
         }
-        const header = formatHeader(answers.type, answers.scope, input)
+        const header = formatHeader(type, scope, input)
         if (header.length >= 72) {
           return 'subject is too long'
         }
         return true
       }
     }
-  ])
-  const { type, scope, subject } = answers
+  ])) as any
+
   message = Object.assign(message, { type, scope, subject })
   return message
 }
