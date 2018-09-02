@@ -1,11 +1,7 @@
 import * as meow from 'meow'
 
-import {
-  formatMessage,
-  promptCommitMessage,
-  promptConfirmCommit,
-  loadConfig
-} from '../lib'
+import { formatMessage, loadConfig } from '../lib'
+import { promptCommitMessage, promptConfirmCommit } from './prompt'
 import * as execa from 'execa'
 
 const cli = meow(

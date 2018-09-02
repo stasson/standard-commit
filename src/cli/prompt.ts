@@ -1,12 +1,23 @@
 import * as inquirer from 'inquirer'
 import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
-import { CommitMessage, CommitTypes } from './commitmsg'
-import { formatHeader } from './formatmsg'
-import { Config } from './config'
+import { CommitMessage, CommitTypes } from '../lib/commitmsg'
+import { formatHeader } from '../lib/formatmsg'
+import { Config } from '../lib/config'
 
 export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)
+
+// prettier-ignore
+const enum PromptMessage {
+  TYPE    = 'type:    ',
+  SCOPE   = 'scope:   ',
+  SUBJECT = 'subject: ',
+  BODY    = 'body:    ',
+  BREAK   = 'breaks:  ',
+  ISSUE   = 'closes:  ',
+  CONFIRM = 'commit?  ',
+}
 
 export async function promptHeader(
   message: CommitMessage = {},
@@ -16,7 +27,7 @@ export async function promptHeader(
     {
       type: 'autocomplete',
       name: 'type',
-      message: 'type:  ',
+      message: PromptMessage.TYPE,
       suggestOnly: false,
       source: async (answers, input) => {
         input = input || message.type || ''
@@ -28,7 +39,7 @@ export async function promptHeader(
     {
       type: 'input',
       name: 'scope',
-      message: 'scope: ',
+      message: PromptMessage.SCOPE,
       default: message.scope || undefined,
       filter: input => input.toLowerCase().trim(),
       transformer: input => input.toLowerCase(),
@@ -36,7 +47,7 @@ export async function promptHeader(
         const isRequired = config && config.scope === 'required'
         if (isRequired && !input) {
           return 'scope is required'
-        } 
+        }
         return true
       },
       when: () => {
@@ -46,7 +57,7 @@ export async function promptHeader(
     {
       type: 'input',
       name: 'subject',
-      message: 'subject: ',
+      message: PromptMessage.SUBJECT,
       default: message.subject || undefined,
       filter: input => input.toLowerCase().trim(),
       transformer: input => input.toLowerCase(),
@@ -74,7 +85,7 @@ export async function promptBody(lines: string[] = [], config?: Config) {
       {
         type: 'input',
         name: 'body',
-        message: 'body:  ',
+        message: PromptMessage.BODY,
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
@@ -91,7 +102,7 @@ export async function promptBreakingChanges(line: string, config?: Config) {
     {
       type: 'input',
       name: 'breaking',
-      message: 'break: ',
+      message: PromptMessage.BREAK,
       default: line,
       filter: input => input.trim()
     }
@@ -106,7 +117,7 @@ export async function promptIssues(lines: string[] = [], config?: Config) {
       {
         type: 'input',
         name: 'issue',
-        message: 'issue: ',
+        message: PromptMessage.ISSUE,
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
@@ -142,7 +153,7 @@ export async function promptConfirmCommit(config?: Config) {
     {
       type: 'confirm',
       name: 'commit',
-      message: 'commit ?',
+      message: PromptMessage.CONFIRM,
       default: true
     }
   ])) as { commit: boolean }
