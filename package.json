@@ -29,18 +29,18 @@
   },
   "scripts": {
     "start": "ts-node src/cli/commit.ts",
+    "tdd": "jest --runInBand --watch",
+    "format": "prettier --write src/**/*",
+    "test": "run-s test:*",
+    "test:unit": "jest --runInBand",
+    "test:lint": "cross-env NODE_ENV=production tslint src/**/*.ts -t verbose",
     "build": "run-s build:*",
     "build:clean": "rimraf dist",
     "build:lib": "tsc -p tsconfig.dist.json",
-    "test": "jest --runInBand",
-    "tdd": "jest --runInBand --watch",
-    "prettier": "prettier --write src/**/*",
-    "lint": "cross-env NODE_ENV=production tslint src/**/*.ts -t verbose",
-    "commit-lint": "commitlint",
     "prepublish": "run-s build:*",
     "release": "standard-version"
   },
-  "standard-commit":{
+  "standard-commit": {
     "scope": "none"
   },
   "commitlint": {
@@ -77,6 +77,7 @@
     "@types/jest": "^23.3.1",
     "@types/listr": "^0.13.0",
     "@types/node": "^10.8.0",
+    "cross-env": "^5.2.0",
     "jest": "^23.5.0",
     "npm-run-all": "^4.1.3",
     "prettier": "^1.14.2",
