@@ -62,9 +62,18 @@ const cli = meow(
 
 async function main(cli: meow.Result) {
   try {
+    // commit args
+    const { flags } = cli
+    const commitArgs = []
+    if (flags.all) commitArgs.push('-a')
+    if (flags.signoff) commitArgs.push('-s')
+    if (flags.noVerify || !flags.verify) commitArgs.push('-n')
+    if (flags.edit) commitArgs.push('-e')
+    if (flags.dryRun) commitArgs.push('--dry-run')
+
     // setup
     const configPromise = loadConfig()
-    if (!(await gitCanCommit())) {
+    if (!(await gitCanCommit(...commitArgs))) {
       process.exit(1)
     }
     const config = await configPromise
@@ -75,18 +84,9 @@ async function main(cli: meow.Result) {
 
     // commit
     if (confirm) {
-      const { flags } = cli
-      const args = []
-
-      // commit args
-      if (flags.all) args.push('-a')
-      if (flags.signoff) args.push('-s')
-      if (flags.noVerify || !flags.verify) args.push('-n')
-      if (flags.edit) args.push('-e')
-      if (flags.dryRun) args.push('--dry-run')
 
       const message = formatMessage(commitmsg)
-      const code = await gitCommit(message, ...args)
+      const code = await gitCommit(message, ...commitArgs)
       process.exit(code)
     }
   } catch (err) {

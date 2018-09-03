@@ -1,7 +1,7 @@
 import * as inquirer from 'inquirer'
 import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
-import { CommitMessage} from './commitmsg'
+import { CommitMessage } from './commitmsg'
 import { formatHeader } from './formatmsg'
 import { Config } from './config'
 import { suggestScopes } from './scopes'
@@ -26,12 +26,12 @@ export async function promptHeader(
 ) {
   let scope, scopeSuggestions
 
-  const suggestScope =
-    config.scopes === 'suggest' || config.scopes === 'enforce'
-
   const hasScope =
     config.scopes !== 'none' ||
-    (Array.isArray(config.scopes) && config.scopes.length > 0)
+    (Array.isArray(config.scopes) && config.scopes.length === 0)
+
+  const suggestScope =
+    hasScope && (config.scopes === 'suggest' || config.scopes === 'enforce')
 
   if (suggestScope) {
     scopeSuggestions = suggestScopes()
@@ -57,7 +57,7 @@ export async function promptHeader(
       ? await scopeSuggestions
       : config.scopes
 
-    scope = await prompt([
+    scope= (await prompt([
       {
         type: 'autocomplete',
         name: 'scope',
@@ -70,7 +70,7 @@ export async function promptHeader(
           return matches
         }
       } as inquirer.Question
-    ])
+    ])).scope
   }
 
   const { subject } = (await prompt([

@@ -1,8 +1,13 @@
 import * as execa from 'execa'
 
-export async function gitUnstagedPaths() {
+export async function gitUnstagedPaths(cached: boolean = false) {
   try {
-    const git = await execa.stdout('git', ['diff', '--cached', '--name-only'])
+    const args = cached
+      ? ['diff', '--name-only', '--cached']
+      : ['diff', '--name-only']
+
+    const git = await execa.stdout('git', args)
+
     return git
       .split('\n')
       .map(f => f.trim())
@@ -22,9 +27,9 @@ export async function gitCommit(message: string, ...args) {
   return (await git).code
 }
 
-export async function gitCanCommit() {
+export async function gitCanCommit(...args) {
   try {
-    return (await execa('git', ['commit', '--dry-run'])).code === 0
+    return (await execa('git', ['commit', ...args, '--dry-run'])).code === 0
   } catch (err) {
     process.stdout.write(err.stdout)
     return false
