@@ -2,7 +2,9 @@
 
 [![npm version](https://badge.fury.io/js/standard-commit.svg)](https://badge.fury.io/js/standard-commit)
 
-A friendly zero-config [conventional commit](https://conventionalcommits.org/) cli. Formats commit according to [standard-version](https://www.npmjs.com/package/standard-version).
+A no-brainer zero-config [conventional commit](https://conventionalcommits.org/) command line.
+
+Formats commit according to [standard-version](https://www.npmjs.com/package/standard-version).
 
 > under dev...
 
@@ -28,6 +30,27 @@ git cc <option>
 | -s    | --signoff   | Add Signed-off-by at the end of the commit log message.                |
 | -n    | --no-verify | Bypasses the pre-commit and commit-msg hooks.                          |
 | -e    | --edit      | further edit the message.                                              |
+
+## Configuration File
+
+you can configure prettier via:
+
+- A `.standard-commitrc` file, written in YAML or JSON, with optional extensions: .yaml/.yml/.json.
+- A `standard-commit.config.js` file that exports an object.
+- A `standard-commit` key in your package.json file.
+
+```ts
+interface Config {
+  /**
+   * by default, scope is optional and only suggested.
+   * scope prompt is skipped when set to "none".
+   * scope can not be empty when set to 'enforce'
+   * 
+   * @default 'suggest'
+   */
+  scope?: 'none' | 'enforce' | 'suggest'
+}
+```
 
 ## Other packages
 
@@ -70,4 +93,4 @@ npm install --save-dev standard-version
 
 ### commitizen
 
-standard-commit is inspired by The [commitizen](https://github.com/commitizen/cz-cli) command line utility, which is configurable.
+standard-commit is highly inspired by the [commitizen](https://github.com/commitizen/cz-cli) command line utility, which is configurable.

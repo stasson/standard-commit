@@ -1,6 +1,9 @@
 import * as cosmiconfig from 'cosmiconfig'
 
 export interface Config {
+  /**
+   * @default 'suggest'
+   */
   scope?: 'none' | 'enforce' | 'suggest'
 }
 
