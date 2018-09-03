@@ -16,8 +16,8 @@ npm install -g standard-commit
 # cli
 standard-commit --help
 
-# alias cc is also installed
-git sc <option>
+# alias git-cc is also installed
+git cc <option>
 ```
 
 ## Options

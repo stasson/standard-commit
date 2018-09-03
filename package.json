@@ -25,7 +25,7 @@
   ],
   "bin": {
     "standard-commit": "commit.js",
-    "git-sc": "commit.js"
+    "git-cc": "commit.js"
   },
   "scripts": {
     "start": "ts-node src/cli/commit.ts",
