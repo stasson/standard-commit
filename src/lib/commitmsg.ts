@@ -6,16 +6,3 @@ export interface CommitMessage {
   breaking?: string
   issues?: string[]
 }
-
-export const CommitTypes = [
-  'feat',
-  'fix',
-  'style',
-  'docs',
-  'refactor',
-  'perf',
-  'build',
-  'ci',
-  'test',
-  'chore'
-]

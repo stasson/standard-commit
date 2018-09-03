@@ -42,17 +42,25 @@ you can configure prettier via:
 ```ts
 interface Config {
   /**
-   * by default, scope is optional and only suggested.
-   * scope prompt is skipped when set to "none".
-   * scope can not be empty when set to 'enforce'
-   * 
+   * Allowed types
+   *
+   * @default [ 'feat', 'fix', 'docs', 'refactor', 'chore' ...]
+   */
+  types?: string[]
+
+  /**
+   * When set to 'suggest', scope is optional.
+   * When set to 'enforce, scope can not be empty.
+   * When set to "none", scope prompt is skipped.
+   * When set to an array, the list of allowed scopes.
+   *
    * @default 'suggest'
    */
-  scope?: 'none' | 'enforce' | 'suggest'
+  scopes?: 'suggest' | 'enforce' | 'none' | string[]
 }
 ```
 
-## Other packages
+## Other usefull packages
 
 ### commitlint
 

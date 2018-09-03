@@ -1,7 +1,7 @@
 import * as inquirer from 'inquirer'
 import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
-import { CommitMessage, CommitTypes } from './commitmsg'
+import { CommitMessage} from './commitmsg'
 import { formatHeader } from './formatmsg'
 import { Config } from './config'
 import { suggestScopes } from './scopes'
@@ -24,11 +24,17 @@ export async function promptHeader(
   message: CommitMessage = {},
   config?: Config
 ) {
-  let scope, scopeSuggestion
-  const hasScope = config.scope !== 'none'
+  let scope, scopeSuggestions
 
-  if (hasScope) {
-    scopeSuggestion = suggestScopes()
+  const suggestScope =
+    config.scopes === 'suggest' || config.scopes === 'enforce'
+
+  const hasScope =
+    config.scopes !== 'none' ||
+    (Array.isArray(config.scopes) && config.scopes.length > 0)
+
+  if (suggestScope) {
+    scopeSuggestions = suggestScopes()
   }
 
   const { type } = await prompt([
@@ -39,7 +45,7 @@ export async function promptHeader(
       suggestOnly: false,
       source: async (answers, input) => {
         input = input || message.type || ''
-        const results = fuzzy.filter(input, CommitTypes)
+        const results = fuzzy.filter(input, config.types)
         const matches = results.map(el => el.original)
         return matches
       }
@@ -47,17 +53,19 @@ export async function promptHeader(
   ])
 
   if (hasScope) {
-    const suggestedScopes: string[] = await scopeSuggestion
+    const scopes: string[] = suggestScope
+      ? await scopeSuggestions
+      : config.scopes
 
     scope = await prompt([
       {
         type: 'autocomplete',
         name: 'scope',
         message: PromptMessage.SCOPE,
-        suggestOnly: config.scope === 'suggest',
+        suggestOnly: config.scopes === 'suggest',
         source: async (answers, input) => {
           input = input || message.scope || ''
-          const results = fuzzy.filter(input, suggestedScopes)
+          const results = fuzzy.filter(input, scopes)
           const matches = results.map(el => el.original)
           return matches
         }
