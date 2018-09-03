@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.5.0"></a>
+# [0.5.0](https://github.com/stasson/standard-commit/compare/v0.4.0...v0.5.0) (2018-09-03)
+
+
+### Bug Fixes
+
+* git-cc is actually a better alias ([651b144](https://github.com/stasson/standard-commit/commit/651b144))
+
+
+### Features
+
+* add scope config ([50783c3](https://github.com/stasson/standard-commit/commit/50783c3))
+* check if can commit before prompt ([8ecc8c7](https://github.com/stasson/standard-commit/commit/8ecc8c7))
+
+
+
 <a name="0.4.0"></a>
 # [0.4.0](https://github.com/stasson/standard-commit/compare/v0.3.1...v0.4.0) (2018-09-02)
 
