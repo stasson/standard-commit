@@ -1,16 +1,17 @@
 import * as cosmiconfig from 'cosmiconfig'
 
 export interface Config {
-  scope?: 'none' | 'required'
+  scope?: 'none' | 'enforce' | 'suggest'
 }
 
 const explorer = cosmiconfig('standard-commit')
 
-const defaults = {}
+const defaults: Config = {
+  scope: 'suggest'
+}
 
 export async function loadConfig() {
-  const config = {}
-  Object.assign(config, defaults)
+  const config = Object.create(defaults);
   const result = await explorer.search()
   if (result && result.config) {
     Object.assign(config, result.config)

@@ -25,7 +25,8 @@ export async function promptHeader(
   config?: Config
 ) {
   let scope, scopeSuggestion
-  const hasScope = !(config && config.scope === 'none')
+  const hasScope = config.scope !== 'none'
+
   if (hasScope) {
     scopeSuggestion = suggestScopes()
   }
@@ -46,22 +47,14 @@ export async function promptHeader(
   ])
 
   if (hasScope) {
-    const suggestedScopes = await scopeSuggestion
+    const suggestedScopes: string[] = await scopeSuggestion
+
     scope = await prompt([
       {
         type: 'autocomplete',
         name: 'scope',
         message: PromptMessage.SCOPE,
-        suggestOnly: !(config && config.scope === 'required'),
-        // filter: input => input.toLowerCase().trim(),
-        // transformer: input => input.toLowerCase(),
-        validate: (input, answers) => {
-          const isRequired = config && config.scope === 'required'
-          if (isRequired && !input) {
-            return 'scope is required'
-          }
-          return true
-        },
+        suggestOnly: config.scope === 'suggest',
         source: async (answers, input) => {
           input = input || message.scope || ''
           const results = fuzzy.filter(input, suggestedScopes)
