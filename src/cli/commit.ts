@@ -6,7 +6,7 @@ import {
   promptCommitMessage,
   promptConfirmCommit,
   gitCommit,
-  suggestScopes
+  gitCanCommit
 } from '../lib'
 
 const cli = meow(
@@ -62,13 +62,18 @@ const cli = meow(
 
 async function main(cli: meow.Result) {
   try {
-    // load config
-    const config = await loadConfig()
+    // setup
+    const configPromise = loadConfig()
+    if (!(await gitCanCommit())) {
+      process.exit(1)
+    }
+    const config = await configPromise
 
     // prompt for commit message
     const commitmsg = await promptCommitMessage({}, config)
     const confirm = await promptConfirmCommit(config)
 
+    // commit
     if (confirm) {
       const { flags } = cli
       const args = []

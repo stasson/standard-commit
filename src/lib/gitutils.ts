@@ -21,3 +21,12 @@ export async function gitCommit(message: string, ...args) {
   git.stdin.end()
   return (await git).code
 }
+
+export async function gitCanCommit() {
+  try {
+    return (await execa('git', ['commit', '--dry-run'])).code === 0
+  } catch (err) {
+    process.stdout.write(err.stdout)
+    return false
+  }
+}

@@ -11,7 +11,7 @@ const defaults: Config = {
 }
 
 export async function loadConfig() {
-  const config = Object.create(defaults);
+  const config = Object.create(defaults)
   const result = await explorer.search()
   if (result && result.config) {
     Object.assign(config, result.config)
