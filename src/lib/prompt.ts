@@ -57,7 +57,7 @@ export async function promptHeader(
       ? await scopeSuggestions
       : config.scopes
 
-    scope= (await prompt([
+    scope = (await prompt([
       {
         type: 'autocomplete',
         name: 'scope',

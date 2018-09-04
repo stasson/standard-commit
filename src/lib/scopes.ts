@@ -13,7 +13,7 @@ export async function getUnstagedScopesSuggestions() {
   const suggestions = paths.reduce((s, f) => {
     const { name, dir } = path.parse(f)
     const keys = [name, ...dir.split('/').filter(d => d)]
-    for (let k of keys) {
+    for (const k of keys) {
       const weight = s[k]
       s[k] = weight ? weight + 1 : 1
     }
