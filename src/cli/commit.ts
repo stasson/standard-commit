@@ -6,7 +6,8 @@ import {
   promptCommitMessage,
   promptConfirmCommit,
   gitCommit,
-  gitCanCommit
+  gitCanCommit,
+  gitCommitAndEdit
 } from '../lib'
 
 const cli = meow(
@@ -68,7 +69,6 @@ async function main(cli: meow.Result) {
     if (flags.all) commitArgs.push('-a')
     if (flags.signoff) commitArgs.push('-s')
     if (flags.noVerify || !flags.verify) commitArgs.push('-n')
-    if (flags.edit) commitArgs.push('-e')
     if (flags.dryRun) commitArgs.push('--dry-run')
 
     // setup
@@ -84,10 +84,14 @@ async function main(cli: meow.Result) {
 
     // commit
     if (confirm) {
-
       const message = formatMessage(commitmsg)
-      const code = await gitCommit(message, ...commitArgs)
-      process.exit(code)
+      if (flags.edit || confirm === 'edit') {
+        const code = await gitCommitAndEdit(message, ...commitArgs)
+        process.exit(code)
+      } else {
+        const code = await gitCommit(message, ...commitArgs)
+        process.exit(code)
+      }
     }
   } catch (err) {
     process.exit(err.code)

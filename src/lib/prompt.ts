@@ -171,12 +171,29 @@ export async function promptCommitMessage(
 export async function promptConfirmCommit(config?: Config) {
   const answer = (await prompt([
     {
-      type: 'confirm',
+      type: 'expand',
       name: 'commit',
       message: PromptMessage.CONFIRM,
-      default: true
+      default: 0,
+      choices: [
+        {
+          key: 'y',
+          name: 'Yes, do commit.',
+          value: true
+        },
+        {
+          key: 'n',
+          name: 'No, abort commit!',
+          value: false
+        },
+        {
+          key: 'e',
+          name: 'Edit commit message...',
+          value: 'edit'
+        }
+      ]
     }
   ])) as { commit: boolean }
 
-  return answer.commit
+  return answer.commit as boolean | 'edit'
 }
