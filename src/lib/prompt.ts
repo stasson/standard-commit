@@ -3,7 +3,7 @@ import * as autocomplete from 'inquirer-autocomplete-prompt'
 import * as fuzzy from 'fuzzy'
 import { CommitMessage } from './commitmsg'
 import { formatHeader } from './formatmsg'
-import { Config } from './config'
+import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
 
 export const prompt = inquirer.createPromptModule()
@@ -20,23 +20,10 @@ const enum PromptMessage {
   CONFIRM = 'commit?  ',
 }
 
-export async function promptHeader(
+export async function promptType(
   message: CommitMessage = {},
-  config?: Config
+  config: Config = DefaultConfig
 ) {
-  let scope, scopeSuggestions
-
-  const hasScope =
-    config.scopes !== 'none' ||
-    (Array.isArray(config.scopes) && config.scopes.length === 0)
-
-  const suggestScope =
-    hasScope && (config.scopes === 'suggest' || config.scopes === 'enforce')
-
-  if (suggestScope) {
-    scopeSuggestions = suggestScopes()
-  }
-
   const { type } = await prompt([
     {
       type: 'autocomplete',
@@ -52,27 +39,35 @@ export async function promptHeader(
     } as inquirer.Question
   ])
 
-  if (hasScope) {
-    const scopes: string[] = suggestScope
-      ? await scopeSuggestions
-      : config.scopes
+  return Object.assign(message, { type })
+}
 
-    scope = (await prompt([
-      {
-        type: 'autocomplete',
-        name: 'scope',
-        message: PromptMessage.SCOPE,
-        suggestOnly: config.scopes === 'suggest',
-        source: async (answers, input) => {
-          input = input || message.scope || ''
-          const results = fuzzy.filter(input, scopes)
-          const matches = results.map(el => el.original)
-          return matches
-        }
-      } as inquirer.Question
-    ])).scope
-  }
+export async function promptScope(
+  scopes: string[],
+  message: CommitMessage = {},
+  config: Config = DefaultConfig
+) {
+  const scope = await prompt([
+    {
+      type: 'autocomplete',
+      name: 'scope',
+      message: PromptMessage.SCOPE,
+      suggestOnly: config.scopes === 'suggest',
+      source: async (answers, input) => {
+        input = input || message.scope || ''
+        const results = fuzzy.filter(input, scopes)
+        const matches = results.map(el => el.original)
+        return matches
+      }
+    } as inquirer.Question
+  ])
+  return Object.assign(message, { scope })
+}
 
+export async function promptSubject(
+  message: CommitMessage = {},
+  config: Config = DefaultConfig
+) {
   const { subject } = (await prompt([
     {
       type: 'input',
@@ -85,7 +80,7 @@ export async function promptHeader(
         if (!input) {
           return 'subject can not be empty'
         }
-        const header = formatHeader(type, scope, input)
+        const header = formatHeader(message.type, message.scope, input)
         if (header.length >= 72) {
           return 'subject is too long'
         }
@@ -93,12 +88,45 @@ export async function promptHeader(
       }
     }
   ])) as any
+  return Object.assign(message, { subject })
+}
 
-  message = Object.assign(message, { type, scope, subject })
+export async function promptHeader(
+  message: CommitMessage = {},
+  config: Config = DefaultConfig
+) {
+  let scopeSuggestions
+
+  const hasScope =
+    config.scopes !== 'none' ||
+    (Array.isArray(config.scopes) && config.scopes.length === 0)
+
+  const suggestScope =
+    hasScope && (config.scopes === 'suggest' || config.scopes === 'enforce')
+
+  if (suggestScope) {
+    scopeSuggestions = suggestScopes()
+  }
+
+  message = await promptType(message, config)
+
+  if (hasScope) {
+    const scopes: string[] = suggestScope
+      ? await scopeSuggestions
+      : config.scopes
+
+    message = await promptScope(scopes, message, config)
+  }
+
+  message = await promptSubject(message, config)
+
   return message
 }
 
-export async function promptBody(lines: string[] = [], config?: Config) {
+export async function promptBody(
+  lines: string[] = [],
+  config: Config = DefaultConfig
+) {
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
     const answer = (await prompt([
@@ -117,7 +145,10 @@ export async function promptBody(lines: string[] = [], config?: Config) {
   return result
 }
 
-export async function promptBreakingChanges(line: string, config?: Config) {
+export async function promptBreakingChanges(
+  line: string,
+  config: Config = DefaultConfig
+) {
   const answer = (await prompt([
     {
       type: 'input',
@@ -130,7 +161,10 @@ export async function promptBreakingChanges(line: string, config?: Config) {
   return answer.breaking
 }
 
-export async function promptIssues(lines: string[] = [], config?: Config) {
+export async function promptIssues(
+  lines: string[] = [],
+  config: Config = DefaultConfig
+) {
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
     const answer = (await prompt([
@@ -151,7 +185,7 @@ export async function promptIssues(lines: string[] = [], config?: Config) {
 
 export async function promptCommitMessage(
   message: CommitMessage = {},
-  config?: Config
+  config: Config = DefaultConfig
 ) {
   const header = await promptHeader(message, config)
   message = Object.assign(message, header)
@@ -168,7 +202,7 @@ export async function promptCommitMessage(
   return message
 }
 
-export async function promptConfirmCommit(config?: Config) {
+export async function promptConfirmCommit(config: Config = DefaultConfig) {
   const answer = (await prompt([
     {
       type: 'expand',

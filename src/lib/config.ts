@@ -21,7 +21,7 @@ export interface Config {
 
 const explorer = cosmiconfig('standard-commit')
 
-const defaults: Config = {
+export const DefaultConfig: Config = {
   scopes: 'suggest',
   types: [
     'feat',
@@ -38,7 +38,7 @@ const defaults: Config = {
 }
 
 export async function loadConfig() {
-  const config = Object.create(defaults)
+  const config = Object.create(DefaultConfig)
   const result = await explorer.search()
   if (result && result.config) {
     Object.assign(config, result.config)
