@@ -16,7 +16,35 @@ export interface Config {
    *
    * @default 'suggest'
    */
-  scopes?: 'suggest' | 'enforce' | 'none' | string[]
+  scopes?: 'suggest' | 'enforce' | 'none' | string[],
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptBody: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptBreaking: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptIssues: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptConfirm: boolean
 }
 
 const explorer = cosmiconfig('standard-commit')
@@ -34,7 +62,11 @@ export const DefaultConfig: Config = {
     'ci',
     'test',
     'chore'
-  ]
+  ],
+  promptBody: true,
+  promptBreaking: true,
+  promptIssues: true,
+  promptConfirm: true,
 }
 
 export async function loadConfig() {

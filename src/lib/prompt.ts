@@ -190,19 +190,25 @@ export async function promptCommitMessage(
   const header = await promptHeader(message, config)
   message = Object.assign(message, header)
 
-  const body = await promptBody(message.body, config)
-  message = Object.assign(message, { body })
+  if (config.promptBody) {
+    const body = await promptBody(message.body, config)
+    message = Object.assign(message, { body })
+  }
 
-  const breakingChanges = await promptBreakingChanges(message.breaking, config)
-  message = Object.assign(message, { breakingChanges })
+  if (config.promptBreaking) {
+    const breakingChanges = await promptBreakingChanges(message.breaking, config)
+    message = Object.assign(message, { breakingChanges })
+  }
 
-  const issues = await promptIssues(message.issues, config)
-  message = Object.assign(message, { issues })
-
+  if (config.promptIssues) {
+    const issues = await promptIssues(message.issues, config)
+    message = Object.assign(message, { issues })
+  }
   return message
 }
 
 export async function promptConfirmCommit(config: Config = DefaultConfig) {
+  if (!config.promptConfirm) return true
   const answer = (await prompt([
     {
       type: 'expand',

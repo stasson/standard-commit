@@ -56,7 +56,35 @@ interface Config {
    *
    * @default 'suggest'
    */
-  scopes?: 'suggest' | 'enforce' | 'none' | string[]
+  scopes?: 'suggest' | 'enforce' | 'none' | string[],
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptBody: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptBreaking: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptIssues: boolean,
+
+  /**
+   * set to false to skip.
+   *
+   * @default true
+   */
+  promptConfirm: boolean
 }
 ```
 
