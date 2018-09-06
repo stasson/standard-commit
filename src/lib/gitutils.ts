@@ -5,12 +5,9 @@ import { promisify } from 'util'
 
 const writeFile = promisify(fs.writeFile)
 
-export async function gitUnstagedPaths(cached: boolean = false) {
+export async function gitUnstagedPaths() {
   try {
-    const args = cached
-      ? ['diff', '--name-only', '--cached']
-      : ['diff', '--name-only']
-
+    const args = ['diff', '--name-only', '--cached']
     const git = await execa.stdout('git', args)
 
     return git

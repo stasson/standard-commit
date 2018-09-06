@@ -41,6 +41,7 @@
     "release": "standard-version"
   },
   "standard-commit": {
+    "scopes": "none"
   },
   "commitlint": {
     "extends": [
