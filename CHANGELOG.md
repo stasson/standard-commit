@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="0.6.1"></a>
+## [0.6.1](https://github.com/stasson/standard-commit/compare/v0.6.0...v0.6.1) (2018-09-06)
+
+
+### Bug Fixes
+
+* new files are missing from scope suggestions ([cca96fa](https://github.com/stasson/standard-commit/commit/cca96fa))
+
+
+
 <a name="0.6.0"></a>
 # [0.6.0](https://github.com/stasson/standard-commit/compare/v0.5.0...v0.6.0) (2018-09-04)
 
