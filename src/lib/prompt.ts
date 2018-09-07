@@ -47,7 +47,7 @@ export async function promptScope(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const scope = await prompt([
+  const { scope } = await prompt([
     {
       type: 'autocomplete',
       name: 'scope',
@@ -124,50 +124,54 @@ export async function promptHeader(
 }
 
 export async function promptBody(
-  lines: string[] = [],
+  message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const result: string[] = []
+  const lines = message.body || []
+  const body: string[] = []
   for (let i = 0; i < 20; i++) {
-    const answer = (await prompt([
+    const { line } = (await prompt([
       {
         type: 'input',
-        name: 'body',
+        name: 'line',
         message: PromptMessage.BODY,
         default: (lines && lines[i]) || undefined,
         filter: input => input.trim()
       }
-    ])) as { body: string }
-    const line = answer.body
+    ])) as { line }
+
     if (!line) break
-    result.push(line)
+    body.push(line)
   }
-  return result
+
+  return Object.assign(message, { body })
 }
 
 export async function promptBreakingChanges(
-  line: string,
+  message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const answer = (await prompt([
+  const { breaking } = (await prompt([
     {
       type: 'input',
       name: 'breaking',
       message: PromptMessage.BREAK,
-      default: line,
+      default: message.breaking || undefined,
       filter: input => input.trim()
     }
   ])) as { breaking: string }
-  return answer.breaking
+  return Object.assign(message, { breaking })
 }
 
 export async function promptIssues(
-  lines: string[] = [],
+  message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
+  const lines = message.issues || []
+
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
-    const answer = (await prompt([
+    const { issue } = (await prompt([
       {
         type: 'input',
         name: 'issue',
@@ -176,11 +180,11 @@ export async function promptIssues(
         filter: input => input.trim()
       }
     ])) as { issue: string }
-    const line = answer.issue
-    if (!line) break
-    result.push(...line.split(/\s+|,|;/))
+    if (!issue) break
+    result.push(...issue.split(/\s+|,|;/))
   }
-  return result.filter(issue => !!issue)
+  const issues = result.filter(issue => !!issue)
+  return Object.assign(message, { issues })
 }
 
 export async function promptCommitMessage(
@@ -191,18 +195,15 @@ export async function promptCommitMessage(
   message = Object.assign(message, header)
 
   if (config.promptBody) {
-    const body = await promptBody(message.body, config)
-    message = Object.assign(message, { body })
+    message = await promptBody(message, config)
   }
 
   if (config.promptBreaking) {
-    const breakingChanges = await promptBreakingChanges(message.breaking, config)
-    message = Object.assign(message, { breakingChanges })
+    message = await promptBreakingChanges(message, config)
   }
 
   if (config.promptIssues) {
-    const issues = await promptIssues(message.issues, config)
-    message = Object.assign(message, { issues })
+    message = await promptIssues(message, config)
   }
   return message
 }
