@@ -1,4 +1,4 @@
-import { loadConfig } from './lib'
+import { loadConfig } from '../lib'
 
 describe('config', () => {
   it('loads default config', async () => {

@@ -1,4 +1,4 @@
-import { parseCommitMessage } from './lib'
+import { parseCommitMessage } from '../lib'
 
 const conventional = {
   // 'Commit message with description and breaking change in body

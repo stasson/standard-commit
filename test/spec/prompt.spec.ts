@@ -1,15 +1,14 @@
+jest.mock('../../src/lib/scopes')
 import {
   promptConfirmCommit,
   promptSubject,
   promptType,
   promptScope,
   promptHeader,
-  promptCommitMessage
-} from './lib'
+  promptCommitMessage,
+  suggestScopes
+} from '../lib'
 import * as stdin from 'bdd-stdin'
-
-jest.mock('../src/lib/scopes')
-import { suggestScopes } from '../src/lib/scopes'
 
 const scopes = suggestScopes as any
 scopes.mockImplementation(async () => {
