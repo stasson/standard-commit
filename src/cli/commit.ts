@@ -3,27 +3,24 @@ import { commitCommand } from '../lib'
 
 const cli = meow(
   `
-  Usage: 
-  
-  standard-commit <options> 
-  git cc <options>
+  Usage: git cc [options...]
 
+  Where <options> is one of:
 
-  Options:
-
-  -a --all         
-  Tell the command to automatically stage files that have been modified.
-  
-  -s --signoff     
-  Add Signed-off-by at the end of the commit log message.
-  
-  -n --no-verify   
-  Bypasses the pre-commit and commit-msg hooks.
-  
-  -e --edit        
-  further edit the message.
-  `,
+    -a --all         
+    Tell the command to automatically stage files that have been modified.
+    
+    -s --signoff     
+    Add Signed-off-by at the end of the commit log message.
+    
+    -n --no-verify   
+    Bypasses the pre-commit and commit-msg hooks.
+    
+    -e --edit        
+    further edit the message.
+    `,
   {
+    description: 'standard-commit',
     flags: {
       all: {
         type: 'boolean',
