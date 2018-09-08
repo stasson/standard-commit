@@ -40,7 +40,7 @@ you can configure prettier via:
 - A `standard-commit` key in your package.json file.
 
 ```ts
-interface Config {
+{
   /**
    * Allowed types
    *
@@ -49,42 +49,47 @@ interface Config {
   types?: string[]
 
   /**
+   * Allowed scopes
+   *
+   * @default undefined
+   */
+  scopes?: string[]
+
+  /**
    * When set to 'suggest', scope is optional.
    * When set to 'enforce, scope can not be empty.
-   * When set to "none", scope prompt is skipped.
-   * When set to an array, the list of allowed scopes.
-   *
+   * When set to false, scope prompt is skipped.
    * @default 'suggest'
    */
-  scopes?: 'suggest' | 'enforce' | 'none' | string[],
+  promptScope?: 'suggest' | 'enforce' | false
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBody: boolean,
+  promptBody?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBreaking: boolean,
+  promptBreaking?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptIssues: boolean,
+  promptIssues?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptConfirm: boolean
+  promptConfirm?: boolean
 }
 ```
 

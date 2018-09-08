@@ -9,48 +9,52 @@ export interface Config {
   types?: string[]
 
   /**
+   * Allowed scopes
+   *
+   * @default undefined
+   */
+  scopes?: string[]
+
+  /**
    * When set to 'suggest', scope is optional.
    * When set to 'enforce, scope can not be empty.
-   * When set to "none", scope prompt is skipped.
-   * When set to an array, the list of allowed scopes.
-   *
+   * When set to false, scope prompt is skipped.
    * @default 'suggest'
    */
-  scopes?: 'suggest' | 'enforce' | 'none' | string[]
+  promptScope?: 'suggest' | 'enforce' | false
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBody: boolean
+  promptBody?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBreaking: boolean
+  promptBreaking?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptIssues: boolean
+  promptIssues?: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptConfirm: boolean
+  promptConfirm?: boolean
 }
 
 const explorer = cosmiconfig('standard-commit')
 
 export const DefaultConfig: Config = {
-  scopes: 'suggest',
   types: [
     'feat',
     'fix',
@@ -63,6 +67,7 @@ export const DefaultConfig: Config = {
     'test',
     'chore'
   ],
+  promptScope: 'suggest',
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,

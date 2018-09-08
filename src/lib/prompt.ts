@@ -47,21 +47,39 @@ export async function promptScope(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { scope } = await prompt([
-    {
-      type: 'autocomplete',
-      name: 'scope',
-      message: PromptMessage.SCOPE,
-      suggestOnly: config.scopes === 'suggest',
-      source: async (answers, input) => {
-        input = input || message.scope || ''
-        const results = fuzzy.filter(input, scopes)
-        const matches = results.map(el => el.original)
-        return matches
+  if (scopes && scopes.length) {
+    const { scope } = await prompt([
+      {
+        type: 'autocomplete',
+        name: 'scope',
+        message: PromptMessage.SCOPE,
+        suggestOnly: config.promptScope === 'suggest',
+        source: async (answers, input) => {
+          input = input || message.scope || ''
+          const results = fuzzy.filter(input, scopes)
+          const matches = results.map(el => el.original)
+          return matches
+        }
+      } as inquirer.Question
+    ])
+    return Object.assign(message, { scope })
+  } else {
+    const { scope } = (await prompt([
+      {
+        type: 'input',
+        name: 'scope',
+        message: PromptMessage.SCOPE,
+        default: message.scope || undefined,
+        validate: (input, answers) => {
+          if (!input && config.promptScope === 'enforce') {
+            return 'scope can not be empty'
+          }
+          return true
+        }
       }
-    } as inquirer.Question
-  ])
-  return Object.assign(message, { scope })
+    ])) as any
+    return Object.assign(message, { scope })
+  }
 }
 
 export async function promptSubject(
@@ -95,26 +113,11 @@ export async function promptHeader(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  let scopeSuggestions
-
-  const hasScope =
-    config.scopes !== 'none' ||
-    (Array.isArray(config.scopes) && config.scopes.length === 0)
-
-  const suggestScope =
-    hasScope && (config.scopes === 'suggest' || config.scopes === 'enforce')
-
-  if (suggestScope) {
-    scopeSuggestions = suggestScopes()
-  }
-
+  const getscopes = suggestScopes()
   message = await promptType(message, config)
+  const scopes = await getscopes
 
-  if (hasScope) {
-    const scopes: string[] = suggestScope
-      ? await scopeSuggestions
-      : config.scopes
-
+  if (!!config.promptScope) {
     message = await promptScope(scopes, message, config)
   }
 

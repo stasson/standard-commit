@@ -6,7 +6,23 @@ describe('config', () => {
     const config = await loadConfig()
     expect(config).toMatchInlineSnapshot(`
 Object {
-  "scopes": "none",
+  "promptBody": true,
+  "promptBreaking": true,
+  "promptConfirm": true,
+  "promptIssues": true,
+  "promptScope": "suggest",
+  "types": Array [
+    "feat",
+    "fix",
+    "style",
+    "docs",
+    "refactor",
+    "perf",
+    "build",
+    "ci",
+    "test",
+    "chore",
+  ],
 }
 `)
   })

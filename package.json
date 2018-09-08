@@ -40,9 +40,6 @@
     "prepublish": "run-s build:*",
     "release": "standard-version"
   },
-  "standard-commit": {
-    "scopes": "none"
-  },
   "commitlint": {
     "extends": [
       "@commitlint/config-conventional"
