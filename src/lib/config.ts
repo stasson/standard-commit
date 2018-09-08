@@ -16,28 +16,28 @@ export interface Config {
    *
    * @default 'suggest'
    */
-  scopes?: 'suggest' | 'enforce' | 'none' | string[],
+  scopes?: 'suggest' | 'enforce' | 'none' | string[]
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBody: boolean,
+  promptBody: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptBreaking: boolean,
+  promptBreaking: boolean
 
   /**
    * set to false to skip.
    *
    * @default true
    */
-  promptIssues: boolean,
+  promptIssues: boolean
 
   /**
    * set to false to skip.
@@ -66,7 +66,7 @@ export const DefaultConfig: Config = {
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,
-  promptConfirm: true,
+  promptConfirm: true
 }
 
 export async function loadConfig() {

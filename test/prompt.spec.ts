@@ -1,24 +1,22 @@
-import { promptType } from './lib'
+import {
+  promptConfirmCommit,
+  promptSubject,
+  promptType,
+  promptScope,
+  promptHeader,
+  promptCommitMessage
+} from './lib'
 import * as stdin from 'bdd-stdin'
-import { promptConfirmCommit, promptHeader, DefaultConfig, promptSubject } from '../src'
+
+jest.mock('../src/lib/scopes')
+import { suggestScopes } from '../src/lib/scopes'
+
+const scopes = suggestScopes as any
+scopes.mockImplementation(async () => {
+  return ['scope', 'other']
+})
 
 describe('prompt', () => {
-  describe('promptType', () => {
-    it('accepts feat as an answer', async () => {
-      expect.hasAssertions()
-      stdin('feat', '\n')
-      const { type } = await promptType()
-      expect(type).toEqual('feat')
-    })
-
-    it('to return feat by default', async () => {
-      expect.hasAssertions()
-      stdin('\n')
-      const { type } = await promptType()
-      expect(type).toEqual('feat')
-    })
-  })
-
   describe('promptConfirmCommit', () => {
     it('accepts enter as an answer', async () => {
       expect.hasAssertions()
@@ -41,6 +39,22 @@ describe('prompt', () => {
       expect(result).toEqual(false)
     })
 
+    describe('promptType', () => {
+      it('accepts feat as an answer', async () => {
+        expect.hasAssertions()
+        stdin('feat', '\n')
+        const { type } = await promptType()
+        expect(type).toEqual('feat')
+      })
+
+      it('to return feat by default', async () => {
+        expect.hasAssertions()
+        stdin('\n')
+        const { type } = await promptType()
+        expect(type).toEqual('feat')
+      })
+    })
+
     it('accepts edit as an answer', async () => {
       expect.hasAssertions()
       stdin('e', '\n')
@@ -55,6 +69,82 @@ describe('prompt', () => {
       stdin(' a valid subject ', '\n')
       const { subject } = await promptSubject()
       expect(subject).toEqual('a valid subject')
+    })
+  })
+
+  describe('promptScope', () => {
+    it('accepts answers', async () => {
+      expect.hasAssertions()
+      stdin('scope', '\n')
+      const { scope } = await promptScope(['scope'])
+      expect(scope).toEqual('scope')
+    })
+  })
+
+  describe('promptHeader', () => {
+    it('accepts answers', async () => {
+      expect.hasAssertions()
+      stdin('feat', '\n', 'scope', '\n', 'subject', '\n')
+      const message = await promptHeader()
+      expect(message).toMatchInlineSnapshot(`
+Object {
+  "scope": "scope",
+  "subject": "subject",
+  "type": "feat",
+}
+`)
+    })
+  })
+
+  describe('promptMessage', () => {
+    it('accepts answers', async () => {
+      expect.hasAssertions()
+      stdin(
+        'feat',
+        '\n',
+        'scope',
+        '\n',
+        'subject',
+        '\n',
+        'body',
+        '\n',
+        '\n',
+        'brealing',
+        '\n',
+        '\n',
+        'issue',
+        '\n',
+        '\n'
+      )
+      const message = await promptCommitMessage()
+      expect(message).toMatchInlineSnapshot(`
+Object {
+  "body": Array [
+    "body",
+  ],
+  "breaking": "brealing",
+  "issues": Array [],
+  "scope": "scope",
+  "subject": "subject",
+  "type": "feat",
+}
+`)
+    })
+
+    it('accepts quick answers', async () => {
+      expect.hasAssertions()
+      stdin('\n', '\n', 'subject', '\n', '\n', '\n', '\n')
+      const message = await promptCommitMessage()
+      expect(message).toMatchInlineSnapshot(`
+Object {
+  "body": Array [],
+  "breaking": "",
+  "issues": Array [],
+  "scope": "",
+  "subject": "subject",
+  "type": "feat",
+}
+`)
     })
   })
 })

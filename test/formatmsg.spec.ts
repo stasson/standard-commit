@@ -10,7 +10,10 @@ describe('formatMessage', () => {
         type: 'type',
         subject: 'subject'
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"type: subject
+"
+`)
   })
 
   it('formats scoped header', () => {
@@ -20,7 +23,10 @@ describe('formatMessage', () => {
         scope: 'scope',
         subject: 'subject'
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"type(scope): subject
+"
+`)
   })
 
   it('formats body', () => {
@@ -31,7 +37,19 @@ describe('formatMessage', () => {
         subject: 'subject',
         body: ['lore ipsum:', loreipsum]
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"type(scope): subject
+
+lore ipsum:
+Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+mollit anim id est laborum.
+"
+`)
   })
 
   it('formats breaking change', () => {
@@ -42,7 +60,12 @@ describe('formatMessage', () => {
         subject: 'subject',
         breaking: 'a breaking change'
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"type(scope): subject
+
+BREAKING CHANGE: a breaking change
+"
+`)
   })
 
   it('formats issues', () => {
@@ -53,7 +76,13 @@ describe('formatMessage', () => {
         subject: 'subject',
         issues: ['#1', '#2']
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"fix(scope): subject
+
+fixes #1
+fixes #2
+"
+`)
 
     expect(
       formatMessage({
@@ -62,7 +91,13 @@ describe('formatMessage', () => {
         subject: 'subject',
         issues: ['#1', '#2']
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"feat(scope): subject
+
+closes #1
+closes #2
+"
+`)
   })
 
   it('formats all', () => {
@@ -75,6 +110,16 @@ describe('formatMessage', () => {
         breaking: 'this is a breaking change',
         issues: ['#1', '#2']
       })
-    ).toMatchSnapshot()
+    ).toMatchInlineSnapshot(`
+"feat(scope): subject
+
+description of the change
+
+BREAKING CHANGE: this is a breaking change
+
+closes #1
+closes #2
+"
+`)
   })
 })
