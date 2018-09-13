@@ -18,7 +18,9 @@ npm install -g standard-commit
 # cli
 standard-commit --help
 
-# alias git-cc is also installed
+# you can create an alias:
+git config --global alias.cc '!standard-commit'
+# then use: 
 git cc <option>
 ```
 

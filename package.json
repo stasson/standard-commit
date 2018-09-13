@@ -20,12 +20,11 @@
   ],
   "main": "index.js",
   "files": [
-    "commit.js",
+    "bin",
     "dist"
   ],
   "bin": {
-    "standard-commit": "commit.js",
-    "git-cc": "commit.js"
+    "standard-commit": "bin/commit.js"
   },
   "scripts": {
     "start": "ts-node src/cli/commit.ts",

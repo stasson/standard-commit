@@ -3,7 +3,7 @@ import { commitCommand } from '../lib'
 
 const cli = meow(
   `
-  Usage: git cc [options...]
+  Usage: standard-commit cc [options...]
 
   Where <options> is one of:
 
@@ -18,6 +18,12 @@ const cli = meow(
     
     -e --edit        
     further edit the message.
+
+  Alias: git cc <option> with:
+  
+    git config --global alias.cc '!standard-commit' 
+    
+
     `,
   {
     description: 'standard-commit',
