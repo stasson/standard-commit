@@ -11,7 +11,7 @@ import {
 
 const cli = meow(
   `
-  Usage: standard-commit cc [options...]
+  Usage: standard-commit [options...]
 
   Where <options> is one of:
 
@@ -30,9 +30,7 @@ const cli = meow(
   Alias: git cc <option> with:
   
     git config --global alias.cc '!standard-commit' 
-    
-
-    `,
+  `,
   {
     description: 'standard-commit',
     flags: {

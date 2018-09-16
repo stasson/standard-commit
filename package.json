@@ -25,7 +25,7 @@
   ],
   "bin": {
     "standard-commit": "bin/commit.js",
-    "standard-commit-msg-hook": "bin/commit-msg-hook.js",
+    "standard-commithook": "bin/commithook.js",
     "standard-commitlint": "bin/commitlint.js"
   },
   "scripts": {
@@ -41,13 +41,8 @@
     "prepublish": "run-s build:*",
     "release": "standard-version"
   },
-  "commitlint": {
-    "extends": [
-      "standard-commit"
-    ]
-  },
   "gitHooks": {
-    "commit-msg": "ts-node src/cli/commit-msg-hook.ts"
+    "commit-msg": "ts-node src/cli/commithook.ts"
   },
   "jest": {
     "transform": {
@@ -69,20 +64,18 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^7.0.0",
-    "@commitlint/config-conventional": "^7.0.1",
     "@types/execa": "^0.9.0",
-    "@types/jest": "^23.3.1",
+    "@types/jest": "^23.3.2",
     "@types/listr": "^0.13.0",
     "@types/node": "^10.8.0",
     "bdd-stdin": "^0.2.0",
     "cross-env": "^5.2.0",
-    "jest": "^23.5.0",
+    "jest": "^23.6.0",
     "npm-run-all": "^4.1.3",
     "prettier": "^1.14.2",
     "standard-version": "^4.4.0",
     "ts-jest": "^23.1.4",
-    "ts-node-dev": "^1.0.0-pre.26",
+    "ts-node-dev": "^1.0.0-pre.30",
     "tslint": "^5.11.0",
     "tslint-config-prettier": "^1.15.0",
     "tslint-plugin-prettier": "^1.3.0",
@@ -102,8 +95,7 @@
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "linewrap": "^0.2.1",
-    "meow": "^5.0.0",
-    "minimist": "^1.2.0"
+    "meow": "4.0.1"
   },
   "engines": {
     "node": ">=8.0.0"

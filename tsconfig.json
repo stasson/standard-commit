@@ -13,6 +13,6 @@
   },
   "include": [ 
     "src/**/*",
-    "test/**/*", "bin/commitlint.js", "bin/commit-msg-hook.js", "bin/msg-commit-hook.js", "bin/msg-commit-hook.ts"
+    "test/**/*", "bin/commitlint.js", "bin/commithook.js", "bin/msg-commit-hook.js", "bin/msg-commit-hook.ts", "bin/commit.js"
   ]
 }

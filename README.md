@@ -2,11 +2,13 @@
 
 [![npm version](https://badge.fury.io/js/standard-commit.svg)](https://badge.fury.io/js/standard-commit)
 
-A no-brainer zero-config [conventional commit](https://conventionalcommits.org/) command line.
+A zero-confi,g opiniated, [commitizen](https://github.com/commitizen/cz-cli) like command line utility to enforce the [conventional commits](https://conventionalcommits.org/) and have a clean changelog with [standard-version](https://github.com/conventional-changelog/standard-version).
 
-Formats commit according to [standard-version](https://www.npmjs.com/package/standard-version).
+- **standard-commit**: Same as `git commit` but with prompt and formating of the commit message.
 
-> under dev...
+- **standard-commitlint** runs [commitlint](https://github.com/marionebl/commitlint) based on your standard-commit config.
+
+- **standard-commithook** is meant to be run as a `commit-msg` git hook to enforce the convention.
 
 ## Usage
 
@@ -15,27 +17,72 @@ npm install -g standard-commit
 ```
 
 ```bash
-# cli
 standard-commit --help
+```
 
+### git alias
+
+```bash
 # you can create an alias:
 git config --global alias.cc '!standard-commit'
 # then use:
 git cc <option>
 ```
 
-## Options
+### commitlint
 
-| short | long        | description                                        |
-| ----- | ----------- | -------------------------------------------------- |
-| -a    | --all       | Automatically stage files that have been modified. |
-| -s    | --signoff   | Add Signed-off-by.                                 |
-| -n    | --no-verify | Bypasses the commit hooks.                         |
-| -e    | --edit      | further edit the message.                          |
+```bash
+# Usage: standard-commitlint [options...]
+# Where <options> is one of:
+#   -f --from  lower end of the commit range to lint.
+#   -t --to    upper end of the commit range to lint.
+standard-commitlint --help
+```
 
-## Configuration File
+### ci checks
 
-you can configure prettier via:
+```bash
+# CI check before merge request
+npx -p standard-commit standard-commitlint --from origin/master
+```
+
+### repo setup
+
+install yorkie (or husky@next)
+
+```bash
+npm install --save-dev yorkie standard-commit standard-version
+```
+
+and setup the scripts and commit-msg hook in your _package.json_
+
+```json
+{
+  "scripts": {
+    "commit": "standard-commit",
+    "commitlint": "standard-commitlint",
+    "release": "standard-version"
+  },
+  "gitHooks": {
+    "commit-msg": "standard-commithook"
+  }
+}
+```
+
+```bash
+# use commit script to commit
+npm -s run commit
+
+# use commitlint script to check commit history
+npm -s run commitlint -- --from  origin/master
+
+# use release script to create a version commit
+npm -s run release
+```
+
+## Configuration
+
+you can configure standard-commit via:
 
 - A `.standard-commitrc` file, written in YAML or JSON, with optional extensions: .yaml/.yml/.json.
 - A `standard-commit.config.js` file that exports an object.
@@ -101,74 +148,3 @@ you can configure prettier via:
   rules?: {}
 }
 ```
-
-## commitlint
-
-standard-commit comes bundled with [commitlint](https://github.com/marionebl/commitlint)
-
-```bash
-  standard-commitlint
-
-  Usage: standard-commitlint [options...]
-
-  Where <options> is one of:
-
-    -f --from
-    lower end of the commit range to lint.
-
-    -t --to
-    upper end of the commit range to lint.
-
-  Exemple:
-
-    standard-commitlint --from origin/master
-```
-
-### ci checks
-
-```bash
-npx -p standard-commit standard-commitlint --from origin/master
-```
-
-### commit-msg hook
-
-the `standard-commit-msg-hook` bin can be used as a pre-commit hook:
-
-install yorkie (or husky@^1.0.0-rc14)
-
-```bash
-npm install --save-dev yorkie standard-commit
-```
-
-and setup the commit-msg hook in your _package.json_
-
-```json
-{
-  "gitHooks": {
-    "commit-msg": "standard-commit-msg-hook"
-  }
-}
-```
-
-## Other usefull packages
-
-### standard-version
-
-> [standard-version](https://www.npmjs.com/package/standard-version) creates a release commit with bumped version and updated changelog
-
-```bash
-npm install --save-dev standard-version
-```
-
-```json
-{
-  // package.json
-  "scripts": {
-    "release": "standard-version"
-  }
-}
-```
-
-### commitizen
-
-standard-commit is highly inspired by the [commitizen](https://github.com/commitizen/cz-cli) command line utility, which is configurable.
