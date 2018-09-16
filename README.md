@@ -20,18 +20,18 @@ standard-commit --help
 
 # you can create an alias:
 git config --global alias.cc '!standard-commit'
-# then use: 
+# then use:
 git cc <option>
 ```
 
 ## Options
 
-| short | long        | description                                                            |
-| ----- | ----------- | ---------------------------------------------------------------------- |
-| -a    | --all       | Tell the command to automatically stage files that have been modified. |
-| -s    | --signoff   | Add Signed-off-by at the end of the commit log message.                |
-| -n    | --no-verify | Bypasses the pre-commit and commit-msg hooks.                          |
-| -e    | --edit      | further edit the message.                                              |
+| short | long        | description                                        |
+| ----- | ----------- | -------------------------------------------------- |
+| -a    | --all       | Automatically stage files that have been modified. |
+| -s    | --signoff   | Add Signed-off-by.                                 |
+| -n    | --no-verify | Bypasses the commit hooks.                         |
+| -e    | --edit      | further edit the message.                          |
 
 ## Configuration File
 
@@ -46,7 +46,7 @@ you can configure prettier via:
   /**
    * Allowed types
    *
-   * @default [ 'feat', 'fix', 'docs', 'refactor', 'chore' ...]
+   * @default [ 'feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore' ]
    */
   types?: string[]
 
