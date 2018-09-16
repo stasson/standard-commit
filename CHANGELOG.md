@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/stasson/standard-commit/compare/v0.10.0...v1.0.0) (2018-09-16)
+
+
+### Features
+
+* simplify commithook and commitlint ([804ad71](https://github.com/stasson/standard-commit/commit/804ad71))
+
+
+### BREAKING CHANGES
+
+* standard-commit-lint is now standard-commitlint and standard-commit-msg-hook is now standard-commithook
+
+
+
 <a name="0.10.0"></a>
 # [0.10.0](https://github.com/stasson/standard-commit/compare/v0.9.1...v0.10.0) (2018-09-16)
 
