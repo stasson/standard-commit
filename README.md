@@ -92,30 +92,65 @@ you can configure prettier via:
    * @default true
    */
   promptConfirm?: boolean
+
+  /**
+   * extra commitlint rules
+   *
+   * see http://marionebl.github.io/commitlint/#/reference-rules
+   */
+  rules?: {}
+}
+```
+
+## commitlint
+
+standard-commit comes bundled with [commitlint](https://github.com/marionebl/commitlint)
+
+```bash
+  standard-commitlint
+
+  Usage: standard-commitlint [options...]
+
+  Where <options> is one of:
+
+    -f --from
+    lower end of the commit range to lint.
+
+    -t --to
+    upper end of the commit range to lint.
+
+  Exemple:
+
+    standard-commitlint --from origin/master
+```
+
+### ci checks
+
+```bash
+npx -p standard-commit standard-commitlint --from origin/master
+```
+
+### commit-msg hook
+
+the `standard-commit-msg-hook` bin can be used as a pre-commit hook:
+
+install yorkie (or husky@^1.0.0-rc14)
+
+```bash
+npm install --save-dev yorkie standard-commit
+```
+
+and setup the commit-msg hook in your _package.json_
+
+```json
+{
+  "gitHooks": {
+    "commit-msg": "standard-commit-msg-hook"
+  }
 }
 ```
 
 ## Other usefull packages
-
-### commitlint
-
-> use commit hooks to trigger [commitlint](https://github.com/marionebl/commitlint) and validate the commit message.
-
-```bash
-npm install --save-dev yorkie @commitlint/cli commitlint/config-conventional
-```
-
-```json
-{
-  // package.json
-  "commitlint": {
-    "extends": ["@commitlint/config-conventional"]
-  },
-  "gitHooks": {
-    "commit-msg": "commitlint -E GIT_PARAMS"
-  }
-}
-```
 
 ### standard-version
 

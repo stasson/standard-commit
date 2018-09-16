@@ -11,7 +11,7 @@ module.exports = {
     'test',
     'chore'
   ],
-  promptScope: 'suggest',
+  promptScope: false,
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,

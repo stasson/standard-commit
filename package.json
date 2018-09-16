@@ -24,7 +24,9 @@
     "dist"
   ],
   "bin": {
-    "standard-commit": "bin/commit.js"
+    "standard-commit": "bin/commit.js",
+    "standard-commit-msg-hook": "bin/commit-msg-hook.js",
+    "standard-commitlint": "bin/commitlint.js"
   },
   "scripts": {
     "start": "ts-node src/cli/commit.ts",
@@ -41,11 +43,11 @@
   },
   "commitlint": {
     "extends": [
-      "@commitlint/config-conventional"
+      "standard-commit"
     ]
   },
   "gitHooks": {
-    "commit-msg": "commitlint -E GIT_PARAMS"
+    "commit-msg": "ts-node src/cli/commit-msg-hook.ts"
   },
   "jest": {
     "transform": {
@@ -88,8 +90,12 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
+    "@commitlint/format": "^7.1.2",
+    "@commitlint/lint": "^7.1.2",
+    "@commitlint/read": "^7.1.2",
     "@types/inquirer": "0.0.43",
     "@types/meow": "^4.0.1",
+    "chalk": "^2.4.1",
     "cosmiconfig": "^5.0.6",
     "execa": "^1.0.0",
     "fuzzy": "^0.1.3",

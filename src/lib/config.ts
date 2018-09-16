@@ -50,6 +50,15 @@ export interface Config {
    * @default true
    */
   promptConfirm?: boolean
+
+  /**
+   * extra commitlint rules
+   *
+   * see http://marionebl.github.io/commitlint/#/reference-rules
+   *
+   * @default []
+   */
+  rules?: {}
 }
 
 const explorer = cosmiconfig('standard-commit')
