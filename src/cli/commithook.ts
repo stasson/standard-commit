@@ -10,8 +10,6 @@ async function commitHook() {
     const config = await load
     const commitmsg = await read
     const report = await commitLint(commitmsg[0], config)
-//    console.log(report)
-
     const header = commitmsg[0].split('\n')[0].trim()
 
     if (report.errors.length > 0) {
@@ -24,7 +22,6 @@ async function commitHook() {
 
     const output = await commitFormatReport(report)
     process.stdout.write(output)
-    process.stdout.write(chalk.reset(EOL))
     process.stdout.write(chalk.reset(EOL))
 
     process.exit(report.errors.length > 0 ? -1 : 0)
