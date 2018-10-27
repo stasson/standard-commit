@@ -49,27 +49,25 @@ async function commitHook() {
       const report = await commitLint(commitmsg, config)
       const header = commitmsg.split('\n')[0].trim()
 
-      if (report.valid) {
-        process.stdout.write(chalk.blue(header))
-      } else {
+      if (report.errors.length > 0) {
         process.stdout.write(chalk.red(header))
+      } else if (report.warnings.length > 0) {
+        process.stdout.write(chalk.yellow(header))
+      } else {
+        process.stdout.write(chalk.blue(header))
       }
-      process.stdout.write(chalk.reset(EOL))
 
       const output = await commitFormatReport(report)
-      for (const line of output) {
-        process.stdout.write(line)
-        process.stdout.write(chalk.reset(EOL))
-      }
-
-      process.stdout.write(EOL)
+      process.stdout.write(output)
+      process.stdout.write(chalk.reset(EOL))
+      process.stdout.write(chalk.reset(EOL))
       error = error || report.errors.length > 0
     }
-    process.exit(error ? 1 : 0)
+    process.exit(error ? -1 : 0)
   } catch (err) {
     // tslint:disable-next-line:no-console
     console.error(err)
-    process.exit(1)
+    process.exit(-1)
   }
 }
 

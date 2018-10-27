@@ -13,6 +13,7 @@ export type CommitlintIssue = {
 
 export type CommitlintReport = {
   valid: boolean
+  input: string
   errors: CommitlintIssue[]
   warnings: CommitlintIssue[]
 }
@@ -74,8 +75,13 @@ export async function commitLint(
 
 export async function commitFormatReport(
   report: CommitlintReport
-): Promise<string[]> {
-  return format(report, { color: true })
+): Promise<string> {
+  return format(
+    {
+      results: [report]
+    },
+    { color: true }
+  )
 }
 
 export async function commitRead(range: Range): Promise<string[]> {

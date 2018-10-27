@@ -86,8 +86,8 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@commitlint/format": "^7.1.2",
-    "@commitlint/lint": "^7.1.2",
+    "@commitlint/format": "^7.2.1",
+    "@commitlint/lint": "^7.2.1",
     "@commitlint/read": "^7.1.2",
     "@types/inquirer": "0.0.43",
     "@types/meow": "^4.0.1",
@@ -98,7 +98,7 @@
     "inquirer": "^6.2.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "linewrap": "^0.2.1",
-    "meow": "4.0.1"
+    "meow": "^5.0.0"
   },
   "engines": {
     "node": ">=8.0.0"
