@@ -24,7 +24,7 @@ export async function getUnstagedScopesSuggestions() {
   return suggestions
 }
 
-export async function suggestScopes(config: Config = DefaultConfig) {
+export async function suggestScopes(config: Config) {
   let scopes: string[] = []
 
   if (config.promptScope) {

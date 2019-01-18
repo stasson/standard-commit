@@ -113,7 +113,7 @@ export async function promptHeader(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const getscopes = suggestScopes()
+  const getscopes = suggestScopes(config)
   message = await promptType(message, config)
   const scopes = await getscopes
 
