@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/stasson/standard-commit/compare/v1.0.1...v1.1.0) (2019-01-19)
+
+
+### Bug Fixes
+
+* scopes config is not applied ([aa70173](https://github.com/stasson/standard-commit/commit/aa70173))
+* **lib:** update rules as per latest conventional commit ([e276965](https://github.com/stasson/standard-commit/commit/e276965))
+
+
+### Features
+
+* **scopes:** add support for monorepo package names ([f4ba3dd](https://github.com/stasson/standard-commit/commit/f4ba3dd))
+
+
+
 <a name="1.0.1"></a>
 ## [1.0.1](https://github.com/stasson/standard-commit/compare/v1.0.0...v1.0.1) (2018-10-27)
 
