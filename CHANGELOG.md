@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/stasson/standard-commit/compare/v1.1.0...v1.2.0) (2019-01-19)
+
+
+### Features
+
+* **lib:** adjust scope suggestion order ([73d38e7](https://github.com/stasson/standard-commit/commit/73d38e7))
+* **prompt:** improve scope prompt for suggest ([c395f6d](https://github.com/stasson/standard-commit/commit/c395f6d))
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/stasson/standard-commit/compare/v1.0.1...v1.1.0) (2019-01-19)
 
