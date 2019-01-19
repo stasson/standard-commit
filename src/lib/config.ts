@@ -4,12 +4,14 @@ export interface Config {
   /**
    * Allowed types
    *
-   * @default [ 'feat', 'fix', 'docs', 'refactor', 'chore' ...]
+   * @default ['feat','fix','chore','docs','style','refactor','test',...]
    */
   types?: string[]
 
   /**
-   * Allowed scopes
+   * When set to 'staged', suggest from staged files (git).
+   * When set to 'packages, suggest from package names (monorepo).
+   * When set to an array, the list of scopes.
    *
    * @default 'staged'
    */
