@@ -12,7 +12,7 @@ module.exports = {
     'chore'
   ],
   promptScope: true,
-  scopes: 'unstaged',
+  scopes: 'staged',
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,

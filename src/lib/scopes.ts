@@ -1,4 +1,4 @@
-import { gitUnstagedPaths, gitTopLevel } from './gitutils'
+import { gitStagedPaths, gitTopLevel } from './gitutils'
 import { Config } from './config'
 import * as path from 'path'
 import * as util from 'util'
@@ -12,8 +12,8 @@ export function sortScopes(suggestions: object) {
   })
 }
 
-export async function getUnstagedScopesSuggestions() {
-  const paths = await gitUnstagedPaths()
+export async function getStagedScopesSuggestions() {
+  const paths = await gitStagedPaths()
 
   const suggestions = sortScopes(
     paths.reduce((s, f) => {
@@ -32,7 +32,7 @@ export async function getUnstagedScopesSuggestions() {
 
 export async function getPackageSuggestions() {
   const topLevel = gitTopLevel()
-  const unstagedPaths = await gitUnstagedPaths()
+  const unstagedPaths = await gitStagedPaths()
   const paths = sortScopes(
     unstagedPaths.reduce((s, f) => {
       const packages = ['package.json']
@@ -65,8 +65,8 @@ export async function getPackageSuggestions() {
 
 export async function suggestScopes(config: Config) {
   if (config.promptScope) {
-    if (config.scopes == 'unstaged') {
-      return getUnstagedScopesSuggestions()
+    if (config.scopes == 'staged') {
+      return getStagedScopesSuggestions()
     } else if (config.scopes == 'packages') {
       return getPackageSuggestions()
     } else {

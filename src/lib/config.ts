@@ -11,9 +11,9 @@ export interface Config {
   /**
    * Allowed scopes
    *
-   * @default 'unstaged'
+   * @default 'staged'
    */
-  scopes?: 'unstaged' | 'packages' | string[]
+  scopes?: 'staged' | 'packages' | string[]
 
   /**
    * When set to 'suggest', scope is optional.
@@ -75,7 +75,7 @@ export const DefaultConfig: Config = {
     'perf',
     'improvment'
   ],
-  scopes: 'unstaged',
+  scopes: 'staged',
   promptScope: 'suggest',
   promptBody: true,
   promptBreaking: true,
