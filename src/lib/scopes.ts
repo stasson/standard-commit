@@ -32,7 +32,7 @@ export async function getStagedScopesSuggestions() {
 export async function getPackageSuggestions() {
   const topLevel = gitTopLevel()
   const unstagedPaths = await gitStagedPaths()
-  let paths = sortScopes(
+  const paths = sortScopes(
     unstagedPaths.reduce((s, f) => {
       const packages = []
       f = path.dirname(f)
