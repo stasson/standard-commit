@@ -18,27 +18,26 @@ export async function getStagedScopesSuggestions() {
   const suggestions = sortScopes(
     paths.reduce((s, f) => {
       const { name, dir } = path.parse(f)
-      const keys = [name, ...dir.split('/').filter(d => d)]
+      const keys = ['root', ...dir.split('/').filter(d => d), name].reverse()
+      let weight = 1
       for (const k of keys) {
-        const weight = s[k]
-        s[k] = weight ? weight + 1 : 1
+        s[k] = weight++
       }
       return s
     }, {})
   )
-
   return suggestions
 }
 
 export async function getPackageSuggestions() {
   const topLevel = gitTopLevel()
   const unstagedPaths = await gitStagedPaths()
-  const paths = sortScopes(
+  let paths = sortScopes(
     unstagedPaths.reduce((s, f) => {
-      const packages = ['package.json']
+      const packages = []
       f = path.dirname(f)
       while (f != '.') {
-        packages.unshift(path.join(f, 'package.json'))
+        packages.push(path.join(f, 'package.json'))
         f = path.dirname(f)
       }
       for (const pkg of packages) {
@@ -48,7 +47,7 @@ export async function getPackageSuggestions() {
       return s
     }, {})
   )
-
+  paths.push('package.json')
   const rootDir = await topLevel
   const suggestions = []
 

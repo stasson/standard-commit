@@ -10,7 +10,7 @@ Object {
   "promptBreaking": true,
   "promptConfirm": true,
   "promptIssues": true,
-  "promptScope": true,
+  "promptScope": "suggest",
   "scopes": "staged",
   "types": Array [
     "feat",
