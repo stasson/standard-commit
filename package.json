@@ -45,7 +45,7 @@
     "release:publish": "git push --follow-tags && npm publish"
   },
   "gitHooks": {
-    "commit-msg": "echo ts-node src/cli/commithook.ts"
+    "commit-msg": "ts-node src/cli/commithook.ts"
   },
   "jest": {
     "transform": {
