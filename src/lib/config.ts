@@ -11,9 +11,9 @@ export interface Config {
   /**
    * Allowed scopes
    *
-   * @default undefined
+   * @default 'unstaged'
    */
-  scopes?: string[]
+  scopes?: 'unstaged' | 'packages' | string[]
 
   /**
    * When set to 'suggest', scope is optional.
@@ -65,6 +65,7 @@ const explorer = cosmiconfig('standard-commit')
 
 export const DefaultConfig: Config = {
   types: ['feat', 'fix', 'docs', 'style', 'refactor', 'test', 'chore'],
+  scopes: 'unstaged',
   promptScope: 'suggest',
   promptBody: true,
   promptBreaking: true,

@@ -58,3 +58,10 @@ export async function gitCanCommit(...args) {
     return false
   }
 }
+
+export async function gitTopLevel() {
+  // git rev-parse --show-toplevel
+  const gitDir = execa('git', ['rev-parse', '--show-toplevel'])
+  const gitPath = (await gitDir).stdout.trim()
+  return gitPath
+}
