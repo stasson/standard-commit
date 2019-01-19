@@ -1,6 +1,7 @@
 import * as lint from '@commitlint/lint'
 import * as format from '@commitlint/format'
 import * as read from '@commitlint/read'
+import * as conventional from '@commitlint/config-conventional'
 
 import { Config, DefaultConfig } from './config'
 
@@ -31,38 +32,43 @@ export async function commitLint(
   message: string,
   config: Config = DefaultConfig
 ): Promise<CommitlintReport> {
-  const rules = {
-    'body-leading-blank': [1, 'always'],
-    'footer-leading-blank': [1, 'always'],
-    'header-max-length': [2, 'always', 72],
-    'subject-case': [2, 'always', ['lower-case']],
-    'subject-empty': [2, 'never'],
-    'subject-full-stop': [2, 'never', '.'],
-    'type-case': [2, 'always', 'lower-case'],
-    'type-empty': [2, 'never'],
-    'type-enum': [2, 'always', config.types]
+  const rules = conventional.rules
+
+  // const rules = {
+  //   'body-leading-blank': [1, 'always'],
+  //   'footer-leading-blank': [1, 'always'],
+  //   'header-max-length': [2, 'always', 72],
+  //   'subject-case': [2, 'always', ['lower-case']],
+  //   'subject-empty': [2, 'never'],
+  //   'subject-full-stop': [2, 'never', '.'],
+  //   'type-case': [2, 'always', 'lower-case'],
+  //   'type-empty': [2, 'never'],
+  //   'type-enum': [2, 'always', config.types]
+  // }
+
+  // update types
+  if (config.types) {
+    Object.assign(rules, {
+      'type-enum': [2, 'always', config.types]
+    })
   }
 
   // add scope rules
   if (config.promptScope) {
-    Object.assign(rules, {
-      'scope-case': [2, 'always', 'lower-case']
-    })
-
     if (config.promptScope === 'enforce') {
       Object.assign(rules, {
         'scope-empty': [2, 'never']
       })
+
+      if (Array.isArray(config.scopes)) {
+        Object.assign(rules, {
+          'scope-enum': [2, 'always', config.scopes]
+        })
+      }
     }
   } else {
     Object.assign(rules, {
       'scope-empty': [2, 'always']
-    })
-  }
-
-  if (config.scopes && config.scopes.length > 0) {
-    Object.assign(rules, {
-      'scope-enum': [2, 'always', config.scopes]
     })
   }
 
