@@ -1,5 +1,6 @@
 import * as inquirer from 'inquirer'
 import * as autocomplete from 'inquirer-autocomplete-prompt'
+import * as suggest from 'inquirer-prompt-suggest'
 import * as fuzzy from 'fuzzy'
 import { CommitMessage } from './commitmsg'
 import { formatHeader } from './formatmsg'
@@ -8,6 +9,7 @@ import { suggestScopes } from './scopes'
 
 export const prompt = inquirer.createPromptModule()
 prompt.registerPrompt('autocomplete', autocomplete)
+prompt.registerPrompt('suggest', suggest)
 
 // prettier-ignore
 const enum PromptMessage {
@@ -48,22 +50,37 @@ export async function promptScope(
   config: Config = DefaultConfig
 ) {
   if (scopes && scopes.length) {
-    const { scope } = await prompt([
-      {
-        type: 'autocomplete',
-        name: 'scope',
-        message: PromptMessage.SCOPE,
-        suggestOnly: config.promptScope === 'suggest',
-        source: async (answers, input) => {
-          input = input || message.scope || ''
-          const results = fuzzy.filter(input, scopes)
-          const matches = results.map(el => el.original)
-          return matches
-        }
-      } as inquirer.Question
-    ])
-    return Object.assign(message, { scope })
+    if (config.promptScope == 'enforce') {
+      // enforce suggestions
+      const { scope } = await prompt([
+        {
+          type: 'autocomplete',
+          name: 'scope',
+          message: PromptMessage.SCOPE,
+          suggestOnly: false,
+          source: async (answers, input) => {
+            input = input || message.scope || ''
+            const results = fuzzy.filter(input, scopes)
+            const matches = results.map(el => el.original)
+            return matches
+          }
+        } as inquirer.Question
+      ])
+      return Object.assign(message, { scope })
+    } else {
+      // with suggestions
+      const { scope } = await prompt([
+        {
+          type: 'suggest',
+          name: 'scope',
+          message: PromptMessage.SCOPE,
+          suggestions: scopes
+        } as inquirer.Question
+      ])
+      return Object.assign(message, { scope })
+    }
   } else {
+    // no suggestions
     const { scope } = (await prompt([
       {
         type: 'input',
