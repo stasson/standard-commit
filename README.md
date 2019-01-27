@@ -2,13 +2,21 @@
 
 [![npm version](https://badge.fury.io/js/standard-commit.svg)](https://badge.fury.io/js/standard-commit)
 
-A zero-confi,g opiniated, [commitizen](https://github.com/commitizen/cz-cli) like command line utility to enforce the [conventional commits](https://conventionalcommits.org/) and have a clean changelog with [standard-version](https://github.com/conventional-changelog/standard-version).
+A zero-config opiniated, [commitizen](https://github.com/commitizen/cz-cli)
+like command line utility to enforce the
+[conventional commits](https://conventionalcommits.org/) and have a clean
+changelog with
+[standard-version](https://github.com/conventional-changelog/standard-version).
 
-- **standard-commit**: Same as `git commit` but with prompt and formating of the commit message.
+- **standard-commit**: Same as `git commit` but with prompt and formating of the
+  commit message.
 
-- **standard-commitlint** runs [commitlint](https://github.com/marionebl/commitlint) based on your standard-commit config.
+- **standard-commitlint** runs
+  [commitlint](https://github.com/marionebl/commitlint) based on your
+  standard-commit config.
 
-- **standard-commithook** is meant to be run as a `commit-msg` git hook to enforce the convention.
+- **standard-commithook** is meant to be run as a `commit-msg` git hook to
+  enforce the convention.
 
 ## Usage
 
@@ -84,7 +92,8 @@ npm -s run release
 
 you can configure standard-commit via:
 
-- A `.standard-commitrc` file, written in YAML or JSON, with optional extensions: .yaml/.yml/.json.
+- A `.standard-commitrc` file, written in YAML or JSON, with optional
+  extensions: .yaml/.yml/.json.
 - A `standard-commit.config.js` file that exports an object.
 - A `standard-commit` key in your package.json file.
 
