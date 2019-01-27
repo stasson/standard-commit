@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.4.0"></a>
+# [1.4.0](https://github.com/stasson/standard-commit/compare/v1.3.0...v1.4.0) (2019-01-27)
+
+
+### Features
+
+* **bin:** run from local if installed ([88db06b](https://github.com/stasson/standard-commit/commit/88db06b))
+
+
+
 <a name="1.3.0"></a>
 # [1.3.0](https://github.com/stasson/standard-commit/compare/v1.2.2...v1.3.0) (2019-01-27)
 
