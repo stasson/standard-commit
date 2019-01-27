@@ -1,4 +1,5 @@
 import * as meow from 'meow'
+import * as updateNotifier from 'update-notifier'
 import {
   gitCommit,
   gitCommitAndEdit,
@@ -60,6 +61,8 @@ const cli = meow(
     }
   }
 )
+
+updateNotifier(cli.pkg).notify()
 
 async function commit(flags: {
   all?: boolean

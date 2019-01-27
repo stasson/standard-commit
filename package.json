@@ -90,6 +90,7 @@
     "@commitlint/core": "7.3.2",
     "@types/inquirer": "0.0.43",
     "@types/meow": "5.0.0",
+    "@types/update-notifier": "^2.5.0",
     "chalk": "2.4.2",
     "cosmiconfig": "5.0.7",
     "execa": "1.0.0",
@@ -99,7 +100,8 @@
     "inquirer-prompt-suggest": "0.1.0",
     "linewrap": "0.2.1",
     "meow": "5.0.0",
-    "rxjs": "^6.3.3"
+    "rxjs": "^6.3.3",
+    "update-notifier": "^2.5.0"
   },
   "engines": {
     "node": ">=8.0.0"
