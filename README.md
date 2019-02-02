@@ -124,6 +124,12 @@ you can configure standard-commit via:
   promptScope?: 'suggest' | 'enforce' | false
 
   /**
+   * whether to strip the scope for scoped packages
+   * @default true
+   */
+  stripPackageScope?: boolean
+
+  /**
    * set to false to skip.
    *
    * @default true

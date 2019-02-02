@@ -26,6 +26,12 @@ export interface Config {
   promptScope?: 'suggest' | 'enforce' | false
 
   /**
+   * whether to strip the scope for scoped packages
+   * @default true
+   */
+  stripPackageScope?: boolean
+
+  /**
    * set to false to skip.
    *
    * @default true
@@ -79,6 +85,7 @@ export const DefaultConfig: Config = {
   ],
   scopes: 'staged',
   promptScope: 'suggest',
+  stripPackageScope: true,
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,

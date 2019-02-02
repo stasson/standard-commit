@@ -3,6 +3,7 @@ import { Config } from './config'
 import * as path from 'path'
 import * as util from 'util'
 import * as fs from 'fs'
+import { config } from 'rx'
 
 const readFile = util.promisify(fs.readFile)
 
@@ -29,7 +30,7 @@ export async function getStagedScopesSuggestions() {
   return suggestions
 }
 
-export async function getPackageSuggestions() {
+export async function getPackageSuggestions(config: Config) {
   const topLevel = gitTopLevel()
   const unstagedPaths = await gitStagedPaths()
   const paths = sortScopes(
@@ -55,7 +56,12 @@ export async function getPackageSuggestions() {
     try {
       f = path.join(rootDir, f)
       const pck = await readFile(f, 'utf8')
-      const { name } = JSON.parse(pck)
+      let { name } = JSON.parse(pck)
+
+      if (config.stripPackageScope) {
+        name = name.replace(/@.+\//, '')
+      }
+
       suggestions.push(name)
     } catch {}
   }
@@ -67,7 +73,7 @@ export async function suggestScopes(config: Config) {
     if (config.scopes == 'staged') {
       return getStagedScopesSuggestions()
     } else if (config.scopes == 'packages') {
-      return getPackageSuggestions()
+      return getPackageSuggestions(config)
     } else {
       return config.scopes || []
     }
