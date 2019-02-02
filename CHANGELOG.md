@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="1.5.0"></a>
+# [1.5.0](https://github.com/stasson/standard-commit/compare/v1.4.1...v1.5.0) (2019-02-02)
+
+
+### Features
+
+* **scope:** strip scope from scoped packages ([126fc93](https://github.com/stasson/standard-commit/commit/126fc93))
+
+
+
 <a name="1.4.1"></a>
 ## [1.4.1](https://github.com/stasson/standard-commit/compare/v1.4.0...v1.4.1) (2019-01-27)
 
