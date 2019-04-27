@@ -3,7 +3,6 @@ import { Config } from './config'
 import * as path from 'path'
 import * as util from 'util'
 import * as fs from 'fs'
-import { config } from 'rx'
 
 const readFile = util.promisify(fs.readFile)
 
