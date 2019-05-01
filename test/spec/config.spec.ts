@@ -5,26 +5,26 @@ describe('config', () => {
     expect.hasAssertions()
     const config = await loadConfig()
     expect(config).toMatchInlineSnapshot(`
-Object {
-  "promptBody": true,
-  "promptBreaking": true,
-  "promptConfirm": true,
-  "promptIssues": true,
-  "promptScope": "suggest",
-  "scopes": "staged",
-  "types": Array [
-    "feat",
-    "fix",
-    "style",
-    "docs",
-    "refactor",
-    "perf",
-    "build",
-    "ci",
-    "test",
-    "chore",
-  ],
-}
-`)
+      Object {
+        "promptBody": true,
+        "promptBreaking": true,
+        "promptConfirm": true,
+        "promptIssues": true,
+        "promptScope": "enforce",
+        "scopes": "staged",
+        "types": Array [
+          "feat",
+          "fix",
+          "style",
+          "docs",
+          "refactor",
+          "perf",
+          "build",
+          "ci",
+          "test",
+          "chore",
+        ],
+      }
+    `)
   })
 })
