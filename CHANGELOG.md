@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0-rc1"></a>
+# [2.0.0-rc1](https://github.com/stasson/standard-commit/compare/v1.5.1...v2.0.0-rc1) (2019-05-01)
+
+
+
 <a name="1.5.1"></a>
 ## [1.5.1](https://github.com/stasson/standard-commit/compare/v1.5.0...v1.5.1) (2019-04-27)
 
