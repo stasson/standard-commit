@@ -9,6 +9,9 @@ import {
   loadConfig
 } from '../lib'
 
+const configCheck = loadConfig()
+const commitCheck = gitCanCommit()
+
 const cli = meow(
   `
   Usage: standard-commit [options...]
@@ -77,11 +80,10 @@ async function commit(flags: {
     if (flags.dryRun) commitArgs.push('--dry-run')
 
     // setup
-    const configPromise = loadConfig()
-    if (!(await gitCanCommit(...commitArgs))) {
+    if (!(await commitCheck)) {
       process.exit(1)
     }
-    const config = await configPromise
+    const config = await configCheck
 
     // prompt for commit message
     const commitmsg = await promptCommitMessage({}, config)
