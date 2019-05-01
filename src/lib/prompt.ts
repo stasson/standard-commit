@@ -23,7 +23,8 @@ export async function promptType(
     type: 'autocomplete',
     name: 'type',
     message: PromptMessage.TYPE,
-    choices: config.types
+    choices: config.types,
+    initial: message.type
   })
   return Object.assign(message, { type })
 }
@@ -40,7 +41,8 @@ export async function promptScope(
         type: 'autocomplete',
         name: 'scope',
         message: PromptMessage.SCOPE,
-        choices: scopes
+        choices: scopes,
+        initial: message.scope
       })
       return Object.assign(message, { scope })
     } else {
@@ -50,6 +52,7 @@ export async function promptScope(
         name: 'scope',
         message: PromptMessage.SCOPE,
         choices: ['none', ...scopes],
+        initial: message.scope,
         maxChoices: 4,
         result: v => (v == 'none' ? undefined : v),
         format: v => (v == 'none' ? '' : v)
@@ -62,6 +65,7 @@ export async function promptScope(
       type: 'input',
       name: 'scope',
       message: PromptMessage.SCOPE,
+      initial: message.scope,
       required: false,
       format: x => x.toLowerCase(),
       result: x => x.toLowerCase()
@@ -78,6 +82,7 @@ export async function promptSubject(
     type: 'input',
     name: 'subject',
     message: PromptMessage.SUBJECT,
+    initial: message.subject,
     validate: input => {
       if (!input) {
         return 'subject can not be empty'
@@ -118,12 +123,15 @@ export async function promptBody(
   const lines = message.body || []
   const body: string[] = []
   for (let i = 0; i < 20; i++) {
+    const initial =
+      message.body && i < message.body.length ? message.body[i] : undefined
     const { line } = await prompt({
       type: 'input',
       name: 'line',
       message: PromptMessage.BODY,
       required: false,
-      result: x => x.trim()
+      result: x => x.trim(),
+      initial
     })
     if (!line.trim()) break
     body.push(line)
@@ -141,6 +149,7 @@ export async function promptBreakingChanges(
     name: 'breaking',
     message: PromptMessage.BREAK,
     required: false,
+    initial: message.breaking,
     result: x => x.trim()
   })
   return Object.assign(message, { breaking })
@@ -150,16 +159,20 @@ export async function promptIssues(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const lines = message.issues || []
-
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
+    const initial =
+      message.issues && i < message.issues.length
+        ? message.issues[i]
+        : undefined
+
     const { issue } = await prompt({
       type: 'input',
       name: 'issue',
       message: PromptMessage.ISSUE,
       required: false,
-      result: x => x.trim()
+      result: x => x.trim(),
+      initial
     })
     if (!issue) break
     result.push(...issue.split(/\s+|,|;/))

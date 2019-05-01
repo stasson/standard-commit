@@ -1,8 +1,8 @@
 import { gitStagedPaths, gitTopLevel } from './gitutils'
 import { Config } from './config'
-import * as path from 'path'
-import * as util from 'util'
-import * as fs from 'fs'
+import path from 'path'
+import util from 'util'
+import fs from 'fs'
 
 const readFile = util.promisify(fs.readFile)
 

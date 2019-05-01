@@ -8,7 +8,7 @@ import {
   promptCommitMessage,
   suggestScopes
 } from '../lib'
-import * as stdin from 'bdd-stdin'
+import stdin from 'bdd-stdin'
 
 const scopes = suggestScopes as any
 scopes.mockImplementation(async () => {

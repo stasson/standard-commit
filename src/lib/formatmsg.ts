@@ -1,4 +1,4 @@
-import * as linewrap from 'linewrap'
+import linewrap from 'linewrap'
 import { EOL } from 'os'
 import { CommitMessage } from './commitmsg'
 

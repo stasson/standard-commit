@@ -1,75 +1,66 @@
-import * as meow from 'meow'
+import { cac } from 'cac'
 import {
   gitCommit,
   formatMessage,
   promptConfirmCommit,
   promptCommitMessage,
   gitCanCommit,
-  loadConfig
+  loadConfig,
+  parseCommitMessage
 } from '../lib'
 
 const configCheck = loadConfig()
 const commitCheck = gitCanCommit()
 
-const cli = meow(
-  `
-  Usage: standard-commit [options...]
+const { name, version } = require('../../package.json')
+const cli = cac(name)
 
-  Where <options> is one of:
+cli
+  .command('[...msg]', 'git conventional commit')
+  .option('-a, --all', 'automatically stage files that have been modified')
+  .option(
+    '-s, --signoff',
+    'add Signed-off-by at the end of the commit log message'
+  )
+  .option('--no-verify', 'bypass the pre-commit and commit-msg hooks')
+  .option('-m, --message <header>', 'commit message')
+  .option('-f, --fix <issue>', 'issue(s) being fixed')
+  .option('-b, --breaking <breaking>', 'breaking notice')
+  .allowUnknownOptions()
+  .action(async (x, options) => {
+    const { all, signoff, verify, dryRun, message, fix, breaking } = options
+    commit({ all, signoff, verify, dryRun, message, fix, breaking })
+  })
 
-    -a --all         
-    Tell the command to automatically stage files that have been modified.
-    
-    -s --signoff     
-    Add Signed-off-by at the end of the commit log message.
-    
-    -n --no-verify   
-    Bypasses the pre-commit and commit-msg hooks.
-    
-  Alias: git cc <option> with:
-  
-    git config --global alias.cc '!standard-commit' 
-  `,
-  {
-    description: 'standard-commit',
-    flags: {
-      all: {
-        type: 'boolean',
-        alias: 'a'
-      },
-      signoff: {
-        type: 'boolean',
-        alias: 's'
-      },
-      noVerify: {
-        type: 'boolean',
-        alias: 'n'
-      },
-      verify: {
-        type: 'boolean',
-        default: 'true'
-      },
-      dryRun: {
-        type: 'boolean'
-      }
-    }
-  }
-)
+cli.help()
+cli.version(version)
+cli.parse()
 
 async function commit(flags: {
   all?: boolean
   signoff?: boolean
-  noVerify?: boolean
+  verify?: boolean
   dryRun?: boolean
-  edit?: boolean
+  message?: string | string[]
+  fix?: string | string[]
+  breaking?: string
 }) {
   try {
     // commit args
     const commitArgs = []
     if (flags.all) commitArgs.push('-a')
     if (flags.signoff) commitArgs.push('-s')
-    if (flags.noVerify) commitArgs.push('-n')
+    if (!flags.verify) commitArgs.push('-n')
     if (flags.dryRun) commitArgs.push('--dry-run')
+
+    const message: string[] = Array.isArray(flags.message)
+      ? flags.message
+      : [flags.message]
+
+    const input = parseCommitMessage(message[0])
+    input.body = message.slice(1)
+    input.issues = Array.isArray(flags.fix) ? flags.fix : [flags.fix]
+    input.breaking = flags.breaking
 
     // setup
     if (!(await commitCheck)) {
@@ -78,7 +69,7 @@ async function commit(flags: {
     const config = await configCheck
 
     // prompt for commit message
-    const commitmsg = await promptCommitMessage({}, config)
+    const commitmsg = await promptCommitMessage(input, config)
     const confirm = await promptConfirmCommit(config)
 
     // commit
@@ -91,13 +82,3 @@ async function commit(flags: {
     process.exit(err.code)
   }
 }
-
-const { flags } = cli
-
-commit({
-  all: flags.all,
-  signoff: flags.signoff,
-  noVerify: flags.noVerify || !flags.verify,
-  dryRun: flags.dryRun,
-  edit: flags.edit
-})

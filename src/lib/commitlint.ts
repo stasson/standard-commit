@@ -1,7 +1,7 @@
-import * as lint from '@commitlint/lint'
-import * as format from '@commitlint/format'
-import * as read from '@commitlint/read'
-import * as conventional from '@commitlint/config-conventional'
+import lint from '@commitlint/lint'
+import format from '@commitlint/format'
+import read from '@commitlint/read'
+import conventional from '@commitlint/config-conventional'
 
 import { Config, DefaultConfig } from './config'
 

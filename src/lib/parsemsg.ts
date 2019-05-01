@@ -1,11 +1,11 @@
 import { CommitMessage } from './commitmsg'
-import * as linewrap from 'linewrap'
+import linewrap from 'linewrap'
 import { EOL } from 'os'
 
 const wrapLines = linewrap(72)
 const splitLinePattern = /$/gm
 const splitWordsPattern = /\s+/gm
-const headerPattern = /^(\w*)(?:\(([\w$.\-* ]*)\))?: (.*)/
+const headerPattern = /^(\w*)(?:\(([\w$.\-* ]*)\))?:\s*(.*)/
 
 export function unwrap(block: string) {
   return block.split(splitWordsPattern).join(' ')
@@ -69,7 +69,8 @@ export function parseIssues(message: string) {
   return issues.length ? issues : undefined
 }
 
-export function parseCommitMessage(message: string): CommitMessage {
+export function parseCommitMessage(message?: string): CommitMessage {
+  if (!message) return {}
   const commit = parseCommitHeader(message)
   const body = parseBody(message)
   const breaking = parseBreaking(message)
