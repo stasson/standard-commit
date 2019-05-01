@@ -31,34 +31,27 @@ describe('prompt', () => {
       expect(result).toEqual(true)
     })
 
-    it('accepts yes as an answer', async () => {
+    it('accepts no as an answer', async () => {
       expect.hasAssertions()
       stdin('n', '\n')
       const result = await promptConfirmCommit()
       expect(result).toEqual(false)
     })
+  })
 
-    describe('promptType', () => {
-      it('accepts feat as an answer', async () => {
-        expect.hasAssertions()
-        stdin('feat', '\n')
-        const { type } = await promptType()
-        expect(type).toEqual('feat')
-      })
-
-      it('to return feat by default', async () => {
-        expect.hasAssertions()
-        stdin('\n')
-        const { type } = await promptType()
-        expect(type).toEqual('feat')
-      })
+  describe('promptType', () => {
+    it('accepts feat as an answer', async () => {
+      expect.hasAssertions()
+      stdin('feat', '\n')
+      const { type } = await promptType()
+      expect(type).toEqual('feat')
     })
 
-    it('accepts edit as an answer', async () => {
+    it('to return feat by default', async () => {
       expect.hasAssertions()
-      stdin('e', '\n')
-      const result = await promptConfirmCommit()
-      expect(result).toEqual('edit')
+      stdin('\n')
+      const { type } = await promptType()
+      expect(type).toEqual('feat')
     })
   })
 

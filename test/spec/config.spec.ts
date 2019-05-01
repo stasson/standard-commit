@@ -12,18 +12,6 @@ describe('config', () => {
         "promptIssues": true,
         "promptScope": "enforce",
         "scopes": "staged",
-        "types": Array [
-          "feat",
-          "fix",
-          "style",
-          "docs",
-          "refactor",
-          "perf",
-          "build",
-          "ci",
-          "test",
-          "chore",
-        ],
       }
     `)
   })

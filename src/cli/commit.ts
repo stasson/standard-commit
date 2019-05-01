@@ -1,7 +1,6 @@
 import * as meow from 'meow'
 import {
   gitCommit,
-  gitCommitAndEdit,
   formatMessage,
   promptConfirmCommit,
   promptCommitMessage,
@@ -27,9 +26,6 @@ const cli = meow(
     -n --no-verify   
     Bypasses the pre-commit and commit-msg hooks.
     
-    -e --edit        
-    further edit the message.
-
   Alias: git cc <option> with:
   
     git config --global alias.cc '!standard-commit' 
@@ -52,10 +48,6 @@ const cli = meow(
       verify: {
         type: 'boolean',
         default: 'true'
-      },
-      edit: {
-        type: 'boolean',
-        alias: 'e'
       },
       dryRun: {
         type: 'boolean'
@@ -92,13 +84,8 @@ async function commit(flags: {
     // commit
     if (confirm) {
       const message = formatMessage(commitmsg)
-      if (flags.edit || confirm === 'edit') {
-        const code = await gitCommitAndEdit(message, ...commitArgs)
-        process.exit(code)
-      } else {
-        const code = await gitCommit(message, ...commitArgs)
-        process.exit(code)
-      }
+      const code = await gitCommit(message, ...commitArgs)
+      process.exit(code)
     }
   } catch (err) {
     process.exit(err.code)
