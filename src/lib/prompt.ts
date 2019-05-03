@@ -68,7 +68,7 @@ export async function promptScope(
       initial: message.scope,
       required: false,
       format: x => x.toLowerCase(),
-      result: x => x.toLowerCase()
+      result: x => x.toLowerCase().trim()
     })
     return Object.assign(message, { scope })
   }
@@ -93,7 +93,7 @@ export async function promptSubject(
       }
       return true
     },
-    format: x => x.toLowerCase().trim(),
+    format: x => x.toLowerCase(),
     result: x => x.toLowerCase().trim()
   })
   return Object.assign(message, { subject })
