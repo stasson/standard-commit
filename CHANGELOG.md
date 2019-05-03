@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0-rc3"></a>
+# [2.0.0-rc3](https://github.com/stasson/standard-commit/compare/v2.0.0-rc2...v2.0.0-rc3) (2019-05-03)
+
+
+### Bug Fixes
+
+* **prompt:** do not trim formated input ([19d7761](https://github.com/stasson/standard-commit/commit/19d7761))
+
+
+### Features
+
+* **config:** no scope by default ([df283d3](https://github.com/stasson/standard-commit/commit/df283d3))
+
+
+
 <a name="2.0.0-rc2"></a>
 # [2.0.0-rc2](https://github.com/stasson/standard-commit/compare/v2.0.0-rc1...v2.0.0-rc2) (2019-05-01)
 

@@ -1,6 +1,6 @@
 {
   "name": "standard-commit",
-  "version": "2.0.0-rc2",
+  "version": "2.0.0-rc3",
   "description": "conventional commit",
   "author": "Sebastien Tasson <sebastien.tasson@gmail.com>",
   "license": "MIT",
