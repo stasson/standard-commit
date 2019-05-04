@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0-rc4"></a>
+# [2.0.0-rc4](https://github.com/stasson/standard-commit/compare/v2.0.0-rc3...v2.0.0-rc4) (2019-05-04)
+
+
+### Features
+
+* **prompt:** suggest scope with next, up and down ([e655956](https://github.com/stasson/standard-commit/commit/e655956))
+
+
+
 <a name="2.0.0-rc3"></a>
 # [2.0.0-rc3](https://github.com/stasson/standard-commit/compare/v2.0.0-rc2...v2.0.0-rc3) (2019-05-03)
 
