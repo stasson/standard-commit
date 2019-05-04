@@ -21,7 +21,7 @@ export interface Config {
    * When set to 'suggest', scope is optional.
    * When set to 'enforce, scope can not be empty.
    * When set to false, scope prompt is skipped.
-   * @default 'false'
+   * @default 'suggest'
    */
   promptScope?: 'suggest' | 'enforce' | false
 
@@ -84,7 +84,7 @@ export const DefaultConfig: Config = {
     'improvment'
   ],
   scopes: 'staged',
-  promptScope: false,
+  promptScope: 'suggest',
   stripPackageScope: true,
   promptBody: true,
   promptBreaking: true,

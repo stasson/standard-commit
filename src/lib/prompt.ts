@@ -3,6 +3,11 @@ import { formatHeader, formatMessage } from './formatmsg'
 import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
 import { prompt } from 'enquirer'
+import Input from 'enquirer/lib/types/string'
+import linewrap from 'linewrap'
+import colors from 'ansi-colors'
+
+const wrapLines = linewrap(72)
 
 // prettier-ignore
 const enum PromptMessage {
@@ -34,9 +39,9 @@ export async function promptScope(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  if (scopes && scopes.length) {
-    if (config.promptScope == 'enforce') {
-      // enforce suggestions
+  if (config.promptScope == 'enforce') {
+    if (scopes.length) {
+      // enforce suggestions with autocomplete
       const { scope } = await prompt({
         type: 'autocomplete',
         name: 'scope',
@@ -46,30 +51,69 @@ export async function promptScope(
       })
       return Object.assign(message, { scope })
     } else {
-      // with suggestions
+      // input with validation
       const { scope } = await prompt({
-        type: 'autocomplete',
+        type: 'input',
         name: 'scope',
         message: PromptMessage.SCOPE,
-        choices: ['none', ...scopes],
-        initial: message.scope,
-        maxChoices: 4,
-        result: v => (v == 'none' ? undefined : v),
-        format: v => (v == 'none' ? '' : v)
+        initial: 'none',
+        validate: x => !!x.trim().length || 'a scope is required',
+        result: x => x.trim()
       })
       return Object.assign(message, { scope })
     }
   } else {
-    // no suggestions
-    const { scope } = await prompt({
+    const suggestions = new (class {
+      suggestions: string[]
+      index: number = 0
+
+      constructor(suggestions) {
+        this.suggestions = ['none', ...suggestions.filter(x => x != 'none')]
+      }
+      next() {
+        const length = this.suggestions.length
+        this.index = (this.index + 1) % length
+        return this.suggestions[this.index]
+      }
+      prev() {
+        const length = this.suggestions.length
+        this.index = (this.index + length - 1) % length
+        return this.suggestions[this.index]
+      }
+    })([])
+
+    const prompt = new Input({
       type: 'input',
       name: 'scope',
       message: PromptMessage.SCOPE,
-      initial: message.scope,
-      required: false,
-      format: x => x.toLowerCase(),
-      result: x => x.toLowerCase().trim()
-    })
+      initial: suggestions.next(),
+      result(x) {
+        x = x.trim()
+        const result = x == 'none' ? undefined : x
+        return result
+      },
+      up() {
+        this.initial = suggestions.prev()
+        this.reset()
+      },
+      down() {
+        this.initial = suggestions.next()
+        this.reset()
+      },
+      next() {
+        const init = this.initial != null ? String(this.initial) : ''
+        if (this.input == init) {
+          this.initial = suggestions.next()
+        } else {
+          if (!init || !init.startsWith(this.input)) return this.alert()
+        }
+        this.input = this.initial
+        this.cursor = this.initial.length
+        this.render()
+      }
+    } as any)
+
+    const scope = await prompt.run()
     return Object.assign(message, { scope })
   }
 }
@@ -103,12 +147,12 @@ export async function promptHeader(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const getscopes = suggestScopes(config)
-  message = await promptType(message, config)
-  const scopes = await getscopes
-
   if (!!config.promptScope) {
-    message = await promptScope(scopes, message, config)
+    const getscopes = suggestScopes(config)
+    message = await promptType(message, config)
+    message = await promptScope(await getscopes, message, config)
+  } else {
+    message = await promptType(message, config)
   }
 
   message = await promptSubject(message, config)
