@@ -92,11 +92,14 @@ export const DefaultConfig: Config = {
   promptConfirm: true
 }
 
-export async function loadConfig() {
+const config = explorer.search().then(result => {
   const config = Object.create(DefaultConfig)
-  const result = await explorer.search()
   if (result && result.config) {
     Object.assign(config, result.config)
   }
-  return config as Config
+  return config
+})
+
+export async function loadConfig() {
+  return (await config) as Config
 }

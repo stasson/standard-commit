@@ -76,14 +76,13 @@ async function commit(flags: {
     if (flags.noVerify) commitArgs.push('-n')
     if (flags.dryRun) commitArgs.push('--dry-run')
 
-    // setup
-    const configPromise = loadConfig()
+    // exit if can not commit
     if (!(await gitCanCommit(...commitArgs))) {
       process.exit(1)
     }
-    const config = await configPromise
 
     // prompt for commit message
+    const config = await loadConfig()
     const commitmsg = await promptCommitMessage({}, config)
     const confirm = await promptConfirmCommit(config)
 
