@@ -2,6 +2,16 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.1.0"></a>
+# [2.1.0](https://github.com/stasson/standard-commit/compare/v2.0.0...v2.1.0) (2019-05-08)
+
+
+### Features
+
+* **init:** save config in package or rc file ([a5dc1bf](https://github.com/stasson/standard-commit/commit/a5dc1bf))
+
+
+
 <a name="2.0.0"></a>
 # [2.0.0](https://github.com/stasson/standard-commit/compare/v1.5.1...v2.0.0) (2019-05-08)
 
