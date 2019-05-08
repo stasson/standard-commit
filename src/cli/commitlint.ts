@@ -1,4 +1,4 @@
-import * as meow from 'meow'
+import meow from 'meow'
 import chalk from 'chalk'
 import { EOL } from 'os'
 import { commitRead, loadConfig, commitLint, commitFormatReport } from '../lib'

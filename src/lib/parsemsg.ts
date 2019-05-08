@@ -1,5 +1,5 @@
 import { CommitMessage } from './commitmsg'
-import * as linewrap from 'linewrap'
+import linewrap from 'linewrap'
 import { EOL } from 'os'
 
 const wrapLines = linewrap(72)

@@ -1,7 +1,7 @@
-import * as inquirer from 'inquirer'
-import * as autocomplete from 'inquirer-autocomplete-prompt'
-import * as suggest from 'inquirer-prompt-suggest'
-import * as fuzzy from 'fuzzy'
+import inquirer from 'inquirer'
+import autocomplete from 'inquirer-autocomplete-prompt'
+import suggest from 'inquirer-prompt-suggest'
+import fuzzy from 'fuzzy'
 import { CommitMessage } from './commitmsg'
 import { formatHeader } from './formatmsg'
 import { Config, DefaultConfig } from './config'
@@ -257,4 +257,65 @@ export async function promptConfirmCommit(config: Config = DefaultConfig) {
   ])) as { commit: boolean }
 
   return answer.commit as boolean | 'edit'
+}
+
+export async function promptConfig() {
+  const config = (await prompt([
+    {
+      type: 'checkbox',
+      name: 'types',
+      message: 'allowed types ?',
+      choices: [
+        'feat',
+        'fix',
+        'chore',
+        'build',
+        'ci',
+        'docs',
+        'perf',
+        'refactor',
+        'revert',
+        'style',
+        'test'
+      ],
+      default: ['feat', 'fix', 'chore']
+    },
+    {
+      type: 'list',
+      name: 'promptScope',
+      message: 'scope',
+      choices: [
+        { name: 'No scope', value: false },
+        { name: 'Suggest scope', value: 'suggest' },
+        { name: 'Enforce scope', value: 'enforce' }
+      ],
+      default: 0
+    },
+    {
+      type: 'list',
+      name: 'scopes',
+      message: 'scopes',
+      choices: [
+        { name: 'From staged files', value: 'staged' },
+        { name: 'From package names (monorepo)', value: 'packages' },
+        { name: 'Edit the list', value: false }
+      ],
+      default: 0,
+      when: (x: any) => !!x.promptScope
+    },
+    {
+      type: 'input',
+      name: 'scopes',
+      message: 'Allowed scopes?',
+      when: (x: any) => x.promptScope && !x.scopes
+    }
+  ])) as Config
+
+  const scopes = config.scopes as string
+
+  if (scopes && !['staged', 'package'].includes(scopes)) {
+    config.scopes = scopes.split(/\W/).filter(x => x.length)
+  }
+
+  return config
 }

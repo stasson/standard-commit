@@ -1,15 +1,8 @@
 {
+  "extends": "./tsconfig.json",
   "compilerOptions": {
     "outDir": "dist",
-    "declaration": true,
-    "target": "es5",
-    "lib": ["es6"],
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "inlineSourceMap": true,
-    "resolveJsonModule": true
+    "inlineSourceMap": false,
   },
   "include": [ 
     "src/**/*"
