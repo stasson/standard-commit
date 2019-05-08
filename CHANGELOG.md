@@ -2,6 +2,23 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+<a name="2.0.0"></a>
+# [2.0.0](https://github.com/stasson/standard-commit/compare/v1.5.1...v2.0.0) (2019-05-08)
+
+
+### Features
+
+* **commit:** add init config option ([295e0fb](https://github.com/stasson/standard-commit/commit/295e0fb))
+* **config:** load config early ([157de5d](https://github.com/stasson/standard-commit/commit/157de5d))
+* **root:** use esnext ([e61ef20](https://github.com/stasson/standard-commit/commit/e61ef20))
+
+
+### BREAKING CHANGES
+
+* **root:** Node 10 is required
+
+
+
 <a name="1.5.1"></a>
 ## [1.5.1](https://github.com/stasson/standard-commit/compare/v1.5.0...v1.5.1) (2019-04-27)
 
