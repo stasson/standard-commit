@@ -1,5 +1,7 @@
 import meow from 'meow'
-import fs from 'fs'
+import fs from 'fs-extra'
+import readPkgUp from 'read-pkg-up'
+import writePackage from 'write-pkg'
 import {
   gitCommit,
   gitCommitAndEdit,
@@ -8,10 +10,9 @@ import {
   promptCommitMessage,
   gitCanCommit,
   loadConfig,
-  promptConfig
+  promptConfig,
+  promptPackageUpdate
 } from '../lib'
-import { setupMaster } from 'cluster'
-import { fstat } from 'fs'
 
 const cli = meow(
   `
@@ -20,7 +21,7 @@ const cli = meow(
   Where <options> is one of:
 
     -i --init
-    initialize standard-commit config the repository    
+    initialize a standard-commit config file    
 
     -a --all         
     Automatically stage files that have been modified.
@@ -125,5 +126,14 @@ async function commit(flags: {
 
 async function init() {
   const config = await promptConfig()
-  fs.writeFileSync('.standard-commitrc.json', JSON.stringify(config, null, 2))
+  const { updatePackage } = await promptPackageUpdate()
+  if (updatePackage) {
+    const pkgUp = await readPkgUp()
+    const pkg = pkgUp.pkg || {}
+    const path = pkgUp.path || 'package.json'
+    pkg['standard-commit'] = config
+    await writePackage(path, pkg)
+  } else {
+    await fs.outputJSON('.standard-commitrc.json', config, { spaces: 2 })
+  }
 }

@@ -264,7 +264,7 @@ export async function promptConfig() {
     {
       type: 'checkbox',
       name: 'types',
-      message: 'allowed types ?',
+      message: 'types',
       choices: [
         'feat',
         'fix',
@@ -285,20 +285,20 @@ export async function promptConfig() {
       name: 'promptScope',
       message: 'scope',
       choices: [
-        { name: 'No scope', value: false },
-        { name: 'Suggest scope', value: 'suggest' },
-        { name: 'Enforce scope', value: 'enforce' }
+        { name: 'no scope', value: false },
+        { name: 'suggest scope', value: 'suggest' },
+        { name: 'enforce scope', value: 'enforce' }
       ],
       default: 0
     },
     {
       type: 'list',
       name: 'scopes',
-      message: 'scopes',
+      message: x => `${x.promptScope} scope`,
       choices: [
-        { name: 'From staged files', value: 'staged' },
-        { name: 'From package names (monorepo)', value: 'packages' },
-        { name: 'Edit the list', value: false }
+        { name: 'from staged files', value: 'staged' },
+        { name: 'from package names (monorepo)', value: 'packages' },
+        { name: 'from a list', value: false }
       ],
       default: 0,
       when: (x: any) => !!x.promptScope
@@ -306,7 +306,7 @@ export async function promptConfig() {
     {
       type: 'input',
       name: 'scopes',
-      message: 'Allowed scopes?',
+      message: 'enter scopes',
       when: (x: any) => x.promptScope && !x.scopes
     }
   ])) as Config
@@ -318,4 +318,22 @@ export async function promptConfig() {
   }
 
   return config
+}
+
+export async function promptPackageUpdate() {
+  const answers = await prompt([
+    {
+      type: 'list',
+      name: 'updatePackage',
+      message: 'save config in',
+      default: 0,
+      choices: [
+        { name: '.standard-commitrc.json', value: false },
+        { name: 'package.json', value: true }
+      ]
+    }
+  ])
+  return answers as {
+    updatePackage: boolean
+  }
 }

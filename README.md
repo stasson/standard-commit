@@ -90,6 +90,10 @@ npm -s run release
 
 ## Configuration
 
+```bash
+standard-commit --init
+```
+
 you can configure standard-commit via:
 
 - A `.standard-commitrc` file, written in YAML or JSON, with optional
