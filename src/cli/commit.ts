@@ -1,4 +1,5 @@
-import * as meow from 'meow'
+import meow from 'meow'
+import fs from 'fs'
 import {
   gitCommit,
   gitCommitAndEdit,
@@ -6,8 +7,11 @@ import {
   promptConfirmCommit,
   promptCommitMessage,
   gitCanCommit,
-  loadConfig
+  loadConfig,
+  promptConfig
 } from '../lib'
+import { setupMaster } from 'cluster'
+import { fstat } from 'fs'
 
 const cli = meow(
   `
@@ -15,8 +19,11 @@ const cli = meow(
 
   Where <options> is one of:
 
+    -i --init
+    initialize standard-commit config the repository    
+
     -a --all         
-    Tell the command to automatically stage files that have been modified.
+    Automatically stage files that have been modified.
     
     -s --signoff     
     Add Signed-off-by at the end of the commit log message.
@@ -61,6 +68,20 @@ const cli = meow(
   }
 )
 
+const { flags } = cli
+
+if (flags.init) {
+  init()
+} else {
+  commit({
+    all: flags.all,
+    signoff: flags.signoff,
+    noVerify: flags.noVerify || !flags.verify,
+    dryRun: flags.dryRun,
+    edit: flags.edit
+  })
+}
+
 async function commit(flags: {
   all?: boolean
   signoff?: boolean
@@ -102,12 +123,7 @@ async function commit(flags: {
   }
 }
 
-const { flags } = cli
-
-commit({
-  all: flags.all,
-  signoff: flags.signoff,
-  noVerify: flags.noVerify || !flags.verify,
-  dryRun: flags.dryRun,
-  edit: flags.edit
-})
+async function init() {
+  const config = await promptConfig()
+  fs.writeFileSync('.standard-commitrc.json', JSON.stringify(config, null, 2))
+}
