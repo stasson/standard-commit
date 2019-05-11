@@ -37,7 +37,8 @@ export async function promptType(
         const results = fuzzy.filter(input, config.types)
         const matches = results.map(el => el.original)
         return matches
-      }
+      },
+      pageSize: config.types.length
     } as inquirer.Question
   ])
 
@@ -260,25 +261,28 @@ export async function promptConfirmCommit(config: Config = DefaultConfig) {
 }
 
 export async function promptConfig() {
+  const types = [
+    'feat',
+    'fix',
+    'chore',
+    'build',
+    'ci',
+    'docs',
+    'perf',
+    'refactor',
+    'revert',
+    'style',
+    'test'
+  ]
+
   const config = (await prompt([
     {
       type: 'checkbox',
       name: 'types',
       message: 'types',
-      choices: [
-        'feat',
-        'fix',
-        'chore',
-        'build',
-        'ci',
-        'docs',
-        'perf',
-        'refactor',
-        'revert',
-        'style',
-        'test'
-      ],
-      default: ['feat', 'fix', 'chore']
+      choices: types,
+      default: ['feat', 'fix', 'chore'],
+      pageSize: types.length
     },
     {
       type: 'list',
