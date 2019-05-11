@@ -312,11 +312,9 @@ export async function promptConfig() {
   ])) as Config
 
   const scopes = config.scopes as string
-
-  if (scopes && !['staged', 'package'].includes(scopes)) {
+  if (scopes && !['staged', 'packages'].includes(scopes)) {
     config.scopes = scopes.split(/\W/).filter(x => x.length)
   }
-
   return config
 }
 
