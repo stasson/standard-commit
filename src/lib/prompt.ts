@@ -133,7 +133,7 @@ export async function promptHeader(
 ) {
   const getscopes = suggestScopes(config)
   message = await promptType(message, config)
-  const scopes = await getscopes
+  const scopes = (await getscopes).map(s => s.toLowerCase())
 
   if (!!config.promptScope) {
     message = await promptScope(scopes, message, config)
