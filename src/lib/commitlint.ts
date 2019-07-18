@@ -1,23 +1,22 @@
 import lint from '@commitlint/lint'
-import format from '@commitlint/format'
+import format, {
+  FormattableProblem,
+  FormattableResult,
+  WithInput
+} from '@commitlint/format'
 import read from '@commitlint/read'
 import conventional from '@commitlint/config-conventional'
 
 import { Config, DefaultConfig } from './config'
 
-export type CommitlintIssue = {
-  level: number
-  valid: boolean
-  name: string
-  message: string
+export type CommitlintIssue = FormattableProblem & {
+  valid?: boolean
 }
 
-export type CommitlintReport = {
-  valid: boolean
-  input: string
-  errors: CommitlintIssue[]
-  warnings: CommitlintIssue[]
-}
+export type CommitlintReport = FormattableResult &
+  WithInput & {
+    valid?: boolean
+  }
 
 type Range = {
   /* Lower end of the commit range to read */

@@ -89,8 +89,8 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
-    "@commitlint/config-conventional": "7.5.0",
-    "@commitlint/core": "7.5.2",
+    "@commitlint/config-conventional": "8.1.0",
+    "@commitlint/core": "8.1.0",
     "@types/fs-extra": "^5.1.0",
     "@types/inquirer": "6.0.1",
     "@types/meow": "5.0.0",
