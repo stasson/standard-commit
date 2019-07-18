@@ -106,7 +106,7 @@ you can configure standard-commit via:
   /**
    * Allowed types
    *
-   * @default ['feat','fix','chore','docs','style','refactor','test',...]
+   * @default ['feat','fix','chore','docs','style','refactor','test']
    */
   types?: string[]
 
@@ -123,7 +123,7 @@ you can configure standard-commit via:
    * When set to 'suggest', scope is optional.
    * When set to 'enforce, scope can not be empty.
    * When set to false, scope prompt is skipped.
-   * @default 'suggest'
+   * @default false
    */
   promptScope?: 'suggest' | 'enforce' | false
 

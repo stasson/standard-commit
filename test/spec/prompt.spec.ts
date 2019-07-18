@@ -83,15 +83,14 @@ describe('prompt', () => {
   describe('promptHeader', () => {
     it('accepts answers', async () => {
       expect.hasAssertions()
-      stdin('feat', '\n', 'scope', '\n', 'subject', '\n')
+      stdin('feat', '\n', 'subject', '\n')
       const message = await promptHeader()
       expect(message).toMatchInlineSnapshot(`
-Object {
-  "scope": "scope",
-  "subject": "subject",
-  "type": "feat",
-}
-`)
+                Object {
+                  "subject": "subject",
+                  "type": "feat",
+                }
+            `)
     })
   })
 
@@ -100,8 +99,6 @@ Object {
       expect.hasAssertions()
       stdin(
         'feat',
-        '\n',
-        'scope',
         '\n',
         'subject',
         '\n',
@@ -117,33 +114,31 @@ Object {
       )
       const message = await promptCommitMessage()
       expect(message).toMatchInlineSnapshot(`
-Object {
-  "body": Array [
-    "body",
-  ],
-  "breaking": "brealing",
-  "issues": Array [],
-  "scope": "scope",
-  "subject": "subject",
-  "type": "feat",
-}
-`)
+                Object {
+                  "body": Array [
+                    "body",
+                  ],
+                  "breaking": "brealing",
+                  "issues": Array [],
+                  "subject": "subject",
+                  "type": "feat",
+                }
+            `)
     })
 
     it('accepts quick answers', async () => {
       expect.hasAssertions()
-      stdin('\n', '\n', 'subject', '\n', '\n', '\n', '\n')
+      stdin('\n', 'subject', '\n', '\n', '\n', '\n')
       const message = await promptCommitMessage()
       expect(message).toMatchInlineSnapshot(`
-Object {
-  "body": Array [],
-  "breaking": "",
-  "issues": Array [],
-  "scope": "",
-  "subject": "subject",
-  "type": "feat",
-}
-`)
+        Object {
+          "body": Array [],
+          "breaking": "",
+          "issues": Array [],
+          "subject": "subject",
+          "type": "feat",
+        }
+      `)
     })
   })
 })

@@ -72,19 +72,9 @@ export interface Config {
 const explorer = cosmiconfig('standard-commit')
 
 export const DefaultConfig: Config = {
-  types: [
-    'feat',
-    'fix',
-    'chore',
-    'docs',
-    'style',
-    'refactor',
-    'test',
-    'perf',
-    'improvment'
-  ],
+  types: ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test'],
   scopes: 'staged',
-  promptScope: 'suggest',
+  promptScope: false,
   stripPackageScope: true,
   promptBody: true,
   promptBreaking: true,
