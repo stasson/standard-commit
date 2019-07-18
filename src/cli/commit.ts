@@ -129,7 +129,7 @@ async function init() {
   const { updatePackage } = await promptPackageUpdate()
   if (updatePackage) {
     const pkgUp = await readPkgUp()
-    const pkg = pkgUp.pkg || {}
+    const pkg = pkgUp.package || {}
     const path = pkgUp.path || 'package.json'
     pkg['standard-commit'] = config
     await writePackage(path, pkg)
