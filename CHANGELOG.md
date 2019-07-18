@@ -1,6 +1,23 @@
-# Change Log
+# Changelog
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
+
+## [3.0.0](https://github.com/stasson/standard-commit/compare/v2.1.1...v3.0.0) (2019-07-18)
+
+
+### Features
+
+* **cli:** upgrade read-pkg-up to 5.0.0 ([adfedae](https://github.com/stasson/standard-commit/commit/adfedae))
+* **config:** simple defaults ([fbd3cc4](https://github.com/stasson/standard-commit/commit/fbd3cc4))
+* **package:** upgrade to commitlint 8 ([6a9f6f7](https://github.com/stasson/standard-commit/commit/6a9f6f7))
+* **prompt:** ensure lowercase scope ([12b7a93](https://github.com/stasson/standard-commit/commit/12b7a93))
+
+
+### BREAKING CHANGES
+
+* **config:** config defaults have change, update your config to enable scopes
+
+
 
 <a name="2.1.1"></a>
 ## [2.1.1](https://github.com/stasson/standard-commit/compare/v2.1.0...v2.1.1) (2019-05-11)
