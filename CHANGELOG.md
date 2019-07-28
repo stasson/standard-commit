@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.2](https://github.com/stasson/standard-commit/compare/v3.0.1...v3.0.2) (2019-07-28)
+
+
+### Bug Fixes
+
+* **config:** default type refactor and style are missing ([07acdd9](https://github.com/stasson/standard-commit/commit/07acdd9))
+
+
+
 ### [3.0.1](https://github.com/stasson/standard-commit/compare/v3.0.0...v3.0.1) (2019-07-18)
 
 
