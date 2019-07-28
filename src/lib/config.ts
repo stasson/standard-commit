@@ -4,7 +4,7 @@ export interface Config {
   /**
    * Allowed types
    *
-   * @default ['feat','fix','chore','docs','style','refactor','test',...]
+   * @default ['feat','fix','chore','docs','style','refactor','test']
    */
   types?: string[]
 
@@ -72,7 +72,7 @@ export interface Config {
 const explorer = cosmiconfig('standard-commit')
 
 export const DefaultConfig: Config = {
-  types: ['feat', 'fix', 'chore', 'docs', 'test'],
+  types: ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test'],
   scopes: 'staged',
   promptScope: false,
   stripPackageScope: true,

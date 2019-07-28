@@ -106,7 +106,7 @@ you can configure standard-commit via:
   /**
    * Allowed types
    *
-   * @default ['feat','fix','chore','docs','test']
+   * @default ['feat','fix','chore','docs','style','refactor','test']
    */
   types?: string[]
 
