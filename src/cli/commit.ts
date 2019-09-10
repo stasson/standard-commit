@@ -100,7 +100,7 @@ async function commit(flags: {
 
     // exit if can not commit
     if (!(await gitCanCommit(...commitArgs))) {
-      process.exit(1)
+      process.exitCode = 1
     }
 
     // prompt for commit message
@@ -112,15 +112,14 @@ async function commit(flags: {
     if (confirm) {
       const message = formatMessage(commitmsg)
       if (flags.edit || confirm === 'edit') {
-        const code = await gitCommitAndEdit(message, ...commitArgs)
-        process.exit(code)
+        process.exitCode = await gitCommitAndEdit(message, ...commitArgs)
       } else {
-        const code = await gitCommit(message, ...commitArgs)
-        process.exit(code)
+        process.exitCode = await gitCommit(message, ...commitArgs)
       }
     }
   } catch (err) {
-    process.exit(err.code)
+    console.error('Internal Error:', err.message)
+    process.exitCode = err.code
   }
 }
 

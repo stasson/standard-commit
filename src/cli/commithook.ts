@@ -24,11 +24,11 @@ async function commitHook() {
     process.stdout.write(output)
     process.stdout.write(chalk.reset(EOL))
 
-    process.exit(report.errors.length > 0 ? -1 : 0)
+    process.exitCode = report.errors.length > 0 ? -1 : 0
   } catch (err) {
     // tslint:disable-next-line:no-console
     console.error(err)
-    process.exit(-1)
+    process.exitCode = -1
   }
 }
 

@@ -70,8 +70,6 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/config-conventional": "8.1.0",
-    "@commitlint/core": "8.1.0",
     "@types/execa": "^2.0.0",
     "@types/fs-extra": "^8.0.0",
     "@types/inquirer": "6.5.0",
@@ -94,6 +92,8 @@
     "yorkie": "^2.0.0"
   },
   "dependencies": {
+    "@commitlint/config-conventional": "8.1.0",
+    "@commitlint/core": "8.1.0",
     "chalk": "2.4.2",
     "cosmiconfig": "^5.2.1",
     "execa": "^2.0.4",
@@ -104,6 +104,7 @@
     "inquirer-autocomplete-prompt": "^1.0.1",
     "inquirer-prompt-suggest": "^0.1.0",
     "linewrap": "^0.2.1",
+    "loud-rejection": "^2.1.0",
     "meow": "^5.0.0",
     "read-pkg-up": "^6.0.0",
     "update-notifier": "^3.0.1",
