@@ -8,9 +8,9 @@ const writeFile = promisify(fs.writeFile)
 export async function gitStagedPaths() {
   try {
     const args = ['diff', '--name-only', '--cached']
-    const git = await execa.stdout('git', args)
+    const git = await execa('git', args)
 
-    return git
+    return git.stdout
       .split('\n')
       .map(f => f.trim())
       .filter(f => f)
@@ -26,7 +26,7 @@ export async function gitCommit(message: string, ...args) {
   git.stderr.pipe(process.stderr)
   git.stdin.write(message)
   git.stdin.end()
-  return (await git).code
+  return (await git).exitCode
 }
 
 export async function gitCommitAndEdit(message: string, ...args) {
@@ -42,17 +42,19 @@ export async function gitCommitAndEdit(message: string, ...args) {
   }
   const commitArgs = ['commit', ...args, '-e', '-F', JSON.stringify(editPath)]
   const shellCommand = 'git ' + commitArgs.join(' ')
-  const gitCommit = execa.shell(shellCommand)
+  const gitCommit = execa(shellCommand, {
+    shell: true
+  })
   gitCommit.stdout.pipe(process.stdout)
   gitCommit.stderr.pipe(process.stderr)
   gitCommit.stdin.write(message)
   gitCommit.stdin.end()
-  return (await gitCommit).code
+  return (await gitCommit).exitCode
 }
 
 export async function gitCanCommit(...args) {
   try {
-    return (await execa('git', ['commit', ...args, '--dry-run'])).code === 0
+    return (await execa('git', ['commit', ...args, '--dry-run'])).exitCode === 0
   } catch (err) {
     process.stdout.write(err.stdout)
     return false
