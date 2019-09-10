@@ -2,6 +2,15 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.1.0](https://github.com/stasson/standard-commit/compare/v3.0.2...v3.1.0) (2019-09-10)
+
+
+### Features
+
+* **cli:** print error message when internal error ([97f640b](https://github.com/stasson/standard-commit/commit/97f640b))
+
+
+
 ### [3.0.2](https://github.com/stasson/standard-commit/compare/v3.0.1...v3.0.2) (2019-07-28)
 
 
