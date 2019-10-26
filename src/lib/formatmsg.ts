@@ -5,7 +5,12 @@ import { CommitMessage } from './commitmsg'
 const wrapLines = linewrap(72)
 
 function appendBlock(message: string, block: string): string {
-  return [message, '', block].join(EOL)
+  if (block) {
+    return [message, '', block].join(EOL)
+  }
+  else {
+    return message
+  }
 }
 
 function formatLines(lines: string[]) {

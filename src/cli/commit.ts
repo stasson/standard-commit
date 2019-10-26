@@ -1,7 +1,8 @@
 import meow from 'meow'
-import fs from 'fs-extra'
+import fs, { openSync } from 'fs-extra'
 import readPkgUp from 'read-pkg-up'
 import writePackage from 'write-pkg'
+import colors from 'ansi-colors'
 import {
   gitCommit,
   formatMessage,
@@ -105,11 +106,23 @@ async function commit(flags: {
     // prompt for commit message
     const config = await loadConfig()
     const commitmsg = await promptCommitMessage({}, config)
+
+    // display formated commit
+    const message = formatMessage(commitmsg)
+    const [header, ...lines] = message.split('\n')
+    const symbol = colors.gray('·')
+    process.stdout.write('\n')
+    process.stdout.write(`${symbol} ${colors.whiteBright(header.trim())}\n`)
+    for (const line of lines.slice(0,lines.length -1)) {
+      process.stdout.write(`${symbol} ${colors.white(line).trim()}\n`)
+    }
+    process.stdout.write('\n')
+
+    // confirm commit
     const confirm = await promptConfirmCommit(config)
 
     // commit
     if (confirm) {
-      const message = formatMessage(commitmsg)
       process.exitCode = await gitCommit(message, ...commitArgs)
     }
   } catch (err) {
