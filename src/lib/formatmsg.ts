@@ -7,8 +7,7 @@ const wrapLines = linewrap(72)
 function appendBlock(message: string, block: string): string {
   if (block) {
     return [message, '', block].join(EOL)
-  }
-  else {
+  } else {
     return message
   }
 }

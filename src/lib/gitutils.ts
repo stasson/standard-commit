@@ -10,10 +10,12 @@ export async function gitStagedPaths() {
     const args = ['diff', '--name-only', '--cached']
     const git = await execa('git', args)
 
-    return git.stdout
+    const staged = git.stdout
       .split('\n')
       .map(f => f.trim())
       .filter(f => f)
+
+    return staged
   } catch {
     return []
   }
@@ -54,9 +56,11 @@ export async function gitCommitAndEdit(message: string, ...args) {
 
 export async function gitCanCommit(...args) {
   try {
-    return (await execa('git', ['commit', ...args, '--dry-run'])).exitCode === 0
+    const dryRun = await execa('git', ['commit', ...args, '--dry-run'])
+    return dryRun.exitCode === 0
   } catch (err) {
     process.stdout.write(err.stdout)
+    process.stdout.write('\n')
     return false
   }
 }

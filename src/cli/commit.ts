@@ -101,6 +101,7 @@ async function commit(flags: {
     // exit if can not commit
     if (!(await gitCanCommit(...commitArgs))) {
       process.exitCode = 1
+      return
     }
 
     // prompt for commit message
@@ -113,7 +114,7 @@ async function commit(flags: {
     const symbol = colors.gray('·')
     process.stdout.write('\n')
     process.stdout.write(`${symbol} ${colors.whiteBright(header.trim())}\n`)
-    for (const line of lines.slice(0,lines.length -1)) {
+    for (const line of lines.slice(0, lines.length - 1)) {
       process.stdout.write(`${symbol} ${colors.white(line).trim()}\n`)
     }
     process.stdout.write('\n')

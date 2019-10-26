@@ -52,7 +52,7 @@ export async function promptScope(
         message: PromptMessage.SCOPE,
         suggestions: scopes,
         result: input => input.toLowerCase(),
-        validate: input =>  !!input.trim() || 'scope can not be empty'
+        validate: input => !!input.trim() || 'scope can not be empty'
       }).run()
       return Object.assign(message, { scope })
     }
