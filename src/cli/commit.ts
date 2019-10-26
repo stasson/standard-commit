@@ -4,7 +4,6 @@ import readPkgUp from 'read-pkg-up'
 import writePackage from 'write-pkg'
 import {
   gitCommit,
-  gitCommitAndEdit,
   formatMessage,
   promptConfirmCommit,
   promptCommitMessage,
