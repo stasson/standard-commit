@@ -1,8 +1,6 @@
 import { StringPrompt } from 'enquirer'
 
-
 export default class SuggestPrompt extends StringPrompt {
-
   suggestionIndex = 0
   suggestions: any
 
@@ -51,76 +49,76 @@ export default class SuggestPrompt extends StringPrompt {
 }
 
 declare module 'enquirer' {
-  class StringPrompt  {
+  class StringPrompt {
     constructor(...args: any[])
 
     initial: string
     input: string
     cursor: number
 
-    alert(...args: any[]): void;
+    alert(...args: any[]): void
 
-    body(...args: any[]): void;
+    body(...args: any[]): void
 
-    cancel(...args: any[]): void;
+    cancel(...args: any[]): void
 
-    clear(...args: any[]): void;
+    clear(...args: any[]): void
 
-    close(...args: any[]): void;
+    close(...args: any[]): void
 
-    cursorHide(...args: any[]): void;
+    cursorHide(...args: any[]): void
 
-    cursorShow(...args: any[]): void;
+    cursorShow(...args: any[]): void
 
-    element(...args: any[]): void;
+    element(...args: any[]): void
 
-    error(...args: any[]): void;
+    error(...args: any[]): void
 
-    footer(...args: any[]): void;
+    footer(...args: any[]): void
 
-    format(...args: any[]): void;
+    format(...args: any[]): void
 
-    header(...args: any[]): void;
+    header(...args: any[]): void
 
-    hint(...args: any[]): void;
+    hint(...args: any[]): void
 
-    indicator(...args: any[]): void;
+    indicator(...args: any[]): void
 
-    initialize(...args: any[]): void;
+    initialize(...args: any[]): void
 
-    isValue(...args: any[]): void;
+    isValue(...args: any[]): void
 
-    keypress(...args: any[]): void;
+    keypress(...args: any[]): void
 
-    message(...args: any[]): void;
+    message(...args: any[]): void
 
-    pointer(...args: any[]): void;
+    pointer(...args: any[]): void
 
-    prefix(...args: any[]): void;
+    prefix(...args: any[]): void
 
-    render(...args: any[]): void;
+    render(...args: any[]): void
 
-    resolve(...args: any[]): void;
+    resolve(...args: any[]): void
 
-    restore(...args: any[]): void;
+    restore(...args: any[]): void
 
-    result(...args: any[]): void;
+    result(...args: any[]): void
 
-    run(...args: any[]): void;
+    run(...args: any[]): void
 
-    sections(...args: any[]): void;
+    sections(...args: any[]): void
 
-    separator(...args: any[]): void;
+    separator(...args: any[]): void
 
-    skip(...args: any[]): void;
+    skip(...args: any[]): void
 
-    start(...args: any[]): void;
+    start(...args: any[]): void
 
-    submit(...args: any[]): void;
+    submit(...args: any[]): void
 
-    validate(...args: any[]): void;
+    validate(...args: any[]): void
 
-    write(...args: any[]): void;
+    write(...args: any[]): void
 
     append(...args: any[]): void
 

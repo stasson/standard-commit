@@ -1,5 +1,5 @@
 import { EOL } from 'os'
-import chalk from 'chalk'
+import colors from 'ansi-colors'
 import { commitRead, loadConfig, commitLint, commitFormatReport } from '../lib'
 
 async function commitHook() {
@@ -13,16 +13,16 @@ async function commitHook() {
     const header = commitmsg[0].split('\n')[0].trim()
 
     if (report.errors.length > 0) {
-      process.stdout.write(chalk.red(header))
+      process.stdout.write(colors.red(header))
     } else if (report.warnings.length > 0) {
-      process.stdout.write(chalk.yellow(header))
+      process.stdout.write(colors.yellow(header))
     } else {
-      process.stdout.write(chalk.blue(header))
+      process.stdout.write(colors.blue(header))
     }
 
     const output = await commitFormatReport(report)
     process.stdout.write(output)
-    process.stdout.write(chalk.reset(EOL))
+    process.stdout.write(colors.reset(EOL))
 
     process.exitCode = report.errors.length > 0 ? -1 : 0
   } catch (err) {

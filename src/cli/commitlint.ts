@@ -1,5 +1,5 @@
 import meow from 'meow'
-import chalk from 'chalk'
+import colors from 'ansi-colors'
 import { EOL } from 'os'
 import { commitRead, loadConfig, commitLint, commitFormatReport } from '../lib'
 
@@ -15,7 +15,7 @@ const cli = meow(
     -t --to     
     upper end of the commit range to lint.   
 
-  Exemple:
+  Example:
 
     standard-commitlint --from origin/master
   `,
@@ -50,17 +50,17 @@ async function commitHook() {
       const header = commitmsg.split('\n')[0].trim()
 
       if (report.errors.length > 0) {
-        process.stdout.write(chalk.red(header))
+        process.stdout.write(colors.red(header))
       } else if (report.warnings.length > 0) {
-        process.stdout.write(chalk.yellow(header))
+        process.stdout.write(colors.yellow(header))
       } else {
-        process.stdout.write(chalk.blue(header))
+        process.stdout.write(colors.blue(header))
       }
 
       const output = await commitFormatReport(report)
       process.stdout.write(output)
-      process.stdout.write(chalk.reset(EOL))
-      process.stdout.write(chalk.reset(EOL))
+      process.stdout.write(colors.reset(EOL))
+      process.stdout.write(colors.reset(EOL))
       error = error || report.errors.length > 0
     }
     process.exitCode = error ? -1 : 0
