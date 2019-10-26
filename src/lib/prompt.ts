@@ -3,7 +3,7 @@ import { formatHeader } from './formatmsg'
 import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
 import { prompt } from 'enquirer'
-import SuggestPrompt = require('./suggest-prompt')
+import SuggestPrompt from './suggest-prompt'
 
 // prettier-ignore
 const enum PromptMessage {
