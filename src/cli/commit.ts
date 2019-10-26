@@ -111,11 +111,7 @@ async function commit(flags: {
     // commit
     if (confirm) {
       const message = formatMessage(commitmsg)
-      if (flags.edit || confirm === 'edit') {
-        process.exitCode = await gitCommitAndEdit(message, ...commitArgs)
-      } else {
-        process.exitCode = await gitCommit(message, ...commitArgs)
-      }
+      process.exitCode = await gitCommit(message, ...commitArgs)
     }
   } catch (err) {
     console.error('Internal Error:', err.message)

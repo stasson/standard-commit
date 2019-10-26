@@ -31,7 +31,7 @@ describe('prompt', () => {
       expect(result).toEqual(true)
     })
 
-    it('accepts yes as an answer', async () => {
+    it('accepts no as an answer', async () => {
       expect.hasAssertions()
       stdin('n', '\n')
       const result = await promptConfirmCommit()
@@ -53,13 +53,6 @@ describe('prompt', () => {
         expect(type).toEqual('feat')
       })
     })
-
-    it('accepts edit as an answer', async () => {
-      expect.hasAssertions()
-      stdin('e', '\n')
-      const result = await promptConfirmCommit()
-      expect(result).toEqual('edit')
-    })
   })
 
   describe('promptSubject', () => {
@@ -74,7 +67,7 @@ describe('prompt', () => {
   describe('promptScope', () => {
     it('accepts answers', async () => {
       expect.hasAssertions()
-      stdin('scope', '\n')
+      stdin('\n')
       const { scope } = await promptScope(['scope'])
       expect(scope).toEqual('scope')
     })
@@ -105,7 +98,7 @@ describe('prompt', () => {
         'body',
         '\n',
         '\n',
-        'brealing',
+        'breaking',
         '\n',
         '\n',
         'issue',
@@ -118,7 +111,7 @@ describe('prompt', () => {
                   "body": Array [
                     "body",
                   ],
-                  "breaking": "brealing",
+                  "breaking": "breaking",
                   "issues": Array [],
                   "subject": "subject",
                   "type": "feat",

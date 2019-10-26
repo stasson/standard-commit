@@ -1,15 +1,9 @@
-import inquirer from 'inquirer'
-import autocomplete from 'inquirer-autocomplete-prompt'
-import suggest from 'inquirer-prompt-suggest'
-import fuzzy from 'fuzzy'
 import { CommitMessage } from './commitmsg'
 import { formatHeader } from './formatmsg'
 import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
-
-export const prompt = inquirer.createPromptModule()
-prompt.registerPrompt('autocomplete', autocomplete)
-prompt.registerPrompt('suggest', suggest)
+import { prompt } from 'enquirer'
+import SuggestPrompt = require('./suggest-prompt')
 
 // prettier-ignore
 const enum PromptMessage {
@@ -26,22 +20,13 @@ export async function promptType(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { type } = await prompt([
-    {
-      type: 'autocomplete',
-      name: 'type',
-      message: PromptMessage.TYPE,
-      suggestOnly: false,
-      source: async (answers, input) => {
-        input = input || message.type || ''
-        const results = fuzzy.filter(input, config.types)
-        const matches = results.map(el => el.original)
-        return matches
-      },
-      pageSize: config.types.length
-    } as inquirer.Question
-  ])
-
+  const { type } = await prompt({
+    name: 'type',
+    message: PromptMessage.TYPE,
+    type: 'autocomplete',
+    choices: config.types,
+    initial: message.type
+  })
   return Object.assign(message, { type })
 }
 
@@ -52,50 +37,35 @@ export async function promptScope(
 ) {
   if (scopes && scopes.length) {
     if (config.promptScope == 'enforce') {
-      // enforce suggestions
-      const { scope } = await prompt([
-        {
-          type: 'autocomplete',
-          name: 'scope',
-          message: PromptMessage.SCOPE,
-          suggestOnly: false,
-          source: async (answers, input) => {
-            input = input || message.scope || ''
-            const results = fuzzy.filter(input, scopes)
-            const matches = results.map(el => el.original)
-            return matches
-          }
-        } as inquirer.Question
-      ])
+      const { scope } = await prompt({
+        type: 'autocomplete',
+        name: 'scope',
+        message: PromptMessage.SCOPE,
+        choices: scopes,
+        result: input => input.toLowerCase().trim(),
+        initial: message.scope
+      })
       return Object.assign(message, { scope })
     } else {
-      // with suggestions
-      const { scope } = await prompt([
-        {
-          type: 'suggest',
-          name: 'scope',
-          message: PromptMessage.SCOPE,
-          suggestions: scopes
-        } as inquirer.Question
-      ])
+      const scope = await new SuggestPrompt({
+        name: 'scope',
+        message: PromptMessage.SCOPE,
+        suggestions: scopes,
+        result: input => input.toLowerCase().trim()
+      }).run()
       return Object.assign(message, { scope })
     }
   } else {
-    // no suggestions
-    const { scope } = (await prompt([
-      {
-        type: 'input',
-        name: 'scope',
-        message: PromptMessage.SCOPE,
-        default: message.scope || undefined,
-        validate: (input, answers) => {
-          if (!input && config.promptScope === 'enforce') {
-            return 'scope can not be empty'
-          }
-          return true
-        }
+    const { scope } = await prompt({
+      type: 'input',
+      name: 'scope',
+      message: PromptMessage.SCOPE,
+      initial: message.scope,
+      result: input => input.toLowerCase().trim(),
+      validate(input) {
+        return input || 'scope can not be empty'
       }
-    ])) as any
+    })
     return Object.assign(message, { scope })
   }
 }
@@ -104,26 +74,24 @@ export async function promptSubject(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { subject } = (await prompt([
-    {
-      type: 'input',
-      name: 'subject',
-      message: PromptMessage.SUBJECT,
-      default: message.subject || undefined,
-      filter: input => input.toLowerCase().trim(),
-      transformer: input => input.toLowerCase(),
-      validate: (input, answers) => {
-        if (!input) {
-          return 'subject can not be empty'
-        }
-        const header = formatHeader(message.type, message.scope, input)
-        if (header.length >= 72) {
-          return 'subject is too long'
-        }
-        return true
+  const { subject } = await prompt({
+    type: 'input',
+    name: 'subject',
+    message: PromptMessage.SUBJECT,
+    initial: message.subject,
+    format: input => input.toLowerCase(),
+    result: input => input.toLowerCase().trim(),
+    validate(input) {
+      if (!input) {
+        return 'subject can not be empty'
       }
+      const header = formatHeader(message.type, message.scope, input)
+      if (header.length >= 72) {
+        return 'subject is too long'
+      }
+      return true
     }
-  ])) as any
+  })
   return Object.assign(message, { subject })
 }
 
@@ -151,15 +119,13 @@ export async function promptBody(
   const lines = message.body || []
   const body: string[] = []
   for (let i = 0; i < 20; i++) {
-    const { line } = (await prompt([
-      {
-        type: 'input',
-        name: 'line',
-        message: PromptMessage.BODY,
-        default: (lines && lines[i]) || undefined,
-        filter: input => input.trim()
-      }
-    ])) as { line }
+    const { line } = await prompt({
+      type: 'input',
+      name: 'line',
+      message: PromptMessage.BODY,
+      initial: (lines && lines[i]) || undefined,
+      result: input => input.trim()
+    })
 
     if (!line) break
     body.push(line)
@@ -172,15 +138,13 @@ export async function promptBreakingChanges(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { breaking } = (await prompt([
-    {
-      type: 'input',
-      name: 'breaking',
-      message: PromptMessage.BREAK,
-      default: message.breaking || undefined,
-      filter: input => input.trim()
-    }
-  ])) as { breaking: string }
+  const { breaking } = await prompt({
+    type: 'input',
+    name: 'breaking',
+    message: PromptMessage.BREAK,
+    initial: message.breaking || undefined,
+    result: input => input.trim()
+  })
   return Object.assign(message, { breaking })
 }
 
@@ -192,15 +156,13 @@ export async function promptIssues(
 
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
-    const { issue } = (await prompt([
-      {
-        type: 'input',
-        name: 'issue',
-        message: PromptMessage.ISSUE,
-        default: (lines && lines[i]) || undefined,
-        filter: input => input.trim()
-      }
-    ])) as { issue: string }
+    const { issue } = await prompt({
+      type: 'input',
+      name: 'issue',
+      message: PromptMessage.ISSUE,
+      initial: (lines && lines[i]) || undefined,
+      result: input => input.trim()
+    })
     if (!issue) break
     result.push(...issue.split(/\s+|,|;/))
   }
@@ -231,37 +193,19 @@ export async function promptCommitMessage(
 
 export async function promptConfirmCommit(config: Config = DefaultConfig) {
   if (!config.promptConfirm) return true
-  const answer = (await prompt([
-    {
-      type: 'expand',
-      name: 'commit',
-      message: PromptMessage.CONFIRM,
-      default: 0,
-      choices: [
-        {
-          key: 'y',
-          name: 'Yes, do commit.',
-          value: true
-        },
-        {
-          key: 'n',
-          name: 'No, abort commit!',
-          value: false
-        },
-        {
-          key: 'e',
-          name: 'Edit commit message...',
-          value: 'edit'
-        }
-      ]
-    }
-  ])) as { commit: boolean }
+  const { commit } = (await prompt({
+    type: 'confirm',
+    name: 'commit',
+    message: PromptMessage.CONFIRM,
+    initial: true,
+    format: input => (input ? 'Yes' : 'no')
+  })) as { commit: boolean }
 
-  return answer.commit as boolean | 'edit'
+  return commit
 }
 
 export async function promptConfig() {
-  const types = [
+  const typeChoices = [
     'feat',
     'fix',
     'chore',
@@ -275,67 +219,71 @@ export async function promptConfig() {
     'test'
   ]
 
-  const config = (await prompt([
+  const answers = <any>await prompt([
     {
-      type: 'checkbox',
+      type: 'multiselect',
       name: 'types',
       message: 'types',
-      choices: types,
-      default: ['feat', 'fix', 'chore'],
-      pageSize: types.length
+      choices: typeChoices,
+      initial: ['feat', 'fix', 'chore', 'docs', 'refactor', 'test']
     },
     {
-      type: 'list',
+      type: 'select',
       name: 'promptScope',
       message: 'scope',
       choices: [
-        { name: 'no scope', value: false },
-        { name: 'suggest scope', value: 'suggest' },
-        { name: 'enforce scope', value: 'enforce' }
+        { name: 'none', message: 'no scope' },
+        { name: 'suggest', message: 'suggest scope' },
+        { name: 'enforce', message: 'enforce scope' }
+      ]
+    },
+    {
+      type: 'select',
+      name: 'scopes',
+      message() {
+        const answers = this.state.answers
+        return ` ${answers.promptScope}  scope`
+      },
+      choices: [
+        { name: 'staged', message: 'from staged files' },
+        { name: 'packages', message: 'from package names (monorepo)' },
+        { name: 'list', message: 'from a list' }
       ],
-      default: 0
+      skip() {
+        const answers = this.state.answers
+        return answers.promptScope == 'none'
+      }
     },
     {
       type: 'list',
-      name: 'scopes',
-      message: x => `${x.promptScope} scope`,
-      choices: [
-        { name: 'from staged files', value: 'staged' },
-        { name: 'from package names (monorepo)', value: 'packages' },
-        { name: 'from a list', value: false }
-      ],
-      default: 0,
-      when: (x: any) => !!x.promptScope
-    },
-    {
-      type: 'input',
-      name: 'scopes',
-      message: 'enter scopes',
-      when: (x: any) => x.promptScope && !x.scopes
+      name: 'scopeList',
+      message: 'type comma-separated scope names',
+      skip() {
+        const answers = this.state.answers
+        return answers.scopes != 'list'
+      }
     }
-  ])) as Config
+  ])
 
-  const scopes = config.scopes as string
-  if (scopes && !['staged', 'packages'].includes(scopes)) {
-    config.scopes = scopes.split(/\W/).filter(x => x.length)
+  const { types, promptScope, scopes, scopeList } = answers
+
+  const config: Config = { types }
+  if (promptScope != 'none') {
+    config.promptScope = promptScope
+    config.scopes = scopes == 'list' ? scopeList : scopes
   }
+
   return config
 }
 
 export async function promptPackageUpdate() {
-  const answers = await prompt([
-    {
-      type: 'list',
-      name: 'updatePackage',
-      message: 'save config in',
-      default: 0,
-      choices: [
-        { name: '.standard-commitrc.json', value: false },
-        { name: 'package.json', value: true }
-      ]
-    }
-  ])
-  return answers as {
-    updatePackage: boolean
+  const { updatePackage } = await prompt({
+    type: 'select',
+    name: 'updatePackage',
+    message: 'save config in',
+    choices: [{ name: '.standard-commitrc.json' }, { name: 'package.json' }]
+  })
+  return {
+    updatePackage: updatePackage == 'package.json'
   }
 }

@@ -20,6 +20,7 @@ changelog with
 
 ## Usage
 
+
 ```bash
 npm install -g standard-commit
 ```
