@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.2.0](https://github.com/stasson/standard-commit/compare/v3.1.0...v3.2.0) (2019-10-26)
+
+
+### Features
+
+* **commit:** show message before commiting ([1608415](https://github.com/stasson/standard-commit/commit/16084151e17dc620c84cf71fe7eb687b04748834))
+* **prompt:** switch to enquirer prompts ([d474a52](https://github.com/stasson/standard-commit/commit/d474a52cc32c17c2707182535d6d456cf50303db))
+
+
+### Bug Fixes
+
+* **commit:** commit should fail when no staged files ([78e895d](https://github.com/stasson/standard-commit/commit/78e895d22fed1c21689d10608d08bea2a0396712))
+* **prompt:** cursor does not always show ([5b40765](https://github.com/stasson/standard-commit/commit/5b407651bc4b758c11811fc8e69bfdcf431cda10))
+* **suggest-prompt:** fix missing module ([1b057ee](https://github.com/stasson/standard-commit/commit/1b057ee233abcc8b84527ae412f66bce1755f002))
+
 ## [3.1.0](https://github.com/stasson/standard-commit/compare/v3.0.2...v3.1.0) (2019-09-10)
 
 
