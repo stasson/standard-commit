@@ -51,7 +51,8 @@ export async function promptScope(
         name: 'scope',
         message: PromptMessage.SCOPE,
         suggestions: scopes,
-        result: input => input.toLowerCase().trim()
+        result: input => input.toLowerCase(),
+        validate: input =>  !!input.trim() || 'scope can not be empty'
       }).run()
       return Object.assign(message, { scope })
     }
@@ -63,7 +64,10 @@ export async function promptScope(
       initial: message.scope,
       result: input => input.toLowerCase().trim(),
       validate(input) {
-        return input || 'scope can not be empty'
+        if (config.promptScope == 'enforce') {
+          return !!input.trim() || 'scope can not be empty'
+        }
+        return true
       }
     })
     return Object.assign(message, { scope })
@@ -79,7 +83,6 @@ export async function promptSubject(
     name: 'subject',
     message: PromptMessage.SUBJECT,
     initial: message.subject,
-    format: input => input.toLowerCase(),
     result: input => input.toLowerCase().trim(),
     validate(input) {
       if (!input) {
