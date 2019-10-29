@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.1](https://github.com/stasson/standard-commit/compare/v3.2.0...v3.2.1) (2019-10-29)
+
+
+### Bug Fixes
+
+* **formatmsg:** issue ref should start with # ([a66e8cb](https://github.com/stasson/standard-commit/commit/a66e8cbd0a728c9dd1396cc871242a4d3c54d822))
+
 ## [3.2.0](https://github.com/stasson/standard-commit/compare/v3.1.0...v3.2.0) (2019-10-26)
 
 
