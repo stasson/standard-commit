@@ -27,8 +27,14 @@ export function formatBreaking(change: string) {
   return 'BREAKING CHANGE: ' + change.trim()
 }
 
-export function formatIssues(issues: string[], prefix = 'closes') {
-  return wrapLines(issues.map(issue => prefix + ' ' + issue.trim()).join(EOL))
+export function formatIssues(issues: string[], prefix = 'Closes') {
+  const list = issues
+    .map(issue => {
+      const id = issue.trim()
+      return id[0] == '#' ? id : `#${id}`
+    })
+    .join(', ')
+  return `${prefix} ${list}`
 }
 
 export function formatBody(body: string[]) {
@@ -51,7 +57,7 @@ export function formatMessage(commit: CommitMessage): string {
   if (commit.issues) {
     const block = formatIssues(
       commit.issues,
-      commit.type === 'fix' ? 'fixes' : 'closes'
+      commit.type === 'fix' ? 'Fixes' : 'Closes'
     )
     message = appendBlock(message, block)
   }

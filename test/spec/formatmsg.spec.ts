@@ -11,9 +11,9 @@ describe('formatMessage', () => {
         subject: 'subject'
       })
     ).toMatchInlineSnapshot(`
-"type: subject
-"
-`)
+      "type: subject
+      "
+    `)
   })
 
   it('formats scoped header', () => {
@@ -24,9 +24,9 @@ describe('formatMessage', () => {
         subject: 'subject'
       })
     ).toMatchInlineSnapshot(`
-"type(scope): subject
-"
-`)
+      "type(scope): subject
+      "
+    `)
   })
 
   it('formats body', () => {
@@ -38,18 +38,18 @@ describe('formatMessage', () => {
         body: ['lore ipsum:', loreipsum]
       })
     ).toMatchInlineSnapshot(`
-"type(scope): subject
+      "type(scope): subject
 
-lore ipsum:
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
-veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
-velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-occaecat cupidatat non proident, sunt in culpa qui officia deserunt
-mollit anim id est laborum.
-"
-`)
+      lore ipsum:
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
+      tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim
+      veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
+      commodo consequat. Duis aute irure dolor in reprehenderit in voluptate
+      velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
+      occaecat cupidatat non proident, sunt in culpa qui officia deserunt
+      mollit anim id est laborum.
+      "
+    `)
   })
 
   it('formats breaking change', () => {
@@ -61,11 +61,11 @@ mollit anim id est laborum.
         breaking: 'a breaking change'
       })
     ).toMatchInlineSnapshot(`
-"type(scope): subject
+      "type(scope): subject
 
-BREAKING CHANGE: a breaking change
-"
-`)
+      BREAKING CHANGE: a breaking change
+      "
+    `)
   })
 
   it('formats issues', () => {
@@ -74,30 +74,28 @@ BREAKING CHANGE: a breaking change
         type: 'fix',
         scope: 'scope',
         subject: 'subject',
-        issues: ['#1', '#2']
+        issues: ['#1', '2']
       })
     ).toMatchInlineSnapshot(`
-"fix(scope): subject
+      "fix(scope): subject
 
-fixes #1
-fixes #2
-"
-`)
+      Fixes #1, #2
+      "
+    `)
 
     expect(
       formatMessage({
         type: 'feat',
         scope: 'scope',
         subject: 'subject',
-        issues: ['#1', '#2']
+        issues: ['#1', '2']
       })
     ).toMatchInlineSnapshot(`
-"feat(scope): subject
+      "feat(scope): subject
 
-closes #1
-closes #2
-"
-`)
+      Closes #1, #2
+      "
+    `)
   })
 
   it('formats all', () => {
@@ -111,15 +109,14 @@ closes #2
         issues: ['#1', '#2']
       })
     ).toMatchInlineSnapshot(`
-"feat(scope): subject
+      "feat(scope): subject
 
-description of the change
+      description of the change
 
-BREAKING CHANGE: this is a breaking change
+      BREAKING CHANGE: this is a breaking change
 
-closes #1
-closes #2
-"
-`)
+      Closes #1, #2
+      "
+    `)
   })
 })
