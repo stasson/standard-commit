@@ -106,7 +106,7 @@ describe('formatMessage', () => {
         subject: 'subject',
         body: ['description of the change'],
         breaking: 'this is a breaking change',
-        issues: ['#1', '#2']
+        issues: ['#1', '2']
       })
     ).toMatchInlineSnapshot(`
       "feat(scope): subject
@@ -116,6 +116,24 @@ describe('formatMessage', () => {
       BREAKING CHANGE: this is a breaking change
 
       Closes #1, #2
+      "
+    `)
+
+    expect(
+      formatMessage({
+        type: 'feat',
+        scope: 'scope',
+        subject: 'subject',
+        body: ['description of the change'],
+        breaking: 'this is a breaking change',
+        issues: []
+      })
+    ).toMatchInlineSnapshot(`
+      "feat(scope): subject
+
+      description of the change
+
+      BREAKING CHANGE: this is a breaking change
       "
     `)
   })

@@ -54,7 +54,7 @@ export function formatMessage(commit: CommitMessage): string {
     message = appendBlock(message, block)
   }
 
-  if (commit.issues) {
+  if (commit.issues && commit.issues.length) {
     const block = formatIssues(
       commit.issues,
       commit.type === 'fix' ? 'Fixes' : 'Closes'
