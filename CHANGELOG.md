@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.2.2](https://github.com/stasson/standard-commit/compare/v3.2.1...v3.2.2) (2019-10-30)
+
+
+### Bug Fixes
+
+* **formatmsg:** should not have footer when issue list is empty ([ce04ba1](https://github.com/stasson/standard-commit/commit/ce04ba13c4f3922efd296e7868f1c8db5bee0f69))
+
 ### [3.2.1](https://github.com/stasson/standard-commit/compare/v3.2.0...v3.2.1) (2019-10-29)
 
 
