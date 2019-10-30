@@ -1,6 +1,6 @@
 {
   "name": "standard-commit",
-  "version": "3.2.2",
+  "version": "3.2.3",
   "description": "conventional commit",
   "author": {
     "name": "Sebastien Tasson",
