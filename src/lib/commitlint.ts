@@ -6,6 +6,7 @@ import format, {
 } from '@commitlint/format'
 import read from '@commitlint/read'
 import conventional from '@commitlint/config-conventional'
+import Rules from '@commitlint/rules'
 
 import { Config, DefaultConfig } from './config'
 
@@ -27,22 +28,40 @@ type Range = {
   edit?: boolean | string
 }
 
-export async function commitLint(
-  message: string,
-  config: Config = DefaultConfig
-): Promise<CommitlintReport> {
+export function commitRules(config: Config = DefaultConfig) {
   const rules = conventional.rules
 
-  // const rules = {
-  //   'body-leading-blank': [1, 'always'],
-  //   'footer-leading-blank': [1, 'always'],
-  //   'header-max-length': [2, 'always', 72],
-  //   'subject-case': [2, 'always', ['lower-case']],
-  //   'subject-empty': [2, 'never'],
-  //   'subject-full-stop': [2, 'never', '.'],
-  //   'type-case': [2, 'always', 'lower-case'],
-  //   'type-empty': [2, 'never'],
-  //   'type-enum': [2, 'always', config.types]
+  // rules: {
+  // 	'body-leading-blank': [1, 'always'],
+  // 	'footer-leading-blank': [1, 'always'],
+  // 	'header-max-length': [2, 'always', 72],
+  // 	'scope-case': [2, 'always', 'lower-case'],
+  // 	'subject-case': [
+  // 		2,
+  // 		'never',
+  // 		['sentence-case', 'start-case', 'pascal-case', 'upper-case']
+  // 	],
+  // 	'subject-empty': [2, 'never'],
+  // 	'subject-full-stop': [2, 'never', '.'],
+  // 	'type-case': [2, 'always', 'lower-case'],
+  // 	'type-empty': [2, 'never'],
+  // 	'type-enum': [
+  // 		2,
+  // 		'always',
+  // 		[
+  // 			'build',
+  // 			'chore',
+  // 			'ci',
+  // 			'docs',
+  // 			'feat',
+  // 			'fix',
+  // 			'perf',
+  // 			'refactor',
+  // 			'revert',
+  // 			'style',
+  // 			'test'
+  // 		]
+  // 	]
   // }
 
   // update types
@@ -75,6 +94,14 @@ export async function commitLint(
     Object.assign(rules, config.rules)
   }
 
+  return rules
+}
+
+export async function commitLint(
+  message: string,
+  config: Config = DefaultConfig
+): Promise<CommitlintReport> {
+  const rules = commitRules(config)
   return lint(message, rules)
 }
 
@@ -91,4 +118,23 @@ export async function commitFormatReport(
 
 export async function commitRead(range: Range): Promise<string[]> {
   return read(range)
+}
+
+/** return true or message */
+export function validateSubject(
+  subject: string,
+  config: Config = DefaultConfig
+) {
+  const rules = commitRules(config)
+  for (const rule in rules) {
+    if (rule.startsWith('subject')) {
+      const [sev, when, cfg] = rules[rule]
+      if (sev >= 2) {
+        const validate = Rules[rule]
+        const [result, message] = validate({ subject }, when, cfg)
+        if (!result) return message
+      }
+    }
+  }
+  return true
 }

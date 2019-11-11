@@ -4,6 +4,7 @@ import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
 import { prompt } from 'enquirer'
 import SuggestPrompt from './suggest-prompt'
+import { validateSubject } from './commitlint'
 
 // prettier-ignore
 const enum PromptMessage {
@@ -83,11 +84,10 @@ export async function promptSubject(
     name: 'subject',
     message: PromptMessage.SUBJECT,
     initial: message.subject,
-    result: input => input.toLowerCase().trim(),
+    result: input => input.trim(),
     validate(input) {
-      if (!input) {
-        return 'subject can not be empty'
-      }
+      const result = validateSubject(input, config)
+      if (result != true) return result
       const header = formatHeader(message.type, message.scope, input)
       if (header.length >= 72) {
         return 'subject is too long'

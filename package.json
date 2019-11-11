@@ -93,6 +93,7 @@
   "dependencies": {
     "@commitlint/config-conventional": "^8.2.0",
     "@commitlint/core": "^8.2.0",
+    "@commitlint/rules": "^8.2.0",
     "ansi-colors": "^4.1.1",
     "cosmiconfig": "^5.2.1",
     "enquirer": "^2.3.2",
