@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.3.0](https://github.com/stasson/standard-commit/compare/v3.2.3...v3.3.0) (2019-11-11)
+
+
+### Features
+
+* **prompt:** use commitlint to validate subject ([29695a0](https://github.com/stasson/standard-commit/commit/29695a0d1a4a34ea7e9d9eec5504189f9e02d053))
+* **root:** replace root with * as default scope ([943f07c](https://github.com/stasson/standard-commit/commit/943f07c5ab56ec0686c973651b2edeef9f37143b))
+
 ### [3.2.3](https://github.com/stasson/standard-commit/compare/v3.2.2...v3.2.3) (2019-10-30)
 
 ### [3.2.2](https://github.com/stasson/standard-commit/compare/v3.2.1...v3.2.2) (2019-10-30)
