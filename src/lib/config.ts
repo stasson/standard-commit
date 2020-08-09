@@ -1,4 +1,4 @@
-import cosmiconfig from 'cosmiconfig'
+import { cosmiconfig } from 'cosmiconfig'
 
 export interface Config {
   /**
@@ -79,10 +79,10 @@ export const DefaultConfig: Config = {
   promptBody: true,
   promptBreaking: true,
   promptIssues: true,
-  promptConfirm: true
+  promptConfirm: true,
 }
 
-const config = explorer.search().then(result => {
+const config = explorer.search().then((result) => {
   const config = Object.create(DefaultConfig)
   if (result && result.config) {
     Object.assign(config, result.config)

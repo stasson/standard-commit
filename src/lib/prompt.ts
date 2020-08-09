@@ -26,7 +26,7 @@ export async function promptType(
     message: PromptMessage.TYPE,
     type: 'autocomplete',
     choices: config.types,
-    initial: message.type
+    initial: config.types.indexOf(message.type)
   })
   return Object.assign(message, { type })
 }
@@ -44,7 +44,7 @@ export async function promptScope(
         message: PromptMessage.SCOPE,
         choices: scopes,
         result: input => input.toLowerCase().trim(),
-        initial: message.scope
+        initial: scopes.indexOf(message.scope)
       })
       return Object.assign(message, { scope })
     } else {
@@ -228,7 +228,7 @@ export async function promptConfig() {
       name: 'types',
       message: 'types',
       choices: typeChoices,
-      initial: ['feat', 'fix', 'chore', 'docs', 'refactor', 'test']
+      // initial: ['feat', 'fix', 'chore', 'docs', 'refactor', 'test']
     },
     {
       type: 'select',

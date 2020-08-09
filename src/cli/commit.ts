@@ -56,7 +56,7 @@ const cli = meow(
       },
       verify: {
         type: 'boolean',
-        default: 'true'
+        default: true
       },
       edit: {
         type: 'boolean',
@@ -137,7 +137,7 @@ async function init() {
   const { updatePackage } = await promptPackageUpdate()
   if (updatePackage) {
     const pkgUp = await readPkgUp()
-    const pkg = pkgUp.package || {}
+    const pkg = pkgUp.packageJson || {}
     const path = pkgUp.path || 'package.json'
     pkg['standard-commit'] = config
     await writePackage(path, pkg)
