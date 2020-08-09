@@ -2,7 +2,7 @@ import lint from '@commitlint/lint'
 import format, {
   FormattableProblem,
   FormattableResult,
-  WithInput
+  WithInput,
 } from '@commitlint/format'
 import read from '@commitlint/read'
 import conventional from '@commitlint/config-conventional'
@@ -67,7 +67,7 @@ export function commitRules(config: Config = DefaultConfig) {
   // update types
   if (config.types) {
     Object.assign(rules, {
-      'type-enum': [2, 'always', config.types]
+      'type-enum': [2, 'always', config.types],
     })
   }
 
@@ -75,18 +75,18 @@ export function commitRules(config: Config = DefaultConfig) {
   if (config.promptScope) {
     if (config.promptScope === 'enforce') {
       Object.assign(rules, {
-        'scope-empty': [2, 'never']
+        'scope-empty': [2, 'never'],
       })
 
       if (Array.isArray(config.scopes)) {
         Object.assign(rules, {
-          'scope-enum': [2, 'always', config.scopes]
+          'scope-enum': [2, 'always', config.scopes],
         })
       }
     }
   } else {
     Object.assign(rules, {
-      'scope-empty': [2, 'always']
+      'scope-empty': [2, 'always'],
     })
   }
 
@@ -110,7 +110,7 @@ export async function commitFormatReport(
 ): Promise<string> {
   return format(
     {
-      results: [report]
+      results: [report],
     },
     { color: true }
   )

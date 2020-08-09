@@ -26,7 +26,7 @@ export async function promptType(
     message: PromptMessage.TYPE,
     type: 'autocomplete',
     choices: config.types,
-    initial: config.types.indexOf(message.type)
+    initial: config.types.indexOf(message.type),
   })
   return Object.assign(message, { type })
 }
@@ -43,8 +43,8 @@ export async function promptScope(
         name: 'scope',
         message: PromptMessage.SCOPE,
         choices: scopes,
-        result: input => input.toLowerCase().trim(),
-        initial: scopes.indexOf(message.scope)
+        result: (input) => input.toLowerCase().trim(),
+        initial: scopes.indexOf(message.scope),
       })
       return Object.assign(message, { scope })
     } else {
@@ -52,8 +52,8 @@ export async function promptScope(
         name: 'scope',
         message: PromptMessage.SCOPE,
         suggestions: scopes,
-        result: input => input.toLowerCase(),
-        validate: input => !!input.trim() || 'scope can not be empty'
+        result: (input) => input.toLowerCase(),
+        validate: (input) => !!input.trim() || 'scope can not be empty',
       }).run()
       return Object.assign(message, { scope })
     }
@@ -63,13 +63,13 @@ export async function promptScope(
       name: 'scope',
       message: PromptMessage.SCOPE,
       initial: message.scope,
-      result: input => input.toLowerCase().trim(),
+      result: (input) => input.toLowerCase().trim(),
       validate(input) {
         if (config.promptScope == 'enforce') {
           return !!input.trim() || 'scope can not be empty'
         }
         return true
-      }
+      },
     })
     return Object.assign(message, { scope })
   }
@@ -84,7 +84,7 @@ export async function promptSubject(
     name: 'subject',
     message: PromptMessage.SUBJECT,
     initial: message.subject,
-    result: input => input.trim(),
+    result: (input) => input.trim(),
     validate(input) {
       const result = validateSubject(input, config)
       if (result != true) return result
@@ -93,7 +93,7 @@ export async function promptSubject(
         return 'subject is too long'
       }
       return true
-    }
+    },
   })
   return Object.assign(message, { subject })
 }
@@ -104,7 +104,7 @@ export async function promptHeader(
 ) {
   const getscopes = suggestScopes(config)
   message = await promptType(message, config)
-  const scopes = (await getscopes).map(s => s.toLowerCase())
+  const scopes = (await getscopes).map((s) => s.toLowerCase())
 
   if (!!config.promptScope) {
     message = await promptScope(scopes, message, config)
@@ -127,7 +127,7 @@ export async function promptBody(
       name: 'line',
       message: PromptMessage.BODY,
       initial: (lines && lines[i]) || undefined,
-      result: input => input.trim()
+      result: (input) => input.trim(),
     })
 
     if (!line) break
@@ -146,7 +146,7 @@ export async function promptBreakingChanges(
     name: 'breaking',
     message: PromptMessage.BREAK,
     initial: message.breaking || undefined,
-    result: input => input.trim()
+    result: (input) => input.trim(),
   })
   return Object.assign(message, { breaking })
 }
@@ -164,12 +164,12 @@ export async function promptIssues(
       name: 'issue',
       message: PromptMessage.ISSUE,
       initial: (lines && lines[i]) || undefined,
-      result: input => input.trim()
+      result: (input) => input.trim(),
     })
     if (!issue) break
     result.push(...issue.split(/\s+|,|;/))
   }
-  const issues = result.filter(issue => !!issue)
+  const issues = result.filter((issue) => !!issue)
   return Object.assign(message, { issues })
 }
 
@@ -201,7 +201,7 @@ export async function promptConfirmCommit(config: Config = DefaultConfig) {
     name: 'commit',
     message: PromptMessage.CONFIRM,
     initial: true,
-    format: input => (input ? 'Yes' : 'no')
+    format: (input) => (input ? 'Yes' : 'no'),
   })) as { commit: boolean }
 
   return commit
@@ -219,7 +219,7 @@ export async function promptConfig() {
     'refactor',
     'revert',
     'style',
-    'test'
+    'test',
   ]
 
   const answers = <any>await prompt([
@@ -237,8 +237,8 @@ export async function promptConfig() {
       choices: [
         { name: 'none', message: 'no scope' },
         { name: 'suggest', message: 'suggest scope' },
-        { name: 'enforce', message: 'enforce scope' }
-      ]
+        { name: 'enforce', message: 'enforce scope' },
+      ],
     },
     {
       type: 'select',
@@ -250,12 +250,12 @@ export async function promptConfig() {
       choices: [
         { name: 'staged', message: 'from staged files' },
         { name: 'packages', message: 'from package names (monorepo)' },
-        { name: 'list', message: 'from a list' }
+        { name: 'list', message: 'from a list' },
       ],
       skip() {
         const answers = this.state.answers
         return answers.promptScope == 'none'
-      }
+      },
     },
     {
       type: 'list',
@@ -264,8 +264,8 @@ export async function promptConfig() {
       skip() {
         const answers = this.state.answers
         return answers.scopes != 'list'
-      }
-    }
+      },
+    },
   ])
 
   const { types, promptScope, scopes, scopeList } = answers
@@ -284,9 +284,9 @@ export async function promptPackageUpdate() {
     type: 'select',
     name: 'updatePackage',
     message: 'save config in',
-    choices: [{ name: '.standard-commitrc.json' }, { name: 'package.json' }]
+    choices: [{ name: '.standard-commitrc.json' }, { name: 'package.json' }],
   })
   return {
-    updatePackage: updatePackage == 'package.json'
+    updatePackage: updatePackage == 'package.json',
   }
 }

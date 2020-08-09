@@ -12,8 +12,8 @@ export async function gitStagedPaths() {
 
     const staged = git.stdout
       .split('\n')
-      .map(f => f.trim())
-      .filter(f => f)
+      .map((f) => f.trim())
+      .filter((f) => f)
 
     return staged
   } catch {
@@ -45,7 +45,7 @@ export async function gitCommitAndEdit(message: string, ...args) {
   const commitArgs = ['commit', ...args, '-e', '-F', JSON.stringify(editPath)]
   const shellCommand = 'git ' + commitArgs.join(' ')
   const gitCommit = execa(shellCommand, {
-    shell: true
+    shell: true,
   })
   gitCommit.stdout.pipe(process.stdout)
   gitCommit.stderr.pipe(process.stderr)

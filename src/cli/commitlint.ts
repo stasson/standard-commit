@@ -25,14 +25,14 @@ const cli = meow(
       from: {
         type: 'string',
         alias: 'f',
-        default: null
+        default: null,
       },
       to: {
         type: 'string',
         alias: 't',
-        default: null
-      }
-    }
+        default: null,
+      },
+    },
   }
 )
 

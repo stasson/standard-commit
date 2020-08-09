@@ -18,7 +18,7 @@ export async function getStagedScopesSuggestions() {
   const suggestions = sortScopes(
     paths.reduce((s, f) => {
       const { name, dir } = path.parse(f)
-      const keys = ['*', ...dir.split('/').filter(d => d), name].reverse()
+      const keys = ['*', ...dir.split('/').filter((d) => d), name].reverse()
       let weight = 1
       for (const k of keys) {
         s[k] = weight++

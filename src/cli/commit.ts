@@ -11,7 +11,7 @@ import {
   gitCanCommit,
   loadConfig,
   promptConfig,
-  promptPackageUpdate
+  promptPackageUpdate,
 } from '../lib'
 
 const cli = meow(
@@ -44,28 +44,28 @@ const cli = meow(
     flags: {
       all: {
         type: 'boolean',
-        alias: 'a'
+        alias: 'a',
       },
       signoff: {
         type: 'boolean',
-        alias: 's'
+        alias: 's',
       },
       noVerify: {
         type: 'boolean',
-        alias: 'n'
+        alias: 'n',
       },
       verify: {
         type: 'boolean',
-        default: true
+        default: true,
       },
       edit: {
         type: 'boolean',
-        alias: 'e'
+        alias: 'e',
       },
       dryRun: {
-        type: 'boolean'
-      }
-    }
+        type: 'boolean',
+      },
+    },
   }
 )
 
@@ -79,7 +79,7 @@ if (flags.init) {
     signoff: flags.signoff,
     noVerify: flags.noVerify || !flags.verify,
     dryRun: flags.dryRun,
-    edit: flags.edit
+    edit: flags.edit,
   })
 }
 

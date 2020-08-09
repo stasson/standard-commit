@@ -13,7 +13,7 @@ function appendBlock(message: string, block: string): string {
 }
 
 function formatLines(lines: string[]) {
-  return wrapLines(lines.map(line => line.trim()).join(EOL))
+  return wrapLines(lines.map((line) => line.trim()).join(EOL))
 }
 
 export function formatHeader(type, scope, subject) {
@@ -29,7 +29,7 @@ export function formatBreaking(change: string) {
 
 export function formatIssues(issues: string[], prefix = 'Closes') {
   const list = issues
-    .map(issue => {
+    .map((issue) => {
       const id = issue.trim()
       return id[0] == '#' ? id : `#${id}`
     })
