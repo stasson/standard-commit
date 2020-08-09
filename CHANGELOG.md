@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/stasson/standard-commit/compare/v4.0.0-0...v4.0.0) (2020-08-09)
+
 ## [4.0.0-0](https://github.com/stasson/standard-commit/compare/v3.3.0...v4.0.0-0) (2020-08-09)
 
 ## [3.3.0](https://github.com/stasson/standard-commit/compare/v3.2.3...v3.3.0) (2019-11-11)
