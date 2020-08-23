@@ -6,7 +6,7 @@ import {
   promptScope,
   promptHeader,
   promptCommitMessage,
-  suggestScopes
+  suggestScopes,
 } from '../lib'
 import stdin from 'bdd-stdin'
 

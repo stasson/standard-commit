@@ -8,7 +8,7 @@ describe('formatMessage', () => {
     expect(
       formatMessage({
         type: 'type',
-        subject: 'subject'
+        subject: 'subject',
       })
     ).toMatchInlineSnapshot(`
       "type: subject
@@ -21,7 +21,7 @@ describe('formatMessage', () => {
       formatMessage({
         type: 'type',
         scope: 'scope',
-        subject: 'subject'
+        subject: 'subject',
       })
     ).toMatchInlineSnapshot(`
       "type(scope): subject
@@ -35,7 +35,7 @@ describe('formatMessage', () => {
         type: 'type',
         scope: 'scope',
         subject: 'subject',
-        body: ['lore ipsum:', loreipsum]
+        body: ['lore ipsum:', loreipsum],
       })
     ).toMatchInlineSnapshot(`
       "type(scope): subject
@@ -58,7 +58,7 @@ describe('formatMessage', () => {
         type: 'type',
         scope: 'scope',
         subject: 'subject',
-        breaking: 'a breaking change'
+        breaking: 'a breaking change',
       })
     ).toMatchInlineSnapshot(`
       "type(scope): subject
@@ -74,7 +74,7 @@ describe('formatMessage', () => {
         type: 'fix',
         scope: 'scope',
         subject: 'subject',
-        issues: ['#1', '2']
+        issues: ['#1', '2'],
       })
     ).toMatchInlineSnapshot(`
       "fix(scope): subject
@@ -88,7 +88,7 @@ describe('formatMessage', () => {
         type: 'feat',
         scope: 'scope',
         subject: 'subject',
-        issues: ['#1', '2']
+        issues: ['#1', '2'],
       })
     ).toMatchInlineSnapshot(`
       "feat(scope): subject
@@ -106,7 +106,7 @@ describe('formatMessage', () => {
         subject: 'subject',
         body: ['description of the change'],
         breaking: 'this is a breaking change',
-        issues: ['#1', '2']
+        issues: ['#1', '2'],
       })
     ).toMatchInlineSnapshot(`
       "feat(scope): subject
@@ -126,7 +126,7 @@ describe('formatMessage', () => {
         subject: 'subject',
         body: ['description of the change'],
         breaking: 'this is a breaking change',
-        issues: []
+        issues: [],
       })
     ).toMatchInlineSnapshot(`
       "feat(scope): subject

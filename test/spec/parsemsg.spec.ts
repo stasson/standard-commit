@@ -34,7 +34,7 @@ BREAKING CHANGE: a breaking change
 
 closes #34
 fixes #38    
-  `
+  `,
 }
 
 const unconventional = {
@@ -42,7 +42,7 @@ const unconventional = {
   
   compile for right target
   
-  `
+  `,
 }
 
 describe('parseCommitMessage', () => {
@@ -72,7 +72,7 @@ describe('parseCommitMessage', () => {
       expect(commit.body).toBeDefined()
       expect(commit.body).toEqual([
         'a multiline description block',
-        'another information'
+        'another information',
       ])
     })
 

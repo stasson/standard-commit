@@ -34,7 +34,7 @@
   "scripts": {
     "start": "ts-node src/cli/commit.ts",
     "tdd": "jest --runInBand --watch",
-    "format": "prettier --write src/**/*",
+    "format": "prettier --write src/**/* test/**",
     "test": "run-s test:*",
     "test:unit": "jest --runInBand",
     "test:lint": "cross-env NODE_ENV=production tslint src/**/*.ts -t verbose",
