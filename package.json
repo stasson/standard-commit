@@ -50,25 +50,6 @@
   "gitHooks": {
     "commit-msg": "ts-node src/cli/commithook.ts"
   },
-  "jest": {
-    "transform": {
-      "^.+\\.tsx?$": "ts-jest"
-    },
-    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-    "moduleFileExtensions": [
-      "ts",
-      "tsx",
-      "js",
-      "jsx",
-      "json",
-      "node"
-    ],
-    "coverageReporters": [
-      "text",
-      "html",
-      "lcov"
-    ]
-  },
   "devDependencies": {
     "@types/execa": "^2.0.0",
     "@types/fs-extra": "^9.0.1",
