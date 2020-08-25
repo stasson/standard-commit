@@ -69,8 +69,6 @@ export interface Config {
   rules?: {}
 }
 
-const explorer = cosmiconfig('standard-commit')
-
 export const DefaultConfig: Config = {
   types: ['feat', 'fix', 'chore', 'docs', 'style', 'refactor', 'test'],
   scopes: 'staged',
@@ -82,14 +80,12 @@ export const DefaultConfig: Config = {
   promptConfirm: true,
 }
 
-const config = explorer.search().then((result) => {
+export async function loadConfig() {
+  const explorer = cosmiconfig('standard-commit')
   const config = Object.create(DefaultConfig)
+  const result = await explorer.search()
   if (result && result.config) {
     Object.assign(config, result.config)
   }
-  return config
-})
-
-export async function loadConfig() {
-  return (await config) as Config
+  return config as Config
 }
