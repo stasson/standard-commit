@@ -25,18 +25,16 @@ const cli = meow(
       from: {
         type: 'string',
         alias: 'f',
-        default: null,
       },
       to: {
         type: 'string',
         alias: 't',
-        default: null,
       },
     },
   }
 )
 
-async function commitHook() {
+async function lint() {
   try {
     let error = false
     const edit: string = process.env.GIT_PARAMS || '.git/COMMIT_EDITMSG'
@@ -71,4 +69,4 @@ async function commitHook() {
   }
 }
 
-commitHook()
+lint()

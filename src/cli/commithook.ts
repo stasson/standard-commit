@@ -2,7 +2,7 @@ import { EOL } from 'os'
 import colors from 'ansi-colors'
 import { commitRead, loadConfig, commitLint, commitFormatReport } from '../lib'
 
-async function commitHook() {
+async function hook() {
   try {
     const edit: string = process.env.GIT_PARAMS || '.git/COMMIT_EDITMSG'
     const load = loadConfig()
@@ -32,4 +32,4 @@ async function commitHook() {
   }
 }
 
-commitHook()
+hook()
