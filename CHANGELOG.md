@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.1](https://github.com/stasson/standard-commit/compare/v4.0.0...v4.0.1) (2020-08-26)
+
+
+### Bug Fixes
+
+* unhandled config promise rejection ([cd6cc95](https://github.com/stasson/standard-commit/commit/cd6cc9538dbd037af064fb12267b7694064865ef))
+* **commitlint:** from/to default is not null ([487dc40](https://github.com/stasson/standard-commit/commit/487dc40774fa51eaefd5b0329d67bc8bf8ee71a2))
+
 ## [4.0.0](https://github.com/stasson/standard-commit/compare/v4.0.0-0...v4.0.0) (2020-08-09)
 
 ## [4.0.0-0](https://github.com/stasson/standard-commit/compare/v3.3.0...v4.0.0-0) (2020-08-09)
