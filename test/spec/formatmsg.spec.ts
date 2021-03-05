@@ -79,7 +79,8 @@ describe('formatMessage', () => {
     ).toMatchInlineSnapshot(`
       "fix(scope): subject
 
-      Fixes #1, #2
+      Refs: #1
+      Refs: #2
       "
     `)
 
@@ -93,7 +94,8 @@ describe('formatMessage', () => {
     ).toMatchInlineSnapshot(`
       "feat(scope): subject
 
-      Closes #1, #2
+      Refs: #1
+      Refs: #2
       "
     `)
   })
@@ -115,7 +117,8 @@ describe('formatMessage', () => {
 
       BREAKING CHANGE: this is a breaking change
 
-      Closes #1, #2
+      Refs: #1
+      Refs: #2
       "
     `)
 
