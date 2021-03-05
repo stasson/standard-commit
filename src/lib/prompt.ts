@@ -13,7 +13,7 @@ const enum PromptMessage {
   SUBJECT = 'subject: ',
   BODY    = 'body:    ',
   BREAK   = 'breaks:  ',
-  ISSUE   = 'closes:  ',
+  ISSUE   = 'issues:  ',
   CONFIRM = 'commit?  ',
 }
 
@@ -167,7 +167,7 @@ export async function promptIssues(
       result: (input) => input.trim(),
     })
     if (!issue) break
-    result.push(...issue.split(/\s+|,|;/))
+    result.push(...issue.split(/,|;/))
   }
   const issues = result.filter((issue) => !!issue)
   return Object.assign(message, { issues })
