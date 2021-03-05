@@ -83,7 +83,7 @@
     "import-local": "^3.0.2",
     "linewrap": "^0.2.1",
     "loud-rejection": "^2.2.0",
-    "meow": "^7.1.1",
+    "meow": "^9.0.0",
     "read-pkg-up": "^7.0.1",
     "update-notifier": "^5.1.0",
     "write-pkg": "^4.0.0"
