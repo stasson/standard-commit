@@ -30,12 +30,12 @@ export function formatBreaking(change: string) {
 export function formatIssues(issues: string[]) {
   return issues
     .map((issue) => {
-      if ((/^(\w+):\s(.*)/.test(issue))){
-        const line = issue.trim() 
+      if (/^(\w+):\s(.*)/.test(issue)) {
+        const line = issue.trim()
         return line[0].toUpperCase() + line.slice(1)
-      } 
+      }
       const id = issue.trim()
-      return `Refs: ${(Number.isInteger(Number(id)))  ? `#${id}` : id}`
+      return `Refs: ${Number.isInteger(Number(id)) ? `#${id}` : id}`
     })
     .join('\n')
 }
