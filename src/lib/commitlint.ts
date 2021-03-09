@@ -74,7 +74,7 @@ export function commitOptions(config: Config = DefaultConfig) {
             value?: string[]
           ) => {
             const { references, type } = parsed
-            if (!type || !ensure.enum(type, value)) {
+            if (!type || !value.includes(type)) {
               return [true]
             }
             const negated = when === 'always'

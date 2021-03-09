@@ -84,4 +84,41 @@ Refs: #123`,
     console.log({ valid, input, errors })
     expect(valid).toBeTruthy()
   })
+
+  it('lint passes when enforced feat refs', async () => {
+    const { valid, input, errors } = await commitLint(
+      `feat: valid message` +
+        `
+
+Refs: #123`,
+      {
+        enforceIssueRefs: ['feat'],
+      }
+    )
+    console.log({ valid, input, errors })
+    expect(valid).toBeTruthy()
+  })
+
+  it('lint pass when missing feat refs', async () => {
+    const { valid, input, errors } = await commitLint(
+      `feat: valid message`,
+      {
+        enforceIssueRefs:  ['fix'],
+      }
+    )
+    console.log({ valid, input, errors })
+    expect(valid).toBeTruthy()
+  })
+
+  it('lint fail when missing feat refs', async () => {
+    const { valid, input, errors } = await commitLint(
+      `feat: valid message`,
+      {
+        enforceIssueRefs:  ['feat'],
+      }
+    )
+    console.log({ valid, input, errors })
+    expect(valid).toBeFalsy()
+  })
+
 })
