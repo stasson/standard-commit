@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/stasson/standard-commit/compare/v4.0.1...v4.1.0) (2021-03-09)
+
+
+### Features
+
+* enforce signed-of-by and refs trailers ([e898764](https://github.com/stasson/standard-commit/commit/e898764acb015e1eb57ac22f5109240c40ff805f))
+* fix issue formating ([08e76b3](https://github.com/stasson/standard-commit/commit/08e76b385d3d73ec7cbf62752ef23beb48b68ae3))
+
 ### [4.0.1](https://github.com/stasson/standard-commit/compare/v4.0.0...v4.0.1) (2020-08-26)
 
 
