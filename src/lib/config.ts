@@ -60,6 +60,20 @@ export interface Config {
   promptConfirm?: boolean
 
   /**
+   * set to true to enforce 'Signed-off-by:' in footer.
+   *
+   * @default false
+   */
+  enforceSignedOffBy?: boolean
+
+  /**
+   * enforce issue reference when true else for specified list of types.
+   *
+   * @default []
+   */
+  enforceIssueRefs?: boolean | string[]
+
+  /**
    * extra commitlint rules
    *
    * see http://marionebl.github.io/commitlint/#/reference-rules
@@ -78,6 +92,8 @@ export const DefaultConfig: Config = {
   promptBreaking: true,
   promptIssues: true,
   promptConfirm: true,
+  enforceSignedOffBy: false,
+  enforceIssueRefs: false,
 }
 
 export async function loadConfig() {
