@@ -21,7 +21,7 @@ export async function promptType(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { type } = await prompt({
+  const { type }: Record<string, string> = await prompt({
     name: 'type',
     message: PromptMessage.TYPE,
     type: 'autocomplete',
@@ -38,7 +38,7 @@ export async function promptScope(
 ) {
   if (scopes && scopes.length) {
     if (config.promptScope == 'enforce') {
-      const { scope } = await prompt({
+      const { scope }: Record<string, string> = await prompt({
         type: 'autocomplete',
         name: 'scope',
         message: PromptMessage.SCOPE,
@@ -58,7 +58,7 @@ export async function promptScope(
       return Object.assign(message, { scope })
     }
   } else {
-    const { scope } = await prompt({
+    const { scope }: Record<string, string> = await prompt({
       type: 'input',
       name: 'scope',
       message: PromptMessage.SCOPE,
@@ -79,7 +79,7 @@ export async function promptSubject(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { subject } = await prompt({
+  const { subject }: Record<string, string> = await prompt({
     type: 'input',
     name: 'subject',
     message: PromptMessage.SUBJECT,
@@ -122,7 +122,7 @@ export async function promptBody(
   const lines = message.body || []
   const body: string[] = []
   for (let i = 0; i < 20; i++) {
-    const { line } = await prompt({
+    const { line }: Record<string, string> = await prompt({
       type: 'input',
       name: 'line',
       message: PromptMessage.BODY,
@@ -141,7 +141,7 @@ export async function promptBreakingChanges(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
-  const { breaking } = await prompt({
+  const { breaking }: Record<string, string> = await prompt({
     type: 'input',
     name: 'breaking',
     message: PromptMessage.BREAK,
@@ -159,7 +159,7 @@ export async function promptIssues(
 
   const result: string[] = []
   for (let i = 0; i < 20; i++) {
-    const { issue } = await prompt({
+    const { issue }: Record<string, string> = await prompt({
       type: 'input',
       name: 'issue',
       message: PromptMessage.ISSUE,
@@ -280,7 +280,7 @@ export async function promptConfig() {
 }
 
 export async function promptPackageUpdate() {
-  const { updatePackage } = await prompt({
+  const { updatePackage }: Record<string, string> = await prompt({
     type: 'select',
     name: 'updatePackage',
     message: 'save config in',
