@@ -71,6 +71,36 @@ Signed-off-by: Humpty Dumpty <humpty.dumpty@example.com>`,
     expect(valid).toBeFalsy()
   })
 
+  it('lint fails for missing prefixed refs', async () => {
+    const { valid, input, errors } = await commitLint(
+      `feat: valid message` +
+        `
+
+Refs: #123`,
+      {
+        enforceIssueRefs: true,
+        issuePrefixes: ['PROJ-'],
+      }
+    )
+
+    expect(valid).toBeFalsy()
+  })
+
+  it('lint fails for valid prefixed refs', async () => {
+    const { valid, input, errors } = await commitLint(
+      `feat: valid message` +
+        `
+
+Refs: PROJ-123`,
+      {
+        enforceIssueRefs: true,
+        issuePrefixes: ['PROJ-'],
+      }
+    )
+
+    expect(valid).toBeTruthy()
+  })
+
   it('lint passes when enforced refs', async () => {
     const { valid, input, errors } = await commitLint(
       `feat: valid message` +
@@ -81,7 +111,6 @@ Refs: #123`,
         enforceIssueRefs: true,
       }
     )
-    console.log({ valid, input, errors })
     expect(valid).toBeTruthy()
   })
 
@@ -90,35 +119,25 @@ Refs: #123`,
       `feat: valid message` +
         `
 
-Refs: #123`,
+Closes: #123`,
       {
         enforceIssueRefs: ['feat'],
       }
     )
-    console.log({ valid, input, errors })
     expect(valid).toBeTruthy()
   })
 
   it('lint pass when missing feat refs', async () => {
-    const { valid, input, errors } = await commitLint(
-      `feat: valid message`,
-      {
-        enforceIssueRefs:  ['fix'],
-      }
-    )
-    console.log({ valid, input, errors })
+    const { valid, input, errors } = await commitLint(`feat: valid message`, {
+      enforceIssueRefs: ['fix'],
+    })
     expect(valid).toBeTruthy()
   })
 
   it('lint fail when missing feat refs', async () => {
-    const { valid, input, errors } = await commitLint(
-      `feat: valid message`,
-      {
-        enforceIssueRefs:  ['feat'],
-      }
-    )
-    console.log({ valid, input, errors })
+    const { valid, input, errors } = await commitLint(`feat: valid message`, {
+      enforceIssueRefs: ['feat'],
+    })
     expect(valid).toBeFalsy()
   })
-
 })

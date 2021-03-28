@@ -74,6 +74,13 @@ export interface Config {
   enforceIssueRefs?: boolean | string[]
 
   /**
+   * enforce issue reference to match the given pattern
+   *
+   * @default ['#']
+   */
+  issuePrefixes?: string[]
+
+  /**
    * extra commitlint rules
    *
    * see http://marionebl.github.io/commitlint/#/reference-rules
@@ -94,6 +101,7 @@ export const DefaultConfig: Config = {
   promptConfirm: true,
   enforceSignedOffBy: false,
   enforceIssueRefs: false,
+  issuePrefixes: ['#'],
 }
 
 export async function loadConfig() {

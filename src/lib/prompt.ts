@@ -4,7 +4,7 @@ import { Config, DefaultConfig } from './config'
 import { suggestScopes } from './scopes'
 import { prompt } from 'enquirer'
 import SuggestPrompt from './suggest-prompt'
-import { validateSubject } from './commitlint'
+import { loadOptions, validateSubject } from './commitlint'
 
 // prettier-ignore
 const enum PromptMessage {
@@ -79,6 +79,7 @@ export async function promptSubject(
   message: CommitMessage = {},
   config: Config = DefaultConfig
 ) {
+  const { rules } = await loadOptions(config)
   const { subject }: Record<string, string> = await prompt({
     type: 'input',
     name: 'subject',
@@ -86,7 +87,7 @@ export async function promptSubject(
     initial: message.subject,
     result: (input) => input.trim(),
     validate(input) {
-      const result = validateSubject(input, config)
+      const result = validateSubject(input, rules)
       if (result != true) return result
       const header = formatHeader(message.type, message.scope, input)
       if (header.length >= 72) {

@@ -1,17 +1,25 @@
+import load from '@commitlint/load'
 import lint from '@commitlint/lint'
 import format from '@commitlint/format'
 import read from '@commitlint/read'
 import conventional from '@commitlint/config-conventional'
 import Rules from '@commitlint/rules'
-import ensure from '@commitlint/ensure'
 import message from '@commitlint/message'
-import { Commit, LintOptions, RuleConfigCondition } from '@commitlint/types'
+import {
+  Commit,
+  RuleConfigCondition,
+  QualifiedRules,
+  QualifiedConfig,
+  PluginRecords,
+} from '@commitlint/types'
 
 import { Config, DefaultConfig } from './config'
+import { openSync } from 'node:fs'
 
-export function commitRules(config: Config = DefaultConfig) {
-  const rules = Object.assign({}, conventional.rules)
-
+export function applyRules(
+  rules: QualifiedRules,
+  config: Config = DefaultConfig
+): QualifiedRules {
   // update types
   if (config.types) {
     Object.assign(rules, {
@@ -63,47 +71,65 @@ export function commitRules(config: Config = DefaultConfig) {
   return rules
 }
 
-export function commitOptions(config: Config = DefaultConfig) {
-  const lintOptions: LintOptions = {
-    plugins: {
-      localPlugin: {
-        rules: {
-          'references-empty-enum': (
-            parsed: Commit,
-            when: RuleConfigCondition = 'never',
-            value?: string[]
-          ) => {
-            const { references, type } = parsed
-            if (!type || !value.includes(type)) {
-              return [true]
-            }
-            const negated = when === 'always'
-            const empty = references.length === 0
-            return [
-              negated ? empty : !empty,
-              message([
-                'references',
-                negated ? 'must' : 'must not',
-                `be empty when type is one of [${value.join(', ')}]`,
-              ]),
-            ]
-          },
+export function applyPlugins(
+  plugins: PluginRecords,
+  config: Config = DefaultConfig
+): PluginRecords {
+  return Object.assign(plugins, {
+    localPlugin: {
+      rules: {
+        'references-empty-enum': (
+          parsed: Commit,
+          when: RuleConfigCondition = 'never',
+          value?: string[]
+        ) => {
+          const { references, type } = parsed
+          if (!type || !value.includes(type)) {
+            return [true]
+          }
+          const negated = when === 'always'
+          const empty = references.length === 0
+          return [
+            negated ? empty : !empty,
+            message([
+              'references',
+              negated ? 'must' : 'must not',
+              `be empty when type is one of [${value.join(', ')}]`,
+            ]),
+          ]
         },
       },
     },
-  }
-
-  return lintOptions
+  })
 }
 
-export async function commitLint(
-  message: string,
+export function applyParserOpts(
+  parserOpts: unknown,
   config: Config = DefaultConfig
-) {
-  const rules = commitRules(config)
-  const options = commitOptions(config)
+): unknown {
+  const { issuePrefixes } = config
 
-  return lint(message, rules, options)
+  return Object.assign(parserOpts, {
+    issuePrefixes,
+  })
+}
+
+export async function loadOptions(config?: Config): Promise<QualifiedConfig> {
+  const commitLintConfig: QualifiedConfig = await load({
+    extends: ['@commitlint/config-conventional'],
+  })
+  const cfg = { ...DefaultConfig, ...config }
+  applyRules(commitLintConfig.rules, cfg)
+  applyPlugins(commitLintConfig.plugins, cfg)
+  applyParserOpts(commitLintConfig.parserPreset.parserOpts, cfg)
+  return commitLintConfig
+}
+
+export async function commitLint(message: string, config?: Config) {
+  const options = await loadOptions(config)
+  const { rules, plugins, parserPreset } = options
+  const { parserOpts } = parserPreset
+  return lint(message, rules, { plugins, parserOpts })
 }
 
 export async function commitFormatReport(report): Promise<string> {
@@ -125,11 +151,7 @@ export async function commitRead(settings: {
 }
 
 /** return true or message */
-export function validateSubject(
-  subject: string,
-  config: Config = DefaultConfig
-) {
-  const rules = commitRules(config)
+export function validateSubject(subject: string, rules: QualifiedRules) {
   for (const rule in rules) {
     if (rule.startsWith('subject')) {
       const [sev, when, cfg] = rules[rule]
