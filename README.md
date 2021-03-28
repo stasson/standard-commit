@@ -163,6 +163,27 @@ you can configure standard-commit via:
   promptConfirm?: boolean
 
   /**
+   * set to true to enforce 'Signed-off-by:' in footer.
+   *
+   * @default false
+   */
+  enforceSignedOffBy?: boolean
+
+  /**
+   * enforce issue reference when true else for specified list of types.
+   *
+   * @default []
+   */
+  enforceIssueRefs?: boolean | string[]
+
+  /**
+   * enforce issue reference to match the given pattern
+   *
+   * @default ['#']
+   */
+  issuePrefixes?: string[]
+
+  /**
    * extra commitlint rules
    *
    * see http://marionebl.github.io/commitlint/#/reference-rules
