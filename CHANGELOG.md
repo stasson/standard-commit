@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.2.0](https://github.com/stasson/standard-commit/compare/v4.1.1...v4.2.0) (2021-03-28)
+
+
+### Features
+
+* configure issue parsing and prefixes ([45568c3](https://github.com/stasson/standard-commit/commit/45568c33ce26892c96765fb701b1c6237097e104))
+
 ### [4.1.1](https://github.com/stasson/standard-commit/compare/v4.1.0...v4.1.1) (2021-03-09)
 
 
