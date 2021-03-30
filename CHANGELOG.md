@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.2](https://github.com/stasson/standard-commit/compare/v4.2.1...v4.2.2) (2021-03-30)
+
+
+### Bug Fixes
+
+* invalid plugin import ([5ee00d0](https://github.com/stasson/standard-commit/commit/5ee00d093764d13cbad3d5c31f298af7c32e2122))
+
 ### [4.2.1](https://github.com/stasson/standard-commit/compare/v4.2.0...v4.2.1) (2021-03-28)
 
 ## [4.2.0](https://github.com/stasson/standard-commit/compare/v4.1.1...v4.2.0) (2021-03-28)
