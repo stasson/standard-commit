@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.3](https://github.com/stasson/standard-commit/compare/v4.2.2...v4.2.3) (2021-03-30)
+
+
+### Bug Fixes
+
+* import conventional-changelog-conventionalcommits ([6c6f898](https://github.com/stasson/standard-commit/commit/6c6f8982922dfeaf55b90b8d00a343d3cd87f365))
+
 ### [4.2.2](https://github.com/stasson/standard-commit/compare/v4.2.1...v4.2.2) (2021-03-30)
 
 
