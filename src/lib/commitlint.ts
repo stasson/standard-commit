@@ -2,7 +2,7 @@ import load from '@commitlint/load'
 import lint from '@commitlint/lint'
 import format from '@commitlint/format'
 import read from '@commitlint/read'
-import conventional from '@commitlint/config-conventional'
+import configConventional from '@commitlint/config-conventional'
 import Rules from '@commitlint/rules'
 import message from '@commitlint/message'
 import {
@@ -14,7 +14,6 @@ import {
 } from '@commitlint/types'
 
 import { Config, DefaultConfig } from './config'
-import { openSync } from 'node:fs'
 
 export function applyRules(
   rules: QualifiedRules,
@@ -115,9 +114,7 @@ export function applyParserOpts(
 }
 
 export async function loadOptions(config?: Config): Promise<QualifiedConfig> {
-  const commitLintConfig: QualifiedConfig = await load({
-    extends: ['@commitlint/config-conventional'],
-  })
+  const commitLintConfig: QualifiedConfig = await load(configConventional)
   const cfg = { ...DefaultConfig, ...config }
   applyRules(commitLintConfig.rules, cfg)
   applyPlugins(commitLintConfig.plugins, cfg)

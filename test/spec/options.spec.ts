@@ -4,12 +4,16 @@ describe('loadOptions', () => {
   it('loads ', async () => {
     expect.hasAssertions()
     const options = await loadOptions()
-    expect(options).toMatchInlineSnapshot(`
+    expect(options).toMatchInlineSnapshot(
+      {
+        parserPreset: {
+          path: expect.any(String),
+        },
+      },
+      `
       Object {
         "defaultIgnores": undefined,
-        "extends": Array [
-          "@commitlint/config-conventional",
-        ],
+        "extends": Array [],
         "formatter": "@commitlint/format",
         "helpUrl": "https://github.com/conventional-changelog/commitlint/#what-is-commitlint",
         "ignores": undefined,
@@ -35,7 +39,7 @@ describe('loadOptions', () => {
             ],
             "revertPattern": /\\^\\(\\?:Revert\\|revert:\\)\\\\s"\\?\\(\\[\\\\s\\\\S\\]\\+\\?\\)"\\?\\\\s\\*This reverts commit \\(\\\\w\\*\\)\\\\\\./i,
           },
-          "path": "./node_modules/conventional-changelog-conventionalcommits/index.js",
+          "path": Any<String>,
         },
         "plugins": Object {
           "localPlugin": Object {
@@ -120,6 +124,7 @@ describe('loadOptions', () => {
           ],
         },
       }
-    `)
+    `
+    )
   })
 })
