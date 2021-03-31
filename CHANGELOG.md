@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.4](https://github.com/stasson/standard-commit/compare/v4.2.3...v4.2.4) (2021-03-31)
+
+
+### Bug Fixes
+
+* import parser opts ([6f92114](https://github.com/stasson/standard-commit/commit/6f921145fd3f218f3fc2e60574e004bdeb64e132))
+
 ### [4.2.3](https://github.com/stasson/standard-commit/compare/v4.2.2...v4.2.3) (2021-03-30)
 
 
