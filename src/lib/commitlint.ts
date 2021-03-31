@@ -2,7 +2,9 @@ import load from '@commitlint/load'
 import lint from '@commitlint/lint'
 import format from '@commitlint/format'
 import read from '@commitlint/read'
-import configConventional from '@commitlint/config-conventional'
+import commitlintConfig from '@commitlint/config-conventional'
+import conventionalcommits from 'conventional-changelog-conventionalcommits'
+
 import Rules from '@commitlint/rules'
 import message from '@commitlint/message'
 import {
@@ -10,18 +12,17 @@ import {
   RuleConfigCondition,
   QualifiedRules,
   QualifiedConfig,
-  PluginRecords,
 } from '@commitlint/types'
 
 import { Config, DefaultConfig } from './config'
 
 export function applyRules(
-  rules: QualifiedRules,
+  qualifiedConfig: QualifiedConfig,
   config: Config = DefaultConfig
-): QualifiedRules {
+): QualifiedConfig {
   // update types
   if (config.types) {
-    Object.assign(rules, {
+    Object.assign(qualifiedConfig.rules, {
       'type-enum': [2, 'always', config.types],
     })
   }
@@ -29,52 +30,52 @@ export function applyRules(
   // add scope rules
   if (config.promptScope) {
     if (config.promptScope === 'enforce') {
-      Object.assign(rules, {
+      Object.assign(qualifiedConfig.rules, {
         'scope-empty': [2, 'never'],
       })
 
       if (Array.isArray(config.scopes)) {
-        Object.assign(rules, {
+        Object.assign(qualifiedConfig.rules, {
           'scope-enum': [2, 'always', config.scopes],
         })
       }
     }
   } else {
-    Object.assign(rules, {
+    Object.assign(qualifiedConfig.rules, {
       'scope-empty': [2, 'always'],
     })
   }
 
   // add signed-off-by rule
   if (config.enforceSignedOffBy) {
-    Object.assign(rules, {
+    Object.assign(qualifiedConfig.rules, {
       'signed-off-by': [2, 'always', 'Signed-off-by: '],
     })
   }
 
   // enforce ref for type
   if (config.enforceIssueRefs == true) {
-    Object.assign(rules, {
+    Object.assign(qualifiedConfig.rules, {
       'references-empty': [2, 'never'],
     })
   } else if (Array.isArray(config.enforceIssueRefs)) {
-    Object.assign(rules, {
+    Object.assign(qualifiedConfig.rules, {
       'references-empty-enum': [2, 'never', config.enforceIssueRefs],
     })
   }
 
   if (config.rules) {
-    Object.assign(rules, config.rules)
+    Object.assign(qualifiedConfig.rules, config.rules)
   }
 
-  return rules
+  return qualifiedConfig
 }
 
 export function applyPlugins(
-  plugins: PluginRecords,
+  qualifiedConfig: QualifiedConfig,
   config: Config = DefaultConfig
-): PluginRecords {
-  return Object.assign(plugins, {
+): QualifiedConfig {
+  Object.assign(qualifiedConfig.plugins, {
     localPlugin: {
       rules: {
         'references-empty-enum': (
@@ -100,32 +101,28 @@ export function applyPlugins(
       },
     },
   })
-}
-
-export function applyParserOpts(
-  parserOpts: unknown,
-  config: Config = DefaultConfig
-): unknown {
-  const { issuePrefixes } = config
-
-  return Object.assign(parserOpts, {
-    issuePrefixes,
-  })
+  return qualifiedConfig
 }
 
 export async function loadOptions(config?: Config): Promise<QualifiedConfig> {
-  const commitLintConfig: QualifiedConfig = await load(configConventional)
-  const cfg = { ...DefaultConfig, ...config }
-  applyRules(commitLintConfig.rules, cfg)
-  applyPlugins(commitLintConfig.plugins, cfg)
-  applyParserOpts(commitLintConfig.parserPreset.parserOpts, cfg)
-  return commitLintConfig
+  const { rules } = commitlintConfig
+  const qualifiedConfig: QualifiedConfig = await load({ rules })
+  config = { ...DefaultConfig, ...config }
+  applyRules(qualifiedConfig, config)
+  applyPlugins(qualifiedConfig, config)
+  return qualifiedConfig
+}
+
+export async function loadParserOpts(config?: Config) {
+  const { issuePrefixes } = config || {}
+  const { parserOpts } = await conventionalcommits({ issuePrefixes })
+  return parserOpts
 }
 
 export async function commitLint(message: string, config?: Config) {
+  const parserOpts = await loadParserOpts(config)
   const options = await loadOptions(config)
-  const { rules, plugins, parserPreset } = options
-  const { parserOpts } = parserPreset
+  const { rules, plugins } = options
   return lint(message, rules, { plugins, parserOpts })
 }
 
