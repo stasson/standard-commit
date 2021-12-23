@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.5](https://github.com/stasson/standard-commit/compare/v4.2.4...v4.2.5) (2021-12-23)
+
+
+### Bug Fixes
+
+* resolve security audit ([de80da8](https://github.com/stasson/standard-commit/commit/de80da8a4e4cc7e6f2800891ebf194b337ee762d))
+
 ### [4.2.4](https://github.com/stasson/standard-commit/compare/v4.2.3...v4.2.4) (2021-03-31)
 
 
