@@ -19,6 +19,7 @@ describe('loadOptions', () => {
             },
           },
         },
+        "prompt": Object {},
         "rules": Object {
           "body-leading-blank": Array [
             1,

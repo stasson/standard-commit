@@ -46,6 +46,11 @@ export function applyRules(
     })
   }
 
+  // for backward compat
+  Object.assign(qualifiedConfig.rules, {
+    'scope-case': [2, 'always', 'lower-case'],
+  })
+
   // add signed-off-by rule
   if (config.enforceSignedOffBy) {
     Object.assign(qualifiedConfig.rules, {
