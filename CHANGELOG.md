@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.2.6](https://github.com/stasson/standard-commit/compare/v4.2.5...v4.2.6) (2022-07-06)
+
+
+### Bug Fixes
+
+* **bin:** remove update notification ([65b0b2b](https://github.com/stasson/standard-commit/commit/65b0b2b273fa9c3f5d088dab8c5352c0ad7193a9))
+
 ### [4.2.5](https://github.com/stasson/standard-commit/compare/v4.2.4...v4.2.5) (2021-12-23)
 
 
