@@ -8,6 +8,7 @@ describe('commitLint', () => {
 this is a body 
 
 BREAKING_CHANGE: this is breaks it
+# this is a very long comment ---------------------------------------------------------------------------------------
 
 Refs: #123
 Closes: PROJ-123

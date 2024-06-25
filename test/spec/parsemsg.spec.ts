@@ -35,6 +35,11 @@ BREAKING CHANGE: a breaking change
 closes #34
 fixes #38    
   `,
+
+  withComments: `fix: correct minor typos in code
+
+# comments should be ignored
+`,
 }
 
 const unconventional = {
@@ -101,6 +106,11 @@ describe('parseCommitMessage', () => {
     it('may have no issues', () => {
       const commit = parseCommitMessage(conventional.header)
       expect(commit.issues).not.toBeDefined()
+    })
+
+    it('may have comments', () => {
+      const commit = parseCommitMessage(conventional.withComments)
+      expect(commit.body).not.toBeDefined()
     })
   })
 

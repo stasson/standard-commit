@@ -70,13 +70,19 @@ export function parseIssues(message: string) {
 }
 
 export function parseCommitMessage(message: string): CommitMessage {
-  const commit = parseCommitHeader(message)
-  const body = parseBody(message)
-  const breaking = parseBreaking(message)
-  const issues = parseIssues(message)
+  const text = sanitizeCommitMessage(message)
+  const commit = parseCommitHeader(text)
+  const body = parseBody(text)
+  const breaking = parseBreaking(text)
+  const issues = parseIssues(text)
 
   if (breaking) commit.breaking = breaking
   if (issues) commit.issues = issues
   if (body) commit.body = body
   return commit
+}
+
+export function sanitizeCommitMessage(message: string): string {
+  // strip comments
+  return message.replace(/^#.*$/gm, '')
 }

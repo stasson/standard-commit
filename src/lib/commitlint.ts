@@ -15,6 +15,7 @@ import {
 } from '@commitlint/types'
 
 import { Config, DefaultConfig } from './config'
+import { sanitizeCommitMessage } from './parsemsg'
 
 export function applyRules(
   qualifiedConfig: QualifiedConfig,
@@ -128,7 +129,7 @@ export async function commitLint(message: string, config?: Config) {
   const parserOpts = await loadParserOpts(config)
   const options = await loadOptions(config)
   const { rules, plugins } = options
-  return lint(message, rules, { plugins, parserOpts })
+  return lint(sanitizeCommitMessage(message), rules, { plugins, parserOpts })
 }
 
 export async function commitFormatReport(report): Promise<string> {
